@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{335CE26E-292A-49DB-9C74-A14D48E10597}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{B78C4B94-5ECF-4384-809E-377C4F22125B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared Strctures", "Shared Strctures", "{A834900E-AF96-49F1-8BBC-CA8E0D90B54D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uzdrowisko.API", "Uzdrowisko.API\Uzdrowisko.API.csproj", "{38AE7623-78E1-4EDB-BAD8-F7C35270C08D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uzdrowisko.DesktopUI", "Frontend\Uzdrowisko.DesktopUI\Uzdrowisko.DesktopUI.csproj", "{23B88DBF-F71B-4C56-BE56-D90576D93E01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedStructures", "SharedStructures\SharedStructures.csproj", "{BA118F71-8E2D-4602-8F5A-4CECF45F63C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uzdrowisko.Infrastructure.DataBase", "Uzdrowisko.Infrastructure.DataBase\Uzdrowisko.Infrastructure.DataBase.csproj", "{39B3CB53-AEC3-4A9E-B64F-4D20B0FE25DF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{38AE7623-78E1-4EDB-BAD8-F7C35270C08D} = {335CE26E-292A-49DB-9C74-A14D48E10597}
+		{23B88DBF-F71B-4C56-BE56-D90576D93E01} = {B78C4B94-5ECF-4384-809E-377C4F22125B}
+		{BA118F71-8E2D-4602-8F5A-4CECF45F63C3} = {A834900E-AF96-49F1-8BBC-CA8E0D90B54D}
+		{39B3CB53-AEC3-4A9E-B64F-4D20B0FE25DF} = {335CE26E-292A-49DB-9C74-A14D48E10597}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{38AE7623-78E1-4EDB-BAD8-F7C35270C08D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38AE7623-78E1-4EDB-BAD8-F7C35270C08D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38AE7623-78E1-4EDB-BAD8-F7C35270C08D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38AE7623-78E1-4EDB-BAD8-F7C35270C08D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23B88DBF-F71B-4C56-BE56-D90576D93E01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23B88DBF-F71B-4C56-BE56-D90576D93E01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23B88DBF-F71B-4C56-BE56-D90576D93E01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23B88DBF-F71B-4C56-BE56-D90576D93E01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA118F71-8E2D-4602-8F5A-4CECF45F63C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA118F71-8E2D-4602-8F5A-4CECF45F63C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA118F71-8E2D-4602-8F5A-4CECF45F63C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA118F71-8E2D-4602-8F5A-4CECF45F63C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39B3CB53-AEC3-4A9E-B64F-4D20B0FE25DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39B3CB53-AEC3-4A9E-B64F-4D20B0FE25DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39B3CB53-AEC3-4A9E-B64F-4D20B0FE25DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39B3CB53-AEC3-4A9E-B64F-4D20B0FE25DF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
