@@ -4,6 +4,11 @@ namespace SharedStructures.Dtos.Patient;
 
 public class CreatePatientDto
 {
+    
+    [Required(ErrorMessage = "Imie jest wymagane.")]
+    [MaxLength(30, ErrorMessage = "Imie  nie może przekraczać 30 znaków.")]
+    public required string Name { get; set; }
+    
     [Required(ErrorMessage = "Nazwisko jest wymagane.")]
     [MaxLength(30, ErrorMessage = "Nazwisko nie może przekraczać 30 znaków.")]
     public required string Surname { get; set; }
