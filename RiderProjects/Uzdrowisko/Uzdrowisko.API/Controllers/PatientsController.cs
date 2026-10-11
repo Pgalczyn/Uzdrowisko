@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using SharedStructures.Dtos.Patient;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 using Uzdrowisko.Infrastructure.DataBase.Entities;
+using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;
+using Uzdrowisko.Infrastructure.DataBase.Services;
 
 namespace Uzdrowisko.API.Controllers;
 
@@ -11,19 +13,32 @@ namespace Uzdrowisko.API.Controllers;
 public class PatientsController : ControllerBase
 {
     private readonly UzdrowiskoDbContext _dbContext;
+    private readonly IPasswordService _passwordService;
     
-    public PatientsController(UzdrowiskoDbContext dbContext)
+    public PatientsController(UzdrowiskoDbContext dbContext, IPasswordService passwordService)
         {
         _dbContext = dbContext;
+        _passwordService = passwordService;
         }
 
     [HttpPost("register")]
     public async Task<ActionResult<PatientResponseDto>> Register([FromBody] CreatePatientDto dtoPatient)
     {
-        bool peselExists = await _dbContext.Patients.AnyAsync(p => p.Pesel == dtoPatient.Pesel);
+        var peselExists = await _dbContext.Patients.AnyAsync(p => p.Pesel == dtoPatient.Pesel);
         if (peselExists)
         {
             return Conflict($"Kuracjusz o numerze PESEL {dtoPatient.Pesel} jest już zarejestrowany w systemie.");
+        }
+        
+        if (!string.IsNullOrWhiteSpace(dtoPatient.Email))
+        {
+            var emailTakenByPatient = await _dbContext.Patients.AnyAsync(p => p.Email == dtoPatient.Email);
+            var emailTakenByEmployee = await _dbContext.Employees.AnyAsync(e => e.Email == dtoPatient.Email);
+
+            if (emailTakenByPatient || emailTakenByEmployee)
+            {
+                return Conflict($"Adres e-mail '{dtoPatient.Email}' jest już zajęty w systemie.");
+            }
         }
 
         var newPatient = new Patient
@@ -32,6 +47,7 @@ public class PatientsController : ControllerBase
             Name = dtoPatient.Name,
             Surname = dtoPatient.Surname,
             DateOfBirth = dtoPatient.DateOfBirth,
+            PasswordHash = string.Empty,
             PhoneNumber = dtoPatient.PhoneNumber,
             Email = dtoPatient.Email,
             Address = dtoPatient.Address,
@@ -39,6 +55,8 @@ public class PatientsController : ControllerBase
             PostalCode = dtoPatient.PostalCode,
             CreatedAt = DateTime.UtcNow
         };
+        
+        newPatient.PasswordHash =  _passwordService.HashPassword(newPatient,dtoPatient.PasswordRaw);
             
         _dbContext.Patients.Add(newPatient);
         await _dbContext.SaveChangesAsync();

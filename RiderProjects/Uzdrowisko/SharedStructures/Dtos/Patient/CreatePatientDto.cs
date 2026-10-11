@@ -15,7 +15,11 @@ public class CreatePatientDto
 
     [Required(ErrorMessage = "Data urodzenia jest wymagana.")]
     public DateOnly DateOfBirth { get; set; }
-
+    
+    [Required(ErrorMessage = "Hasło jest wymagane.")]
+    [MinLength(8, ErrorMessage = "Hasło musi mieć co najmniej 8 znaków.")]
+    public required string PasswordRaw { get; set; }
+    
     [Required(ErrorMessage = "Numer PESEL jest wymagany.")]
     [RegularExpression(@"^\d{11}$", ErrorMessage = "PESEL musi składać się z dokładnie 11 cyfr.")]
     public required string Pesel { get; set; }

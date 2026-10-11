@@ -13,7 +13,7 @@ public class Employee : IHasPassword
     public required string LastName { get; set; }
     [MaxLength(40)]
     public required string Email { get; set; }
-    [MaxLength(50)]
+    [MaxLength(84)]
     public required  string PasswordHash { get; set; }  = string.Empty;
     [Required]
     public DateOnly? DateOfBirth { get; set; }
