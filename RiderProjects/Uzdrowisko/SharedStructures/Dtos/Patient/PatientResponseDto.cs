@@ -16,5 +16,5 @@ public class PatientResponseDto
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     
-    public string FullName => $"{Name} Surname: {Surname}";
+    public string FullName => $"{Name} {Surname}";
 }

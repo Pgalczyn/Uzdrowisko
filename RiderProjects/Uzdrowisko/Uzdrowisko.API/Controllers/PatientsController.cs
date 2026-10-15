@@ -1,10 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedStructures.Dtos.Patient;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 using Uzdrowisko.Infrastructure.DataBase.Entities;
 using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;
-using Uzdrowisko.Infrastructure.DataBase.Services;
 
 namespace Uzdrowisko.API.Controllers;
 
@@ -22,6 +22,7 @@ public class PatientsController : ControllerBase
         }
 
     [HttpPost("register")]
+    [Authorize(Roles = "Sekretarka,Admin")]
     public async Task<ActionResult<PatientResponseDto>> Register([FromBody] CreatePatientDto dtoPatient)
     {
         var peselExists = await _dbContext.Patients.AnyAsync(p => p.Pesel == dtoPatient.Pesel);
@@ -95,6 +96,51 @@ public class PatientsController : ControllerBase
             return NotFound($"Nie znaleziono kuracjusza o ID {id}.");
         }
         return Ok(patient);
+    }
+
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> PatchPatient(int id,[FromBody] UpdatePatientDto patchDto)
+    {
+        var patient = await _dbContext.Patients.FirstOrDefaultAsync(p => p.Id == id); 
+        if (patient == null)
+        {
+            return NotFound($"Pacjent o takim id {id} nie istnieje");
+        }
+        
+
+        
+        if (patchDto.Name != null)
+            patient.Name = patchDto.Name;
+
+        if (patchDto.Surname != null)
+            patient.Surname = patchDto.Surname;
+
+        if (patchDto.PhoneNumber != null)
+            patient.PhoneNumber = patchDto.PhoneNumber;
+
+        if (patchDto.Email != null)
+            patient.Email = patchDto.Email;
+
+        if (patchDto.Address != null)
+            patient.Address = patchDto.Address;
+
+        if (patchDto.City != null)
+            patient.City = patchDto.City;
+
+        if (patchDto.PostalCode != null)
+            patient.PostalCode = patchDto.PostalCode;
+
+        if (patchDto.DateOfBirth.HasValue)
+            patient.DateOfBirth = patchDto.DateOfBirth.Value;
+
+        if (patchDto.Active.HasValue)
+            patient.Active = patchDto.Active.Value;
+
+        patient.UpdatedAt = DateTime.UtcNow;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
     }
     
 }

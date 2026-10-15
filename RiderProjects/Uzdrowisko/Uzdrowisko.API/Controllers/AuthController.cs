@@ -39,7 +39,7 @@ public class AuthController : ControllerBase
             user = employee;
             userId = employee.Id;
             userRole = employee.Role;
-            userFullName = $"{employee.FirstName} {employee.LastName}";
+            userFullName = $"{employee.Name} {employee.Surname}";
                 
         }
         else
@@ -48,13 +48,13 @@ public class AuthController : ControllerBase
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Email == request.Email);
             if (patient != null)
-                { 
-                    user = patient;
-                    userId = patient.Id;
-                    userRole = "Kuracjusz";
-                    userFullName = $"{patient.Name} {patient.Surname}";
+            { 
+                user = patient;
+                userId = patient.Id;
+                userRole = "Kuracjusz";
+                userFullName = $"{patient.Name} {patient.Surname}";
                 
-                }
+            }
         }
         if (user == null)
         {
@@ -85,17 +85,17 @@ public class AuthController : ControllerBase
             new Claim(ClaimTypes.Role, role)
         };
     
-        var secretKey = _config["JwtSettings:Key"]
-                        ?? throw new InvalidOperationException("Brak klucza 'JwtSettings:Key' w pliku konfiguracyjnym.");
+        var secretKey = _config["Jwt:Key"]
+                        ?? throw new InvalidOperationException("Brak klucza 'Jwt:Key' w pliku konfiguracyjnym.");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
     
-        var expiresInMinutes = double.Parse(_config["JwtSettings:ExpiresInMinutes"] ?? "60");
+        var expiresInMinutes = double.Parse(_config["Jwt:ExpiresInMinutes"] ?? "60");
         var expirationDate = DateTime.UtcNow.AddMinutes(expiresInMinutes);
     
         var tokenDescriptor = new JwtSecurityToken(
-            issuer: _config["JwtSettings:Issuer"],
-            audience: _config["JwtSettings:Audience"],
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
             claims: claims,
             expires: expirationDate, 
             signingCredentials: creds

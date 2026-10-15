@@ -102,20 +102,15 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .HasMaxLength(40)
                         .HasColumnType("character varying(40)");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<string>("LastName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasMaxLength(84)
+                        .HasColumnType("character varying(84)");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(20)
@@ -129,6 +124,11 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -174,6 +174,11 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasMaxLength(84)
+                        .HasColumnType("character varying(84)");
 
                     b.Property<string>("Pesel")
                         .IsRequired()
