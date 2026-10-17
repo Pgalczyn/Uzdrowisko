@@ -2,10 +2,9 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Uzdrowisko.DesktopUI.ViewModels;
-using Uzdrowisko.ViewModels;
 using Uzdrowisko.Views;
 
-namespace Uzdrowisko;
+namespace Uzdrowisko.DesktopUI;
 
 public partial class App : Application
 {

@@ -3,18 +3,42 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="using:Uzdrowisko.DesktopUI.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.CalendarView"
              x:DataType="vm:CalendarViewModel">
 
-    <DockPanel>
-    
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="20">
-        <TextBlock Text="Terminarz" FontSize="28" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Center"/>
-        <Border Background="White" CornerRadius="12" Padding="15" BoxShadow="0 4 12 #15000000">
-            <Calendar SelectionMode="SingleDate" SelectedDate="{Binding SelectedDate}"/>
-        </Border>        
-    </StackPanel>
-    
-    </DockPanel>
+   
+    <Grid RowSpacing="20"  RowDefinitions="Auto,*" ColumnDefinitions="*, Auto" Margin = "24" ColumnSpacing = "24"> 
+        <TextBlock Text="Terminarz" Grid.ColumnSpan="2" FontWeight="Bold" FontSize="30"/>
+        <Border Grid.Row="1" Grid.Column="0">
+            <Grid RowDefinitions="Auto,*">
+                <TextBlock Grid.Row="0"
+                           Text="{Binding SelectedDate, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
+                           FontSize="18" FontWeight="SemiBold" Margin="0,0,0,12"/>
+
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl ItemsSource="{Binding DayTreatments}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate x:DataType="models:TreatmentItem">
+                                <StackPanel Margin="0,0,0,8">
+                                    <TextBlock Text="{Binding Patient}" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding Name}"/>
+                                    <TextBlock Text="{Binding Start}" />
+                                    <TextBlock Text="{Binding Duration}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+        <Border Grid.Row="1" Grid.Column="1"  CornerRadius="12" Padding="15" BoxShadow="0 4 12 #15000000" VerticalAlignment="Top">
+            
+                <Calendar SelectionMode="SingleDate" SelectedDate="{Binding SelectedDate}"/>
+            
+            
+        </Border> 
+        
+    </Grid>
 </UserControl>

@@ -1,24 +1,30 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System;
+using Uzdrowisko.Services;
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
 
 public partial class HomeViewModel : ViewModelBase
 {
     private readonly Action _logout;
+    private ITreatmentService _treatmentService;
     
     [ObservableProperty]
     private ViewModelBase _currentSubPage;
-
     public HomeViewModel(Action logout)
+        : this(logout, new FakeTreatmentService())
     {
-        _logout = logout;
-        
-        CurrentSubPage = new DashboardViewModel();
     }
 
-    public HomeViewModel() { }
+    public HomeViewModel(Action logout, ITreatmentService treatmentService)
+    {
+        _logout = logout;
+        _treatmentService = treatmentService;
+
+        CurrentSubPage = new DashboardViewModel();
+    }
+    // public HomeViewModel() { }
 
     [RelayCommand]
     public void NavigateToDashboard()
@@ -29,7 +35,7 @@ public partial class HomeViewModel : ViewModelBase
     [RelayCommand]
     public void NavigateToCalendar()
     {
-        CurrentSubPage = new CalendarViewModel();
+        CurrentSubPage = new CalendarViewModel(_treatmentService);
     }
 
     [RelayCommand]

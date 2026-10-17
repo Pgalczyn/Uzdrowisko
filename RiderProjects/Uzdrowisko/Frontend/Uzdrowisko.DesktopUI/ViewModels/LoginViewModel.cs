@@ -18,6 +18,8 @@ public partial class LoginViewModel: ViewModelBase
 
     [ObservableProperty]
     private string _errorMessage;
+    private readonly Services.AuthService _authService = new();
+
 
     public LoginViewModel(System.Action Register, System.Action Home)
     {
@@ -32,17 +34,26 @@ public partial class LoginViewModel: ViewModelBase
     }
 
     [RelayCommand]
-    public async Task LoginAction()
+public async Task LoginAction()
+{
+    ErrorMessage = "";
+
+    if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
     {
-        ErrorMessage = "";
-        
-        bool success = await FakeDataService.Login(Login, Password);
-        
-        if (success) {
-            _Home?.Invoke();
-        }
-        else {
-            ErrorMessage = "Nieprawidłowy login lub hasło";
-        }
+        ErrorMessage = "Wprowadź e-mail i hasło.";
+        return;
     }
+
+    var (success, error) = await _authService.LoginAsync(Login, Password);
+
+    if (success)
+    {
+        _Home?.Invoke();
+    }
+    else
+    {
+        ErrorMessage = error ?? "Logowanie nie powiodło się.";
+    }
+}
+
 }

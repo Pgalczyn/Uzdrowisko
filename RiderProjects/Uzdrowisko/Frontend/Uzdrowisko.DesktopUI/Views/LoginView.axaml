@@ -10,7 +10,6 @@
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Spacing="15">
             <StackPanel.Resources>
-                <!-- Zapewnia, że napisy podpowiedzi ("Nazwa użytkownika" i "Hasło") są ZAWSZE BIAŁE -->
                 <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#B8FFFFFF" />
                 <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#E5FFFFFF" />
                 <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#E5FFFFFF" />
@@ -21,16 +20,16 @@
 
             <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF6B6B" HorizontalAlignment="Center"/>
 
-            <TextBox Watermark="Nazwa użytkownika" Text="{Binding Login}" 
+            <TextBox Watermark="Adres email" Text="{Binding Login}" 
                      Height="45" CornerRadius="25" 
                      Background="#850E3834" BorderBrush="#50FFFFFF" BorderThickness="1.5" 
-                     Foreground="White"
+                     Foreground="Black"
                      VerticalContentAlignment="Center" Padding="20,0"/>
 
             <TextBox Watermark="Hasło" PasswordChar="*" Text="{Binding Password}" 
                      Height="45" CornerRadius="25" 
                      Background="#850E3834" BorderBrush="#50FFFFFF" BorderThickness="1.5" 
-                     Foreground="White"
+                     Foreground="Black"
                      VerticalContentAlignment="Center" Padding="20,0"/>
 
             <Button Content="Zaloguj się" Command="{Binding LoginActionCommand}" 

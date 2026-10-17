@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Uzdrowisko.DesktopUI.ViewModels;
+namespace Uzdrowisko.Views;
 
 public partial class RegisterView : UserControl
 {
