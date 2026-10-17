@@ -8,12 +8,12 @@ public class Employee : IHasPassword
 {
     public int Id { get; set; }
     [MaxLength(30)]
-    public required string FirstName { get; set; }
+    public required string Name { get; set; }
     [MaxLength(30)]
-    public required string LastName { get; set; }
+    public required string Surname { get; set; }
     [MaxLength(40)]
     public required string Email { get; set; }
-    [MaxLength(50)]
+    [MaxLength(84)]
     public required  string PasswordHash { get; set; }  = string.Empty;
     [Required]
     public DateOnly? DateOfBirth { get; set; }
