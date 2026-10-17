@@ -1,0 +1,44 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             x:Class="Uzdrowisko.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+    <Grid>
+        <Image Source="avares://Uzdrowisko/Assets/uzdrowisko.jpeg" Stretch="UniformToFill" />
+        <Border Background="#35000000" /> 
+
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300" Spacing="15">
+            <StackPanel.Resources>
+                <!-- Zapewnia, że napisy podpowiedzi ("Nazwa użytkownika" i "Hasło") są ZAWSZE BIAŁE -->
+                <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#B8FFFFFF" />
+                <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#E5FFFFFF" />
+                <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#E5FFFFFF" />
+            </StackPanel.Resources>
+            
+            <TextBlock Text="Uzdrowisko" FontFamily="Georgia" FontSize="36" Foreground="White" HorizontalAlignment="Center"/>
+            <TextBlock Text="S Y S T E M   Z A R Z Ą D Z A N I A" FontSize="11" Foreground="#CCFFFFFF" HorizontalAlignment="Center" Margin="0,-5,0,15"/>
+
+            <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF6B6B" HorizontalAlignment="Center"/>
+
+            <TextBox Watermark="Nazwa użytkownika" Text="{Binding Login}" 
+                     Height="45" CornerRadius="25" 
+                     Background="#850E3834" BorderBrush="#50FFFFFF" BorderThickness="1.5" 
+                     Foreground="White"
+                     VerticalContentAlignment="Center" Padding="20,0"/>
+
+            <TextBox Watermark="Hasło" PasswordChar="*" Text="{Binding Password}" 
+                     Height="45" CornerRadius="25" 
+                     Background="#850E3834" BorderBrush="#50FFFFFF" BorderThickness="1.5" 
+                     Foreground="White"
+                     VerticalContentAlignment="Center" Padding="20,0"/>
+
+            <Button Content="Zaloguj się" Command="{Binding LoginActionCommand}" 
+                    Height="45" CornerRadius="25" 
+                    Background="#164A42" 
+                    Foreground="White"
+                    HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    FontSize="15" Margin="0,10,0,0" Cursor="Hand"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

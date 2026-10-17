@@ -1,0 +1,19 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Uzdrowisko.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
+        <TextBlock Text="Zarejestruj się" FontSize="24" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        
+        <TextBox Watermark="Imię" Width="250"/>
+        <TextBox Watermark="Nazwisko" Width="250"/>
+        <TextBox Watermark="Adres email" Width="250"/>
+        <TextBox Watermark="Ustaw hasło" PasswordChar="*" Width="250"/>
+        
+        <Button Content="Zarejestruj się" Width="250" HorizontalContentAlignment="Center" Background="#062e14" Foreground="White" Margin="0,15,0,0"/>
+    </StackPanel>
+</UserControl>

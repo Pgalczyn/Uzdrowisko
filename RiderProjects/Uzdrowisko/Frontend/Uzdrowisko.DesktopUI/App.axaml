@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Uzdrowisko.DesktopUI.App"
-             xmlns:local="using:Uzdrowisko.DesktopUI"
+             x:Class="Uzdrowisko.App"
+             xmlns:local="using:Uzdrowisko"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 

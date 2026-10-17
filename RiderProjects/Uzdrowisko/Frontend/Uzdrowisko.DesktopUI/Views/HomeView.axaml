@@ -1,0 +1,23 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Uzdrowisko.Views.HomeView"
+             x:DataType="vm:HomeViewModel">
+
+    <DockPanel>
+    <Border DockPanel.Dock = "Top"  Background="#062e14">
+    <Grid ColumnDefinitions = "Auto, *,Auto">
+        <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="15" Margin="40,0,0,0" VerticalAlignment="Center">
+                    <Button Content="Pulpit" Background="Transparent" Foreground="White" Command = '{Binding NavigateToDashboard}'/>
+                    <Button Content="Terminarz" Background="Transparent" Foreground="White" Command = '{Binding NavigateToCalendar}'/>
+                    <Button Content="Oferowane zabiegi" Background="Transparent" Foreground="White" Command = '{Binding NavigateToTreatments}'/>
+        </StackPanel>
+        <Button Content="Wyloguj" Grid.Column="2" Background="Transparent" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10" Command="{Binding LogoutCommand}"/>
+    </Grid>
+    </Border>
+    <ContentControl Content="{Binding CurrentSubPage}" />
+    </DockPanel>
+</UserControl>
