@@ -22,4 +22,8 @@
       <ProjectReference Include="..\Uzdrowisko.Infrastructure.DataBase\Uzdrowisko.Infrastructure.DataBase.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="DataSeeders\DataCSV\" />
+    </ItemGroup>
+
 </Project>
