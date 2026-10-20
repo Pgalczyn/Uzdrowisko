@@ -1,6 +1,5 @@
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 using Uzdrowisko.Infrastructure.DataBase.Entities;
 using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;

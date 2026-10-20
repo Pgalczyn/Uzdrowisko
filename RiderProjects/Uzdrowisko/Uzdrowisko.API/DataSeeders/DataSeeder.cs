@@ -18,7 +18,9 @@ public static class DataSeeder
         {
             await dbContext.Database.MigrateAsync();
             await EmployeeSeeder.SeedAsync(dbContext,logger,passwordService);
-            //await TreatmentSeeder.SeedAsync(dbContext, logger);
+            await TreatmentSeeder.SeedAsync(dbContext, logger);
+            await TreatmentSeeder.SeedAsync(dbContext, logger);
+            await PatientsSeeder.SeedAsync(dbContext, logger, passwordService);
         }
         catch(Exception ex)
         {
