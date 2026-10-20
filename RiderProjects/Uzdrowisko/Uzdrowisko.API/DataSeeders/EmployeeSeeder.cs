@@ -151,8 +151,8 @@ public static class EmployeeSeeder
             .Where(columns => columns.Length > 2)
             .Select(columns => new
             {
-                FirstName = columns[0].Trim(),
-                LastName = columns[1].Trim(),
+                Name = columns[0].Trim(),
+                Surname = columns[1].Trim(),
                 Email = columns[2].Trim(),
                 Role = columns[3].Trim(),
                 DateOfBirth = DateOnly.ParseExact(columns[4].Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture),
@@ -176,8 +176,8 @@ public static class EmployeeSeeder
 
             var newEmployee = new Employee
             {
-                Name = record.FirstName,
-                Surname = record.LastName,
+                Name = record.Name,
+                Surname = record.Surname,
                 Email = record.Email,
                 Role = record.Role,
                 DateOfBirth = record.DateOfBirth,
