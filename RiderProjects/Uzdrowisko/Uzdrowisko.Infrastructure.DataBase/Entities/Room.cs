@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Uzdrowisko.Infrastructure.DataBase.Entities;
 
-// Indeks unikalny: Numer gabinetu/pokoju nie może się powtórzyć w uzdrowisku
 [Index(nameof(Number), IsUnique = true)]
 public class Room
 {
-    // EF Core automatycznie rozpoznaje "Id" jako Primary Key + IDENTITY
     public int Id { get; set; }
 
     [MaxLength(100)]
@@ -21,4 +19,8 @@ public class Room
     public string? Location { get; set; }
 
     public bool Active { get; set; } = true;
+    
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? UpdatedAt { get; set; }
 }

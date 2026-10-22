@@ -8,7 +8,6 @@ public class RoomResponseDto
     public string? Location { get; set; }
     public bool Active { get; set; }
 
-    // Właściwość ułatwiająca wyświetlanie w kontrolkach ComboBox w Avalonia:
     public string DisplayName => !string.IsNullOrWhiteSpace(Name)
         ? $"Gabinet {Number} – {Name}"
         : $"Gabinet {Number}";

@@ -9,6 +9,5 @@ public class TreatmentResponseDto
     public string? Type { get; set; }
     public bool Active { get; set; }
 
-    // Właściwość ułatwiająca wyświetlanie w kontrolkach ComboBox w Avalonia:
     public string DisplayName => $"{Name} ({DurationMinutes} min) - [{Type ?? "Ogólny"}]";
 }
