@@ -3,12 +3,103 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="using:Uzdrowisko.DesktopUI.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.DashboardView"
              x:DataType="vm:DashboardViewModel">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
-        <TextBlock Text="Strona główna - Uzdrowisko" FontSize="28" FontWeight="SemiBold" Foreground="Black" HorizontalAlignment="Center"/>
+    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="15" Margin="10,10,0,0">
+        <TextBlock Text="Strona główna - Uzdrowisko" FontSize="28" FontWeight="SemiBold" Foreground="white" HorizontalAlignment="Center"/>
+        <Border Grid.Row="1" Grid.Column="0" 
+                Classes="glassCard"
+                Padding="24">
+            <Grid RowDefinitions="Auto,*">
+                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                    <TextBlock Text="ZAPLANOWANE ZABIEGI"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource SpaTextMuted}"
+                               LetterSpacing="1"/>
+                    <TextBlock Text="{Binding Today, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
+                               FontSize="22" 
+                               FontWeight="SemiBold" 
+                               Foreground="#FFFFFF"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel>
+                        <TextBlock Text="Brak zaplanowanych zabiegów w dniu dzisiejszym."
+                                   IsVisible="{Binding IsEmpty}"
+                                   Foreground="{StaticResource SpaTextMuted}"
+                                   FontSize="14"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,40,0,0"
+                                   />
+
+                        <ItemsControl ItemsSource="{Binding DayTreatments}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:TreatmentItem">
+                                    <Border Classes="treatmentCard" Margin="0,0,0,12">
+                                        <Grid ColumnDefinitions="75, *, Auto" ColumnSpacing="16">
+                                            
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding Start, StringFormat='{}{0:HH:mm}'}" 
+                                                           FontWeight="Bold" 
+                                                           FontSize="18" 
+                                                           Foreground="#FFFFFF"
+                                                           HorizontalAlignment="Center"/>
+                                                <Border Background="#25FFFFFF"
+                                                        CornerRadius="8"
+                                                        Padding="6,2"
+                                                        Margin="0,4,0,0"
+                                                        HorizontalAlignment="Center">
+                                                    <TextBlock Text="{Binding Duration, StringFormat='{}{0:mm} min'}" 
+                                                               FontSize="11"
+                                                               Foreground="#D0E3D7"
+                                                               HorizontalAlignment="Center"/>
+                                                </Border>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                                <TextBlock Text="{Binding Name}" 
+                                                           FontWeight="SemiBold" 
+                                                           FontSize="15" 
+                                                           Foreground="#FFFFFF"/>
+                                                
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <TextBlock Text="Pacjent:" 
+                                                               FontSize="12" 
+                                                               Foreground="{StaticResource SpaTextMuted}"/>
+                                                    <TextBlock Text="{Binding Patient}" 
+                                                               FontSize="12" 
+                                                               FontWeight="Medium"
+                                                               Foreground="#E8F1EC"/>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                            <Border Grid.Column="2" 
+                                                    Width="32" 
+                                                    Height="32" 
+                                                    CornerRadius="16" 
+                                                    Background="#25FFFFFF"
+                                                    VerticalAlignment="Center">
+                                                <TextBlock Text="›" 
+                                                           FontSize="20" 
+                                                           Foreground="#FFFFFF"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Margin="1,-2,0,0"/>
+                                            </Border>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
         
     </StackPanel>
 </UserControl>
