@@ -65,7 +65,8 @@ public class TreatmentController: ControllerBase
                 Id = t.Id,
                 Name = t.Name,
                 Description = t.Description,
-                Type = t.Type
+                Type = t.Type,
+                DurationMinutes = t.DurationMinutes,
             })
             .FirstOrDefaultAsync();
         if (treatment == null)
@@ -75,6 +76,42 @@ public class TreatmentController: ControllerBase
         return Ok(treatment);
 
     }
+
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Sekretarka,Admin")]
+    public async Task<IActionResult> DeleteTreatmentById(int id)
+    {
+        var treatment = await _dbContext.Treatments.FindAsync(id);
+        if (treatment == null)
+        {
+            return NotFound($"Zabieg o podanym id {id} nie istnieje");
+        }
+        
+        treatment.Active = false;
+        
+        await _dbContext.SaveChangesAsync();
+        
+        return NoContent();
+    }
+    [HttpGet]
+    public async Task<ActionResult<List<TreatmentResponseDto>>> GetAllTreatments()
+    {
+        var treatments = await _dbContext.Treatments
+            .AsNoTracking()
+            .Select(t => new TreatmentResponseDto
+            {
+                Id = t.Id,
+                Name = t.Name,
+                Description = t.Description,
+                DurationMinutes = t.DurationMinutes,
+                Type = t.Type,
+                Active = t.Active
+            })
+            .ToListAsync();
+
+        return Ok(treatments);
+    }
+
 
     [HttpPatch("{id}")]
     public async Task<IActionResult> PatchTreatment(int id, [FromBody] UpdateTreatmentDto treatmentDto)
