@@ -1,0 +1,112 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             x:Class="Uzdrowisko.Views.LoginView"
+             x:DataType="vm:LoginViewModel">
+
+    <Grid>
+        <Image Source="avares://Uzdrowisko/Assets/uzdrowisko.jpeg" Stretch="UniformToFill" />
+        <Border Background="#25000000" /> 
+
+        <Border Width="400" Height="450"
+                CornerRadius="24"
+                ClipToBounds="True"
+                BorderBrush="#35FFFFFF"
+                BorderThickness="1"
+                BoxShadow="0 16 36 0 #40000000">
+            <Grid>
+                <Image Source="avares://Uzdrowisko/Assets/uzdrowisko.jpeg" 
+                       Stretch="UniformToFill">
+                    <Image.Effect>
+                        <BlurEffect Radius="35" />
+                    </Image.Effect>
+                </Image>
+                
+                <Border Background="#751E2E24" />
+                <StackPanel VerticalAlignment="Center" 
+                            Margin="36,0" 
+                            Spacing="14">
+                    
+                    <StackPanel.Resources>
+                        <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#99D0DDD5" />
+                        <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#CCD0DDD5" />
+                        <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#CCD0DDD5" />
+                        <SolidColorBrush x:Key="TextControlBackground" Color="#4018261E" />
+                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#5518261E" />
+                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#5018261E" />
+
+                        <SolidColorBrush x:Key="TextControlForeground" Color="#FFFFFF" />
+                        <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#FFFFFF" />
+                        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#FFFFFF" />
+                    </StackPanel.Resources>
+                    
+                    <StackPanel Spacing="4" Margin="0,0,0,16" HorizontalAlignment="Center">
+                        <TextBlock Text="Uzdrowisko" 
+                                   FontFamily="Georgia, serif" 
+                                   FontSize="30" 
+                                   FontWeight="Normal"
+                                   Foreground="#FFFFFF" 
+                                   HorizontalAlignment="Center"/>
+                        <TextBlock Text="SYSTEM ZARZĄDZANIA" 
+                                   FontSize="10" 
+                                   LetterSpacing="2.5"
+                                   Foreground="#B0C2B7" 
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Spacing="4" Margin="0,0,0,6">
+                        <TextBlock Text="Witamy ponownie" 
+                                   FontSize="20" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#FFFFFF"/>
+                        <TextBlock Text="Zaloguj się, aby kontynuować pracę w systemie uzdrowiska." 
+                                   TextWrapping="Wrap" 
+                                   FontSize="13" 
+                                   Foreground="#B8C8BF"/>
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding ErrorMessage}" 
+                               Foreground="#FF7A7A" 
+                               FontSize="12"
+                               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                    <TextBox Watermark="Adres email" 
+                             Text="{Binding Login}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+
+                    <TextBox Watermark="Hasło" 
+                             PasswordChar="*" 
+                             Text="{Binding Password}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+                    <Button Content="Zaloguj się" 
+                            Command="{Binding LoginActionCommand}" 
+                            Height="46" 
+                            CornerRadius="12" 
+                            Background="#34523F" 
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            FontSize="15" 
+                            Margin="0,8,0,0" 
+                            Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

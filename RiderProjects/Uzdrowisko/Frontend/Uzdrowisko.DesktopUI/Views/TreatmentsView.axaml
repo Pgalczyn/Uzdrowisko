@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Uzdrowisko.Views.TreatmentsView"
+             x:DataType="vm:TreatmentsViewModel">
+
+    <DockPanel>
+    
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Spacing="10">
+        <TextBlock Text="Oferowane zabiegi" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+        <TextBlock Text="Lista zabiegów" FontSize="18" Foreground="Gray" HorizontalAlignment="Center"/>
+        <ListBox Width="350" CornerRadius="8" Background="White" Foreground = "Black">
+            <ListBoxItem Content="Masaż borowinowy - 120 zł" />
+            <ListBoxItem Content="Kąpiel solankowa - 90 zł" />
+            <ListBoxItem Content="Krioterapia ogólna - 110 zł" />
+            <ListBoxItem Content="Inhalacje jodowe - 45 zł" />
+        </ListBox>
+
+    </StackPanel>
+    
+    </DockPanel>
+</UserControl>

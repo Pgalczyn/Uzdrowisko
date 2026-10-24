@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Uzdrowisko.DesktopUI.ViewModels;
-using Uzdrowisko.DesktopUI.Views;
+using Uzdrowisko.Views;
 
 namespace Uzdrowisko.DesktopUI;
 

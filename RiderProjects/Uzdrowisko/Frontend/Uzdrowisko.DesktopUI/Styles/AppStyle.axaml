@@ -1,0 +1,52 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Styles.Resources>
+        <SolidColorBrush x:Key="SpaGlassBg">#8014231A</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaGlassBorder">#33FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaItemBg">#28FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaItemHover">#40FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaItemBorder">#22FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaAccent">#3E6B4E</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaTextPrimary">#FFFFFF</SolidColorBrush>
+        <SolidColorBrush x:Key="SpaTextMuted">#A3C6B1</SolidColorBrush>
+        <CornerRadius x:Key="SpaCardRadius">20</CornerRadius>
+        <CornerRadius x:Key="SpaItemRadius">14</CornerRadius>
+    </Styles.Resources>
+
+    <Style Selector="Border.glassCard">
+        <Setter Property="Background" Value="{StaticResource SpaGlassBg}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SpaGlassBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource SpaCardRadius}"/>
+        <Setter Property="BoxShadow" Value="0 16 32 0 #45000000"/>
+    </Style>
+    <Style Selector="Border.treatmentCard">
+        <Setter Property="Background" Value="{StaticResource SpaItemBg}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource SpaItemBorder}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="CornerRadius" Value="{StaticResource SpaItemRadius}"/>
+        <Setter Property="Padding" Value="16,14"/>
+        <Setter Property="Transitions">
+            <Transitions>
+                <BrushTransition Property="Background" Duration="0:0:0.2"/>
+            </Transitions>
+        </Setter>
+    </Style>
+    
+    <Style Selector="Border.treatmentCard:pointerover">
+        <Setter Property="Background" Value="{StaticResource SpaItemHover}"/>
+    </Style>
+
+    <Style Selector="TextBlock.title">
+        <Setter Property="FontFamily" Value="Times New Roman, Georgia, serif"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="Foreground" Value="{StaticResource SpaTextPrimary}"/>
+    </Style>
+
+    <Style Selector="TextBlock.muted">
+        <Setter Property="Foreground" Value="{StaticResource SpaTextMuted}"/>
+        <Setter Property="FontSize" Value="12"/>
+    </Style>
+</Styles>

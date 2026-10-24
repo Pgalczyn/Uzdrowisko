@@ -1,0 +1,70 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Uzdrowisko.Views.HomeView"
+             x:DataType="vm:HomeViewModel">
+
+    <Grid>
+        <Image Source="/Assets/uzdrowisko.jpeg" 
+               Stretch="UniformToFill">
+            <Image.Effect>
+                <BlurEffect Radius="14"/>
+            </Image.Effect>
+        </Image>
+        
+        <Border Background="#700B1A12" />
+
+        <DockPanel>
+            <Border DockPanel.Dock="Left" 
+                    Width="200"
+                    Background="#75112117" 
+                    BorderBrush="#25FFFFFF" 
+                    BorderThickness="0,0,1,0"
+                    Padding="20,20">
+                <Grid RowDefinitions="Auto, *, Auto">
+
+                    <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="10" >
+                        <TextBlock Text="Uzdrowisko" 
+                                   FontFamily="Times New Roman, Georgia, serif"
+                                   FontSize="20"
+                                   FontWeight="Light"
+                                   Foreground="#FFFFFF" 
+                                   Margin="0,0,0,10"/>
+                        
+                        <Button Content="Pulpit" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                Command="{Binding NavigateToDashboardCommand}"/>
+                        <Button Content="Terminarz" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                Command="{Binding NavigateToCalendarCommand}"/>
+                        <Button Content="Oferowane zabiegi" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                Command="{Binding NavigateToTreatmentsCommand}"/>
+                        <Button Content="Wyloguj" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                Command="{Binding LogoutCommand}"/>
+                    </StackPanel>
+
+                    
+                </Grid>
+            </Border>
+
+            <ContentControl Content="{Binding CurrentSubPage}" />
+        </DockPanel>
+    </Grid>
+</UserControl>
