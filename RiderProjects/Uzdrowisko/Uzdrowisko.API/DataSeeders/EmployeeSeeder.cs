@@ -14,8 +14,8 @@ public static class EmployeeSeeder
     {
         await SeedDefaultAdmin(dbContext, logger, passwordService);
         
-        await SeedDefaultEmployees(dbContext, logger, passwordService);
-
+        //await SeedDefaultEmployees(dbContext, logger, passwordService);
+        await SeedEmployeesFromCsv(dbContext, logger, passwordService);
     }
 
     private static async Task SeedDefaultAdmin(UzdrowiskoDbContext dbContext, ILogger logger,
@@ -130,7 +130,7 @@ public static class EmployeeSeeder
     private static async Task SeedEmployeesFromCsv(UzdrowiskoDbContext dbContext, ILogger logger,
         IPasswordService passwordService)
     {
-        var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataCSV", "Employees.csv");
+        var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataSeeders", "DataCSV", "Employees.csv");
         if (!File.Exists(csvPath))
         {
             logger.LogWarning("Plik CSV z danymi pracowników nie został odnaleziony pod ścieżką: {Path}", csvPath);

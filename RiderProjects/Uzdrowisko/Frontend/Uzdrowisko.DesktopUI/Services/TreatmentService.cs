@@ -8,7 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using SharedStructures.Dtos.Treatment;
 using Uzdrowisko.DesktopUI.Models;
-using Uzdrowisko.Services.Abstractions;
+using Uzdrowisko.DesktopUI.Services;
+using Uzdrowisko.DesktopUI.Services.Abstractions;
+using Uzdrowisko.DesktopUI.Services.Common;
 
 namespace Uzdrowisko.Services;
 
@@ -21,17 +23,11 @@ public class TreatmentService : ITreatmentService
         _httpClient = httpClient;
     }
 
-    private void EnsureAuthHeader()
-    {
-        if (!string.IsNullOrWhiteSpace(UserSession.Token))
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserSession.Token);
-        }
-    }
+
 
     public async Task<IReadOnlyList<TreatmentItem>> GetAllTreatmentsItemsAsync(CancellationToken ct = default)
     {
-        EnsureAuthHeader();
+        _httpClient.EnsureAuthHeader();
         try
         {
             var dtos = await _httpClient.GetFromJsonAsync<List<TreatmentResponseDto>>("treatment", ct);
@@ -47,7 +43,7 @@ public class TreatmentService : ITreatmentService
 
     public async Task<TreatmentItem?> GetTreatmentItemAsync(int id, CancellationToken ct = default)
     {
-        EnsureAuthHeader();
+        _httpClient.EnsureAuthHeader();
         
         try{       
             var dto = await _httpClient.GetFromJsonAsync<TreatmentResponseDto>($"api/Treatment/{id}", ct);
@@ -65,7 +61,7 @@ public class TreatmentService : ITreatmentService
 
     public async Task<TreatmentItem?> CreateTreatmentItemAsync(CreateTreatmentDto dto, CancellationToken ct = default)
     {
-        EnsureAuthHeader();
+        _httpClient.EnsureAuthHeader();
         try
         {
             var response = await _httpClient.PostAsJsonAsync("api/treatment", dto, ct);
@@ -89,7 +85,7 @@ public class TreatmentService : ITreatmentService
     }
     public async Task<bool> UpdateTreatmentItemAsync(int id, UpdateTreatmentDto dto, CancellationToken ct = default)
     {
-        EnsureAuthHeader();
+        _httpClient.EnsureAuthHeader();
 
         try
         {
@@ -108,13 +104,12 @@ public class TreatmentService : ITreatmentService
 
     public async Task<bool> DeleteTreatmentItemAsync(int id, CancellationToken ct = default)
     {
-        EnsureAuthHeader();
+        _httpClient.EnsureAuthHeader();
         
         try
         {
             var response = await _httpClient.DeleteAsync($"api/treatment/{id}", ct);
 
-            // 2. Zwraca true, jeśli backend zwrócił 204 NoContent lub 200 OK
             return response.IsSuccessStatusCode;
         }
         catch (OperationCanceledException)

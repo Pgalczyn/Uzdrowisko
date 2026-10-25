@@ -12,6 +12,8 @@ public class UpdateRoomDto
     [MaxLength(100, ErrorMessage = "Opis lokalizacji nie może przekraczać 100 znaków.")]
     public string? Location { get; set; }
     
+    public int? Capacity { get; set; }
+    
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public bool? Active { get; set; }

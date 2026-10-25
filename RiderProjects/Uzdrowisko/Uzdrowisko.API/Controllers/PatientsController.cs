@@ -73,7 +73,26 @@ public class PatientsController : ControllerBase
             };
         return CreatedAtAction(nameof(GetPatientById), new { id = newPatient.Id }, responseDto);
     }
-
+    [HttpGet]
+    public async Task<ActionResult<List<PatientResponseDto>>> GetAllPatients()
+    {
+        var patient = await _dbContext.Patients
+            .AsNoTracking()
+            .Select(p => new PatientResponseDto
+            {
+                Id = p.Id,
+                Pesel = p.Pesel,
+                Name = p.Name,
+                Surname = p.Surname,
+                PhoneNumber = p.PhoneNumber,
+                CreatedAt = p.CreatedAt
+            })
+            .ToListAsync();
+        
+        return Ok(patient);
+    }
+    
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<PatientResponseDto>> GetPatientById(int id)
     {
@@ -96,6 +115,24 @@ public class PatientsController : ControllerBase
             return NotFound($"Nie znaleziono kuracjusza o ID {id}.");
         }
         return Ok(patient);
+    }
+    
+    
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Sekretarka,Admin")]
+    public async Task<IActionResult> DeletePatientById(int id)
+    {
+        var patient = await _dbContext.Patients.FindAsync(id);
+        if (patient == null)
+        {
+            return NotFound($"Pacjent o podanym id {id} nie istnieje");
+        }
+
+        patient.Active = false;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
     }
 
     [HttpPatch("{id}")]

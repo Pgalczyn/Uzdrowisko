@@ -25,7 +25,7 @@ public class EmployeeController: ControllerBase
 
     [HttpPost("register")]
     [Authorize(Roles = "Sekretarka,Admin")]
-    public async Task<ActionResult<EmployeeResponseDto>> Get([FromBody] RegisterEmployeeDto  registerDto)
+    public async Task<ActionResult<EmployeeResponseDto>> RegisterEmployee([FromBody] RegisterEmployeeDto  registerDto)
     {
         if (!string.IsNullOrWhiteSpace(registerDto.Email))
         {
@@ -67,7 +67,28 @@ public class EmployeeController: ControllerBase
         return CreatedAtAction(nameof(GetEmployeeById), new { id = responseDto.Id }, responseDto);
     }
     
-    [HttpGet("{id}")]
+    [HttpGet]
+    public async Task<ActionResult<List<EmployeeResponseDto>>> GetAllEmployees()
+    {
+        var employee = await _dbContext.Employees
+            .AsNoTracking()
+            .Select(p => new EmployeeResponseDto()
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Email = p.Email,
+                Surname = p.Surname,
+                PhoneNumber = p.PhoneNumber,
+                CreatedAt = p.CreatedAt
+            })
+            .ToListAsync();
+        
+        return Ok(employee);
+    }
+    
+    
+    
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<EmployeeResponseDto>> GetEmployeeById(int id)
     {
         var employee = await _dbContext.Employees
@@ -89,6 +110,23 @@ public class EmployeeController: ControllerBase
             return NotFound($"Nie znaleziono pracownika o ID {id}.");
         }
         return Ok(employee);
+    }
+    
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Sekretarka,Admin")]
+    public async Task<IActionResult> DeleteEmployeeById(int id)
+    {
+        var employee = await _dbContext.Employees.FindAsync(id);
+        if (employee == null)
+        {
+            return NotFound($"Pracownik o podanym id {id} nie istnieje");
+        }
+
+        employee.Active = false;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
     }
 
     [HttpPatch("{id}")]

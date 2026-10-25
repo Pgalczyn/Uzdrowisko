@@ -9,9 +9,12 @@ public class StayResponseDto
 
     public DateOnly DateFrom { get; set; }
     public DateOnly DateTo { get; set; }
-    public string? Status { get; set; }
+    public string Status { get; set; }
     public bool Active { get; set; }
     
-    public int TotalDays => DateTo.DayNumber - DateFrom.DayNumber;
+    public int TotalDays => DateTo.DayNumber >= DateFrom.DayNumber 
+        ? DateTo.DayNumber - DateFrom.DayNumber 
+        : 0;
+
     public string PeriodDisplay => $"{DateFrom:dd.MM.yyyy} - {DateTo:dd.MM.yyyy}";
 }

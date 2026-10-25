@@ -14,7 +14,7 @@ public static class RoomsSeeder
 
     private static async Task SeedRoomsFromCsv(UzdrowiskoDbContext dbContext, ILogger logger)
     {
-        var csvPath = Path.Combine(AppContext.BaseDirectory, "DataCSV", "Rooms.csv");
+        var csvPath = Path.Combine(AppContext.BaseDirectory, "DataSeeders", "DataCSV", "Rooms.csv");
         if (!File.Exists(csvPath))
         {
             logger.LogWarning("Plik CSV z danymi sal/gabinetów nie został odnaleziony pod ścieżką: {Path}", csvPath);
@@ -32,12 +32,14 @@ public static class RoomsSeeder
             .Skip(1)
             .Where(line => !string.IsNullOrWhiteSpace(line))
             .Select(line => line.Split(';'))
-            .Where(columns => columns.Length >= 3)
+            .Where(columns => columns.Length >= 4)
             .Select(columns => new
             {
                 Number = columns[0].Trim(),
                 Name = string.IsNullOrWhiteSpace(columns[1]) ? null : columns[1].Trim(),
-                Location = string.IsNullOrWhiteSpace(columns[2]) ? null : columns[2].Trim()
+                Location = string.IsNullOrWhiteSpace(columns[2]) ? null : columns[2].Trim(),
+                Capacity = int.TryParse(columns[3].Trim(), out var cap) ? cap : 1
+
             })
             .Where(r => !string.IsNullOrWhiteSpace(r.Number))
             .ToList();
@@ -63,7 +65,8 @@ public static class RoomsSeeder
                 Name = record.Name,
                 Location = record.Location,
                 Active = true,
-                CreatedAt = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow,
+                Capacity = record.Capacity
             };
 
             roomsToAdd.Add(room);

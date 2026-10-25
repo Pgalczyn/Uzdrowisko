@@ -17,6 +17,9 @@ public class Room
 
     [MaxLength(100)]
     public string? Location { get; set; }
+    
+    [MaxLength(100)]
+    public int? Capacity{ get; set; }
 
     public bool Active { get; set; } = true;
     

@@ -16,4 +16,8 @@ public class UpdateTreatmentDto
     public string? Type { get; set; }
 
     public bool? Active { get; set; }
+    
+    public string? Flag { get; set; }
+    public DateTime? CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; } = DateTime.Now;
 }

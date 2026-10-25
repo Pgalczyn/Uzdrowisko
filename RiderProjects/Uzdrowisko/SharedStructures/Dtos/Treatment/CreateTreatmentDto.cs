@@ -16,4 +16,8 @@ public class CreateTreatmentDto
 
     [MaxLength(30, ErrorMessage = "Typ zabiegu nie może przekraczać 30 znaków.")]
     public string? Type { get; set; }
+    
+    public string? Flag { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime UpdatedAt { get; set; }
 }

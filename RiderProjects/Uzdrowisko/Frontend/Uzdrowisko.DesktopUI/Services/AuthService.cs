@@ -3,19 +3,17 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using SharedStructures.Dtos.Auth;
+using Uzdrowisko.DesktopUI.Services.Abstractions;
 
 namespace Uzdrowisko.Services;
 
-public class AuthService
+public class AuthService : IAuthService
 {
     private readonly HttpClient _httpClient;
 
-    public AuthService()
+    public AuthService(HttpClient httpClient)
     {
-        _httpClient = new HttpClient
-        {
-            BaseAddress = new Uri("http://localhost:5290/api/")
-        };
+        _httpClient =  httpClient;
     }
 
     public async Task<(bool Success, string? ErrorMessage)> LoginAsync(string email, string password)

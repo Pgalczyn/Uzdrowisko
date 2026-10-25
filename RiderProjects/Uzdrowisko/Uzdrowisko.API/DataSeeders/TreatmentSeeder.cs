@@ -14,7 +14,7 @@ public static class TreatmentSeeder
     
     private static async Task SeedTreatmentsFromCsv(UzdrowiskoDbContext dbContext, ILogger logger)
     {
-        var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataCSV", "Treatments.csv");
+        var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataSeeders", "DataCSV", "Treatments.csv");
         if (!File.Exists(csvPath))
         {
             logger.LogWarning("Plik CSV z danymi zabiegów nie został odnaleziony pod ścieżką: {Path}", csvPath);
@@ -32,13 +32,14 @@ public static class TreatmentSeeder
             .Skip(1)
             .Where(s => !string.IsNullOrWhiteSpace(s))
             .Select(l => l.Split(';'))
-            .Where(columns => columns.Length >= 4)
+            .Where(columns => columns.Length >= 5)
             .Select(columns => new
             {
                 Name = columns[0].Trim(),
                 Description = columns[1].Trim(),
                 DurationMinutes = int.TryParse(columns[2].Trim(), out var duration) ? duration : 30,
-                Type = columns[3].Trim()
+                Type = columns[3].Trim(),
+                Flag = columns[4].Trim()
             })
             .ToList();
 
@@ -62,7 +63,8 @@ public static class TreatmentSeeder
                 Name = record.Name,
                 Description = record.Description,
                 DurationMinutes = record.DurationMinutes,
-                Type = record.Type
+                Type = record.Type,
+                Flag = record.Flag
             };
 
             treatmentsToAdd.Add(newTreatment);

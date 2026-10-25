@@ -3,6 +3,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Uzdrowisko.API.DataSeeders;
 using Microsoft.OpenApi.Models;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;
@@ -73,6 +74,27 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var dbContext = services.GetRequiredService<UzdrowiskoDbContext>();
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        var passwordService = services.GetRequiredService<IPasswordService>();
+
+        await TreatmentSeeder.SeedAsync(dbContext, logger);
+        await EmployeeSeeder.SeedAsync(dbContext, logger,passwordService);
+        await PatientsSeeder.SeedAsync(dbContext, logger, passwordService);
+        await RoomsSeeder.SeedAsync(dbContext, logger);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Wystąpił błąd podczas zasilania bazy danych zabiegami.");
+    }
+}
 
 if (app.Environment.IsDevelopment())
 {

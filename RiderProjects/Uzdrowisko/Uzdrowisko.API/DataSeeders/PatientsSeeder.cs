@@ -15,7 +15,7 @@ public static class PatientsSeeder
 
     private static async Task SeedPatientsFromCsv(UzdrowiskoDbContext dbContext, ILogger logger,IPasswordService passwordHasher)
     {
-        var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataCSV", "Patients.csv");
+        var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataSeeders", "DataCSV", "Patients.csv");
         if (!File.Exists(csvPath))
         {
             logger.LogWarning("Plik CSV z danymi kuracjuszy nie został odnaleziony pod ścieżką: {Path}", csvPath);

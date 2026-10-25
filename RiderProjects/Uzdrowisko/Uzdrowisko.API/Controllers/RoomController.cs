@@ -34,6 +34,7 @@ public class RoomController : ControllerBase
             Number = dtoRoom.Number,
             Name = dtoRoom.Name,
             Location = dtoRoom.Location,
+            Capacity = dtoRoom.Capacity,
         };
         
         _dbContext.Rooms.Add(newRoom);
@@ -44,6 +45,7 @@ public class RoomController : ControllerBase
             Id = newRoom.Id,
             Name = newRoom.Name,
             Location = newRoom.Location,
+            Capacity = newRoom.Capacity,
         };
         return CreatedAtAction(nameof(GetRoomById), new { id = newRoom.Id }, response);
 
@@ -61,6 +63,7 @@ public class RoomController : ControllerBase
                 Id = id,
                 Name = r.Name,
                 Location = r.Location,
+                Capacity = r.Capacity,
             })
             .FirstOrDefaultAsync();
         
@@ -70,6 +73,40 @@ public class RoomController : ControllerBase
         }
         
         return Ok(room);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<List<RoomResponseDto>>> GetAllRooms()
+    {
+        var room = await _dbContext.Rooms
+            .AsNoTracking()
+            .Select(r => new RoomResponseDto
+            {
+                Id = r.Id,
+                Name = r.Name,
+                Location = r.Location,
+                Capacity = r.Capacity,
+            })
+            .ToListAsync();
+        
+        return Ok(room);
+    }
+
+    [HttpDelete("{id:int}")]
+    [Authorize(Roles = "Sekretarka,Admin")]
+    public async Task<IActionResult> DeleteRoomById(int id)
+    {
+        var room = await _dbContext.Rooms.FindAsync(id);
+        if (room == null)
+        {
+            return NotFound($"Pokój o podanym id {id} nie istnieje");
+        }
+
+        room.Active = false;
+
+        await _dbContext.SaveChangesAsync();
+
+        return NoContent();
     }
 
     [HttpPatch("{id}")]
@@ -94,6 +131,11 @@ public class RoomController : ControllerBase
         if (dtoRoom.Location != null)
         {
             room.Location =  dtoRoom.Location;
+        }
+
+        if (dtoRoom.Capacity != null)
+        {
+            room.Capacity = dtoRoom.Capacity;
         }
 
         if (dtoRoom.Active != null)

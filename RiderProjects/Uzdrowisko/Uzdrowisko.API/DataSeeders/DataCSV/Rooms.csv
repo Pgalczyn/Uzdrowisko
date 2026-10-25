@@ -1,0 +1,51 @@
+Number;Name;Location;Capacity
+001;Wanny Siarkowe A;Pawilon Balneologiczny - Parter;2
+002;Wanny Siarkowe B;Pawilon Balneologiczny - Parter;2
+003;Gabinet Zawijań Borowinowych;Pawilon Balneologiczny - Parter;3
+004;Kąpiele Czterokomorowe;Pawilon Balneologiczny - Parter;2
+005;Kąpiele Kwasowęglowe;Pawilon Balneologiczny - Parter;2
+006;Hydroterapia i Bicze Szkockie;Pawilon Balneologiczny - Parter;1
+007;Masaże Wirowe Kończyn;Pawilon Balneologiczny - Parter;4
+008;Masaż Podwodny 1;Pawilon Balneologiczny - Parter;1
+009;Masaż Podwodny 2;Pawilon Balneologiczny - Parter;1
+010;Suchy Hydromasaż;Pawilon Balneologiczny - Parter;2
+101;Gabinet Lekarski 1;Budynek Główny - Parter;1
+102;Gabinet Lekarski 2;Budynek Główny - Parter;1
+103;Gabinet Lekarski 3;Budynek Główny - Parter;1
+104;Punkt Pielęgniarski i EKG;Budynek Główny - Parter;2
+105;Gabinet Kwalifikacji Balneologicznej;Budynek Główny - Parter;1
+106;Elektroterapia i Prądy TENS;Budynek Główny - Piętro 1;4
+107;Prądy Kotza i Diadynamik;Budynek Główny - Piętro 1;3
+108;Pole Magnetyczne (Magnetronik);Budynek Główny - Piętro 1;3
+109;Laseroterapia Punktowa;Budynek Główny - Piętro 1;2
+110;Ultradźwięki i Fonoforeza;Budynek Główny - Piętro 1;2
+111;Światłoterapia (Lampa Solaris/Solmed);Budynek Główny - Piętro 1;3
+112;Fototerapia UVB;Budynek Główny - Piętro 1;1
+113;Fala Uderzeniowa;Budynek Główny - Piętro 1;1
+114;Krioterapia Miejscowa;Budynek Główny - Piętro 1;2
+115;Kriosauna Ogólnoustrojowa;Budynek Główny - Piętro 1;1
+116;Gabinet Masażu Klasycznego 1;Skrzydło Wschodnie - Piętro 1;1
+117;Gabinet Masażu Klasycznego 2;Skrzydło Wschodnie - Piętro 1;1
+118;Gabinet Masażu Klasycznego 3;Skrzydło Wschodnie - Piętro 1;1
+119;Gabinet Masażu Klasycznego 4;Skrzydło Wschodnie - Piętro 1;1
+120;Masaż Relaksacyjny i SPA 1;Skrzydło Wschodnie - Piętro 1;1
+121;Masaż Relaksacyjny i SPA 2;Skrzydło Wschodnie - Piętro 1;1
+122;Drenaż Limfatyczny;Skrzydło Wschodnie - Piętro 1;2
+123;Fotele Masujące;Skrzydło Wschodnie - Piętro 1;4
+124;Masaż Wibracyjny (Aquavibron);Skrzydło Wschodnie - Piętro 1;2
+125;Terapia Manualna;Skrzydło Wschodnie - Piętro 1;1
+201;Główna Sala Gimnastyki Zbiorowej;Skrzydło Zachodnie - Piętro 2;15
+202;Sala Gimnastyki Dyskopatycznej;Skrzydło Zachodnie - Piętro 2;10
+203;Sala Gimnastyki Przyrządowej;Skrzydło Zachodnie - Piętro 2;8
+204;Strefa Cardio (Bieżnie i Ergometry);Skrzydło Zachodnie - Piętro 2;6
+205;Kabina UGUL 1;Skrzydło Zachodnie - Piętro 2;1
+206;Kabina UGUL 2;Skrzydło Zachodnie - Piętro 2;1
+207;Kabina UGUL 3;Skrzydło Zachodnie - Piętro 2;1
+208;Kinezyterapia Indywidualna A;Skrzydło Zachodnie - Piętro 2;1
+209;Kinezyterapia Indywidualna B;Skrzydło Zachodnie - Piętro 2;1
+210;Terapia Metodą McKenzie;Skrzydło Zachodnie - Piętro 2;1
+211;Gimnastyka Obręczy Barkowej i Rąk;Skrzydło Zachodnie - Piętro 2;4
+212;Gimnastyka Stóp i Kończyn Dolnych;Skrzydło Zachodnie - Piętro 2;4
+213;Inhalatorium Główne;Budynek Główny - Piętro 2;8
+214;Inhalatorium Solankowe Indywidualne;Budynek Główny - Piętro 2;2
+215;Grota Solna i Relaksacja;Budynek Główny - Piętro 2;10

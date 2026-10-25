@@ -23,7 +23,18 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="DataSeeders\DataCSV\" />
+      <None Update="DataSeeders\DataCSV\Treatments.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Employees.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Patients.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Rooms.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
