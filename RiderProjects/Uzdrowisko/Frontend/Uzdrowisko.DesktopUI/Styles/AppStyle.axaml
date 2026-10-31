@@ -49,4 +49,5 @@
         <Setter Property="Foreground" Value="{StaticResource SpaTextMuted}"/>
         <Setter Property="FontSize" Value="12"/>
     </Style>
+    
 </Styles>

@@ -1,25 +1,25 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Uzdrowisko.DesktopUI.Models;
-using Uzdrowisko.Services;
+using Uzdrowisko.DesktopUI.Services.Abstractions;
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
-using System;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 public partial class CalendarViewModel : ViewModelBase
 {
-    private readonly ITreatmentService _service;
+    private readonly IAppointmentService _service;
     private CancellationTokenSource? _cts;
 
     [ObservableProperty] private DateTime? _selectedDate = DateTime.Today;
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isEmpty;
-    public ObservableCollection<TreatmentItem> DayTreatments { get; } = new();
+    public ObservableCollection<AppointmentItem> DayTreatments { get; } = new();
 
-    public CalendarViewModel(ITreatmentService service)
+    public CalendarViewModel(IAppointmentService service)
     {
         _service = service;
         _ = LoadAsync(SelectedDate);
@@ -41,8 +41,10 @@ public partial class CalendarViewModel : ViewModelBase
             var items = await _service.GetForDayAsync(day.Value, ct);
 
             DayTreatments.Clear();
-            foreach (var t in items.OrderBy(t => t.Start))
+            foreach (var t in items.OrderBy(t => t.TimeFrom))
+            {
                 DayTreatments.Add(t);
+            }
 
             IsEmpty = DayTreatments.Count == 0;
         }
@@ -52,6 +54,4 @@ public partial class CalendarViewModel : ViewModelBase
             if (!ct.IsCancellationRequested) IsLoading = false;
         }
     }
-
-
 }

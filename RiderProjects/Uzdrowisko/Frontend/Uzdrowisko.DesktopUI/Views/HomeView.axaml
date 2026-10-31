@@ -28,13 +28,13 @@
 
                     <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="10" >
                         <TextBlock Text="Uzdrowisko" 
-                                   FontFamily="Times New Roman, Georgia, serif"
+                                   FontFamily="Georgia, serif" 
                                    FontSize="20"
                                    FontWeight="Light"
                                    Foreground="#FFFFFF" 
-                                   Margin="0,0,0,10"/>
+                                   Margin="20"/>
                         
-                        <Button Content="Pulpit" 
+                        <Button Content="Strona główna" 
                                 Background="Transparent" 
                                 Foreground="#D2E3D8" 
                                 CornerRadius="8"
@@ -52,6 +52,12 @@
                                 CornerRadius="8"
                                 Padding="12,6"
                                 Command="{Binding NavigateToTreatmentsCommand}"/>
+                        <Button Content="Rejestracja pacjenta" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                Command="{Binding NavigateToRegisterCommand}"/>
                         <Button Content="Wyloguj" 
                                 Background="Transparent" 
                                 Foreground="#D2E3D8" 

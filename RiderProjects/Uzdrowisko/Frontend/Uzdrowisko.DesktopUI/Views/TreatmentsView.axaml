@@ -3,23 +3,125 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="clr-namespace:Uzdrowisko.DesktopUI.Models"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.TreatmentsView"
              x:DataType="vm:TreatmentsViewModel">
 
-    <DockPanel>
-    
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Spacing="10">
-        <TextBlock Text="Oferowane zabiegi" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center"/>
-        <TextBlock Text="Lista zabiegów" FontSize="18" Foreground="Gray" HorizontalAlignment="Center"/>
-        <ListBox Width="350" CornerRadius="8" Background="White" Foreground = "Black">
-            <ListBoxItem Content="Masaż borowinowy - 120 zł" />
-            <ListBoxItem Content="Kąpiel solankowa - 90 zł" />
-            <ListBoxItem Content="Krioterapia ogólna - 110 zł" />
-            <ListBoxItem Content="Inhalacje jodowe - 45 zł" />
-        </ListBox>
+    <DockPanel Margin="30" 
+               >
+        <TextBlock Classes="title" 
+                   DockPanel.Dock="Top"
+                   Text="Oferowane zabiegi"
+                   Margin="20"
+                   FontFamily="Georgia, serif" />
+        
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+                <Border Classes="glassCard"
+                        Padding="24"
+                        MaxWidth="650"
+                        HorizontalAlignment="Stretch">
+                <ScrollViewer>
+                <ListBox ItemsSource="{Binding Treatments}"
+                         SelectedItem= "{Binding SelectedTreatment}"
+                         Background="Transparent">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:TreatmentItem">
+                            
+                                <Button Background="Transparent">
+                                    <Grid ColumnDefinitions="*,Auto, Auto"
+                                          ColumnSpacing="12">
+                                <StackPanel Spacing="3" >
+                                    <TextBlock Text = "{Binding Name}" FontSize="16"
+                                               Foreground="white"
+                                               FontWeight="Bold"></TextBlock>
 
-    </StackPanel>
+                                </StackPanel>
+                                        <Border Grid.Column="1" 
+                                                Background="#25FFFFFF"
+                                                CornerRadius="8"
+                                                Padding="10,5"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding DurationDisplay}" 
+                                                       FontSize="12" 
+                                                       FontWeight="Medium"
+                                                       Foreground="#D0E3D7"/>
+                                        </Border>
+                                
+                                
+                                </Grid>
+                            </Button>
+                                </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Style>
+
+                        <Style Selector="ListBoxItem:selected Border.treatmentCard">
+                            <Setter Property="Background" Value="#402D5A43"/>
+                            <Setter Property="BorderBrush" Value="{StaticResource SpaAccent}"/>
+                            <Setter Property="BorderThickness" Value="1.5"/>
+                        </Style>
+                    </ListBox.Styles>
+                    </ListBox>
+                        
+            </ScrollViewer>
+                </Border>
+                
+                <Border Classes="glassCard"
+                        Padding="24"
+                        MaxWidth="650"
+                        HorizontalAlignment="Stretch"
+                        
+                        Grid.Column="1">
+                    <ItemsControl ItemsSource="{Binding SelectedTreatment}">
+                        <StackPanel >
+                            <TextBlock Text="{Binding SelectedTreatment.Name}" FontSize="25"
+                                       HorizontalAlignment="Center"
+                                       Margin="15"
+                                       Foreground="white" ></TextBlock>
+                            <Border
+                                Background="#25FFFFFF"
+                                CornerRadius="8"
+                                Padding="10,5"
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding SelectedTreatment.DurationDisplay}" 
+                                           FontSize="18" 
+                                           FontWeight="Medium"
+                                           Foreground="#D0E3D7" />
+                            </Border>
+                            
+                            
+                            <TextBlock Text="{Binding SelectedTreatment.Description}"
+                                       Foreground="{StaticResource SpaTextMuted}"
+                                       FontSize="16"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,40,0,0"
+                                       TextWrapping="Wrap"
+                            />
+                            
+                            <Button 
+                                    Content="Zarezerwuj"
+                                    Height="50"
+                                    CornerRadius="12"
+                                    Background="#34523F"
+                                    Foreground="#FFFFFF"
+                                    FontWeight="SemiBold"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="15"
+                                    Margin="0,8,0,0"
+                                    Cursor="Hand"/>
+                        </StackPanel>
+                        
+                    </ItemsControl>
+                </Border>
+            </Grid>
+            
+
     
     </DockPanel>
 </UserControl>

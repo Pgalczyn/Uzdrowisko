@@ -1,59 +1,59 @@
-
+using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Threading.Tasks;
+using Uzdrowisko.DesktopUI.Services.Abstractions;
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
 
-public partial class LoginViewModel: ViewModelBase
+public partial class LoginViewModel : ViewModelBase
 {
-    private readonly System.Action _Register;
-    private readonly System.Action _Home;
+    private readonly Action _register;
+    private readonly Action _home;
+    private readonly IAuthService _authService;
 
     [ObservableProperty]
-    private string _login;
+    private string _login = string.Empty;
 
     [ObservableProperty]
-    private string _password;
+    private string _password = string.Empty;
 
     [ObservableProperty]
-    private string _errorMessage;
-    private readonly Services.AuthService _authService = new();
+    private string _errorMessage = string.Empty;
 
-
-    public LoginViewModel(System.Action Register, System.Action Home)
+    public LoginViewModel(IAuthService authService, Action home)
     {
-        _Register = Register;
-        _Home = Home;
+        _authService = authService;
+        _home = home;
     }
 
     [RelayCommand]
     public void GoToRegister()
     {
-        _Register?.Invoke();
+        _register?.Invoke();
     }
 
     [RelayCommand]
-public async Task LoginAction()
-{
-    ErrorMessage = "";
-
-    if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
+    public async Task LoginAction()
     {
-        ErrorMessage = "Wprowadź e-mail i hasło.";
-        return;
+        _home?.Invoke();
+        // ErrorMessage = string.Empty;
+        //
+        // if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
+        // {
+        //     ErrorMessage = "Wprowadź e-mail i hasło.";
+        //     return;
+        // }
+        //
+        // var (success, error) = await _authService.LoginAsync(Login, Password);
+        //
+        // if (success)
+        // {
+        //     _home?.Invoke();
+        // }
+        // else
+        // {
+        //     ErrorMessage = error ?? "Logowanie nie powiodło się.";
+        // }
     }
-
-    var (success, error) = await _authService.LoginAsync(Login, Password);
-
-    if (success)
-    {
-        _Home?.Invoke();
-    }
-    else
-    {
-        ErrorMessage = error ?? "Logowanie nie powiodło się.";
-    }
-}
-
 }

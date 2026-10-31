@@ -15,7 +15,8 @@
                    FontWeight="Light"
                    FontSize="32" 
                    Foreground="#FFFFFF"
-                   Grid.ColumnSpan="2"/>
+                   Grid.ColumnSpan="2"
+                   Margin="0,30"/>
 
         <Border Grid.Row="1" Grid.Column="0" 
                 Classes="glassCard"
@@ -41,19 +42,18 @@
                                    Foreground="{StaticResource SpaTextMuted}"
                                    FontSize="14"
                                    HorizontalAlignment="Center"
-                                   Margin="0,40,0,0"
-                                   />
+                                   Margin="0,40,0,0"/>
 
                         <ItemsControl ItemsSource="{Binding DayTreatments}">
                             <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="models:TreatmentItem">
+                                <DataTemplate x:DataType="models:AppointmentItem">
                                     <Border Classes="treatmentCard" Margin="0,0,0,12">
-                                        <Grid ColumnDefinitions="75, *, Auto" ColumnSpacing="16">
+                                        <Grid ColumnDefinitions="90, *, Auto" ColumnSpacing="16">
                                             
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding Start, StringFormat='{}{0:HH:mm}'}" 
+                                                <TextBlock Text="{Binding TimeRangeDisplay}" 
                                                            FontWeight="Bold" 
-                                                           FontSize="18" 
+                                                           FontSize="14" 
                                                            Foreground="#FFFFFF"
                                                            HorizontalAlignment="Center"/>
                                                 <Border Background="#25FFFFFF"
@@ -61,15 +61,15 @@
                                                         Padding="6,2"
                                                         Margin="0,4,0,0"
                                                         HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding Duration, StringFormat='{}{0:mm} min'}" 
-                                                               FontSize="11"
+                                                    <TextBlock Text="{Binding DurationDisplay}" 
+                                                               FontSize="11" 
                                                                Foreground="#D0E3D7"
                                                                HorizontalAlignment="Center"/>
                                                 </Border>
                                             </StackPanel>
 
                                             <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
-                                                <TextBlock Text="{Binding Name}" 
+                                                <TextBlock Text="{Binding TreatmentName}" 
                                                            FontWeight="SemiBold" 
                                                            FontSize="15" 
                                                            Foreground="#FFFFFF"/>
@@ -78,11 +78,14 @@
                                                     <TextBlock Text="Pacjent:" 
                                                                FontSize="12" 
                                                                Foreground="{StaticResource SpaTextMuted}"/>
-                                                    <TextBlock Text="{Binding Patient}" 
+                                                    <TextBlock Text="{Binding PatientFullName}" 
                                                                FontSize="12" 
                                                                FontWeight="Medium"
                                                                Foreground="#E8F1EC"/>
                                                 </StackPanel>
+                                                <TextBlock Text="{Binding RoomDisplay}" 
+                                                           FontSize="11" 
+                                                           Foreground="{StaticResource SpaTextMuted}"/>
                                             </StackPanel>
 
                                             <Border Grid.Column="2" 

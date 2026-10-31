@@ -1,4 +1,4 @@
-namespace Uzdrowisko.Services;
+namespace Uzdrowisko.DesktopUI.Services;
 
 public static class UserSession
 {

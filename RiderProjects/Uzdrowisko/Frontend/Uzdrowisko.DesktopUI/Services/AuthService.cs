@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using SharedStructures.Dtos.Auth;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 
-namespace Uzdrowisko.Services;
+namespace Uzdrowisko.DesktopUI.Services;
 
 public class AuthService : IAuthService
 {
@@ -26,8 +26,7 @@ public class AuthService : IAuthService
                 Password = password
             };
 
-            var response = await _httpClient.PostAsJsonAsync("auth", request);
-
+            var response = await _httpClient.PostAsJsonAsync("api/auth", request);
             if (response.IsSuccessStatusCode)
             {
                 var result = await response.Content.ReadFromJsonAsync<LoginResponseDto>();

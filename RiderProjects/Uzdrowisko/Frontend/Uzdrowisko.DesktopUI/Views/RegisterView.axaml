@@ -6,14 +6,180 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.RegisterView"
              x:DataType="vm:RegisterViewModel">
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="15">
-        <TextBlock Text="Zarejestruj się" FontSize="24" FontWeight="Bold" Foreground="Black" HorizontalAlignment="Center" Margin="0,0,0,20"/>
-        
-        <TextBox Watermark="Imię" Width="250"/>
-        <TextBox Watermark="Nazwisko" Width="250"/>
-        <TextBox Watermark="Adres email" Width="250"/>
-        <TextBox Watermark="Ustaw hasło" PasswordChar="*" Width="250"/>
-        
-        <Button Content="Zarejestruj się" Width="250" HorizontalContentAlignment="Center" Background="#062e14" Foreground="White" Margin="0,15,0,0"/>
-    </StackPanel>
+    <Grid>
+    <StackPanel VerticalAlignment="Center" 
+                Margin="30,0" 
+                Spacing="14"
+                >
+                    
+                    <StackPanel.Resources>
+                        <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#99D0DDD5" />
+                        <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#CCD0DDD5" />
+                        <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#CCD0DDD5" />
+                        <SolidColorBrush x:Key="TextControlBackground" Color="#4018261E" />
+                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#5518261E" />
+                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#5018261E" />
+
+                        <SolidColorBrush x:Key="TextControlForeground" Color="#FFFFFF" />
+                        <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#FFFFFF" />
+                        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#FFFFFF" />
+                    </StackPanel.Resources>
+                    
+
+                    <TextBlock Text="Wprowadź dane Pacjenta" 
+                                   FontFamily="Georgia, serif" 
+                                   FontWeight="Light"
+                                   FontSize="32" 
+                                   Foreground="#FFFFFF"
+                                   Margin="0,30"
+                                   />
+
+                    <TextBlock Text="{Binding ErrorMessage}" 
+                               Foreground="#FF7A7A" 
+                               FontSize="12"
+                               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                    <TextBox Watermark="Imię" 
+                             Text="{Binding Name}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+
+                    <TextBox Watermark="Nazwisko" 
+                             Text="{Binding Surname}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+                    <TextBox Watermark="Adres email" 
+                             Text="{Binding Email}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+
+                    <TextBox Watermark="Numer PESEL" 
+                             Text="{Binding Pesel}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+                    <TextBox Watermark="Data urodzenia" 
+                             Text="{Binding DateOfBirth}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+
+                    <TextBox Watermark="Numer telefonu" 
+                             Text="{Binding PhoneNumber}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+                    <TextBox Watermark="Adres" 
+                             Text="{Binding Address}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+
+                    <TextBox Watermark="Miasto" 
+                             Text="{Binding City}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+                    <TextBox Watermark="Kod pocztowy" 
+                             Text="{Binding PostalCode}" 
+                             Height="46" 
+                             CornerRadius="12" 
+                             Background="#4018261E" 
+                             BorderBrush="#25FFFFFF" 
+                             BorderThickness="1" 
+                             Foreground="#FFFFFF"
+                             VerticalContentAlignment="Center" 
+                             Padding="16,0"/>
+                    <Button Content="Zarejestruj Pacjenta" 
+                            Command="{Binding RegisterActionCommand}" 
+                            Height="46" 
+                            CornerRadius="12" 
+                            Background="#34523F" 
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            FontSize="15" 
+                            Margin="0,8,0,0" 
+                            Cursor="Hand"/>
+
+                    
+                </StackPanel>
+        <Grid IsVisible="{Binding IsDialogVisible}">
+            <Border Background="#34523F" 
+                    CornerRadius="15"
+                    Padding="25"
+                    Width="500"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <StackPanel Spacing = "15" HorizontalAlignment="Center">
+                    <TextBlock Text="Pacjent został zarejestrowany"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="Dane logowania:"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"></TextBlock>
+                    <TextBlock Text="{Binding Email, StringFormat='Email: {0}'}" HorizontalAlignment="Center"/>
+                    <TextBlock Text="{Binding GeneratedPasswordDisplay, StringFormat='Wygenerowane hasło: {0}'}" HorizontalAlignment="Center"/>
+                    <Button Content="Zamknij okno"
+                            Command="{Binding CloseDialogCommand}"
+                            Height="46" 
+                            CornerRadius="12" 
+                            Background="#223B2A"
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            FontSize="15" 
+                            Margin="0,8,0,0" 
+                            Cursor="Hand"/>
+                </StackPanel>
+                </Border>
+                    </Grid>
+        </Grid>
 </UserControl>
