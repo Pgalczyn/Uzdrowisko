@@ -8,12 +8,9 @@
              x:Class="Uzdrowisko.Views.DashboardView"
              x:DataType="vm:DashboardViewModel">
 
-    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="15" Margin="10,10,0,0">
+    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="15">
         <TextBlock Text="Strona Główna" 
-                   FontFamily="Times New Roman, Georgia, serif"
-                   FontWeight="Light"
-                   FontSize="32" 
-                   Foreground="#FFFFFF"/>
+                   Classes="pageHeader"/>
         <Border
                 Classes="glassCard"
                 Padding="24">

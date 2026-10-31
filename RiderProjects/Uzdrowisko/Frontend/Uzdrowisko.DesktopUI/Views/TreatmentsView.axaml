@@ -7,16 +7,14 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.TreatmentsView"
              x:DataType="vm:TreatmentsViewModel">
-
-    <DockPanel Margin="30" 
-               >
-        <TextBlock Classes="title" 
+    
+    <DockPanel >
+        <TextBlock Classes="pageHeader" 
                    DockPanel.Dock="Top"
                    Text="Oferowane zabiegi"
-                   Margin="20"
-                   FontFamily="Georgia, serif" />
+                   />
         
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="20">
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="20" RowSpacing="20">
                 <Border Classes="glassCard"
                         Padding="24"
                         MaxWidth="650"

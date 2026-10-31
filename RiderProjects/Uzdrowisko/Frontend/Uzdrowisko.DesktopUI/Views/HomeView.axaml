@@ -10,12 +10,12 @@
     <Grid>
         <Image Source="/Assets/uzdrowisko.jpeg" 
                Stretch="UniformToFill">
-            <Image.Effect>
-                <BlurEffect Radius="14"/>
-            </Image.Effect>
+            <!-- <Image.Effect> -->
+            <!--     <BlurEffect Radius="14"/> -->
+            <!-- </Image.Effect> -->
         </Image>
         
-        <Border Background="#700B1A12" />
+        <Border Background="#75203B2A" />
 
         <DockPanel>
             <Border DockPanel.Dock="Left" 
@@ -70,7 +70,7 @@
                 </Grid>
             </Border>
 
-            <ContentControl Content="{Binding CurrentSubPage}" />
+            <ContentControl Content="{Binding CurrentSubPage}" Margin="30" />
         </DockPanel>
     </Grid>
 </UserControl>
