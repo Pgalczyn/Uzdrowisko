@@ -1,6 +1,7 @@
 using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Uzdrowisko.DesktopUI.Services;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
@@ -12,7 +13,6 @@ public partial class HomeViewModel : ViewModelBase
     private readonly ITreatmentService _treatmentService;
     private readonly IPatientService _patientService;
     private readonly IEmployeeService _employeeService;
-
     [ObservableProperty]
     private ViewModelBase _currentSubPage;
 
@@ -27,6 +27,7 @@ public partial class HomeViewModel : ViewModelBase
         CurrentSubPage = new DashboardViewModel(_appointmentService);
     }
 
+    public bool IsAdmin => UserSession.IsEmployee;
     [RelayCommand]
     public void NavigateToDashboard()
     {

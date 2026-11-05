@@ -54,6 +54,7 @@
                                 Foreground="#D2E3D8" 
                                 CornerRadius="8"
                                 Padding="12,6"
+                                IsVisible="{Binding IsAdmin}"
                                 Command="{Binding NavigateToAdminCommand}"/>
                         <Button Content="Wyloguj" 
                                 Background="Transparent" 

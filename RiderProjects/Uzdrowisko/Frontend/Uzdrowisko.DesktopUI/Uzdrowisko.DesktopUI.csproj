@@ -39,5 +39,9 @@
         <DependentUpon>RegisterEmployeeView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Admin\UserView.axaml.cs">
+        <DependentUpon>UserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>

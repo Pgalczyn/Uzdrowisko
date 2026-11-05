@@ -23,6 +23,7 @@ public partial class AdminViewModel : ViewModelBase
 
     [RelayCommand] private void OpenRegister()  => CurrentDialog = new RegisterViewModel(_patientService);
     [RelayCommand] private void OpenEmployees() => CurrentDialog = new RegisterEmployeeViewModel(_employeeService);
+    [RelayCommand] private void OpenUserView() => CurrentDialog = new UserViewModel(_patientService);
 
     [RelayCommand] private void CloseDialog() => CurrentDialog = null;
 }
