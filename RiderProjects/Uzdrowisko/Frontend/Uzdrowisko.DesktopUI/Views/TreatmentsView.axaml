@@ -26,8 +26,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate x:DataType="models:TreatmentItem">
                             
-                                <Button Background="Transparent">
-                                    <Grid ColumnDefinitions="*,Auto, Auto"
+                                <Grid ColumnDefinitions="*,Auto, Auto"
                                           ColumnSpacing="12">
                                 <StackPanel Spacing="3" >
                                     <TextBlock Text = "{Binding Name}" FontSize="16"
@@ -49,7 +48,6 @@
                                 
                                 
                                 </Grid>
-                            </Button>
                                 </DataTemplate>
                         </ListBox.ItemTemplate>
                     <ListBox.Styles>

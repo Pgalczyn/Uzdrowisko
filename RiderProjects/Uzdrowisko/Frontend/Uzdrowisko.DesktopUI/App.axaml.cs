@@ -31,9 +31,10 @@ public partial class App : Application
             IAppointmentService appointmentService = new AppointmentService(httpClient);
             ITreatmentService treatmentService = new TreatmentService(httpClient);
             IPatientService patientService = new PatientService(httpClient);
+            IEmployeeService employeeService = new EmployeeService(httpClient);
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel(authService, appointmentService, treatmentService,patientService),
+                DataContext = new MainViewModel(authService, appointmentService, treatmentService,patientService, employeeService),
             };
         }
 

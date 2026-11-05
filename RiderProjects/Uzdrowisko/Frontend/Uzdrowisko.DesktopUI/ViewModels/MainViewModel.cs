@@ -13,25 +13,27 @@ public partial class MainViewModel : ViewModelBase
     private readonly IAppointmentService _appointmentService;
     private readonly ITreatmentService _treatmentService;
     private readonly IPatientService _patientService;
+    private readonly IEmployeeService _employeeService;
 
     public MainViewModel(
         IAuthService authService, 
         IAppointmentService appointmentService, 
         ITreatmentService treatmentService,
-        IPatientService patientService)
+        IPatientService patientService,
+        IEmployeeService employeeService)
     {
         _authService = authService;
         _appointmentService = appointmentService;
         _treatmentService = treatmentService;
         _patientService = patientService;
-
+        _employeeService = employeeService;
         CurrentView = new LoginViewModel(_authService, NavigateToHome);
     }
 
     [RelayCommand]
     public void NavigateToHome()
     {
-        CurrentView = new HomeViewModel(NavigateToLogin, _appointmentService, _treatmentService, _patientService);
+        CurrentView = new HomeViewModel(NavigateToLogin, _appointmentService, _treatmentService, _patientService,_employeeService);
     }
 
     [RelayCommand]

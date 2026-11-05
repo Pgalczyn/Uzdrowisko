@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Uzdrowisko.DesktopUI.Models;
+using Uzdrowisko.DesktopUI.Services;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
@@ -39,8 +40,14 @@ public partial class CalendarViewModel : ViewModelBase
         {
             IsLoading = true;
             var items = await _service.GetForDayAsync(day.Value, ct);
-
             DayTreatments.Clear();
+            
+            if (!UserSession.IsEmployee)
+            {
+                items = items
+                    .Where(a => a.PatientId == UserSession.UserId)
+                    .ToList();
+            }
             foreach (var t in items.OrderBy(t => t.TimeFrom))
             {
                 DayTreatments.Add(t);

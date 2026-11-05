@@ -6,14 +6,19 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.RegisterView"
              x:DataType="vm:RegisterViewModel">
-    <Grid RowSpacing="20" RowDefinitions="Auto,*" ColumnDefinitions="*, 340"  ColumnSpacing="24">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Grid RowSpacing="15" RowDefinitions="Auto, *" Margin="30" HorizontalAlignment="Stretch">
+            
         <TextBlock Text="Wprowadź dane Pacjenta" 
                    Classes="pageHeader"
-        />
-        <StackPanel Grid.Column="0" Grid.Row = "1" VerticalAlignment="Center" 
-                    Margin="30,0" 
-                    Spacing="14"
-        >
+                   HorizontalAlignment="Center"
+                   Grid.Row="0"
+                   Margin="0,0,0,10"/>
+        <StackPanel Grid.Row="1" 
+                     VerticalAlignment="Top" 
+                     HorizontalAlignment="Stretch"
+                     MaxWidth="600"
+                     Spacing="12">
                     
                     <StackPanel.Resources>
                         <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#99D0DDD5" />
@@ -129,4 +134,5 @@
                 </Border>
                     </Grid>
         </Grid>
+        </ScrollViewer>
 </UserControl>

@@ -11,16 +11,18 @@ public partial class HomeViewModel : ViewModelBase
     private readonly IAppointmentService _appointmentService;
     private readonly ITreatmentService _treatmentService;
     private readonly IPatientService _patientService;
+    private readonly IEmployeeService _employeeService;
 
     [ObservableProperty]
     private ViewModelBase _currentSubPage;
 
-    public HomeViewModel(Action logout, IAppointmentService appointmentService, ITreatmentService treatmentService, IPatientService patientService)
+    public HomeViewModel(Action logout, IAppointmentService appointmentService, ITreatmentService treatmentService, IPatientService patientService, IEmployeeService employeeService)
     {
         _logout = logout;
         _appointmentService = appointmentService;
         _treatmentService = treatmentService;
         _patientService = patientService;
+        _employeeService = employeeService;
 
         CurrentSubPage = new DashboardViewModel(_appointmentService);
     }
@@ -47,6 +49,11 @@ public partial class HomeViewModel : ViewModelBase
     public void NavigateToRegister()
     {
         CurrentSubPage = new RegisterViewModel(_patientService);
+    }
+    [RelayCommand]
+    public void NavigateToAdmin()
+    {
+        CurrentSubPage = new AdminViewModel(_patientService,_employeeService);
     }
 
     [RelayCommand]

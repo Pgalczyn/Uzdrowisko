@@ -44,7 +44,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:AppointmentItem">
                                     <Border Classes="treatmentCard" Margin="0,0,0,12">
-                                        <Grid ColumnDefinitions="90, *, Auto" ColumnSpacing="16">
+                                        <Grid ColumnDefinitions="110, *, Auto" ColumnSpacing="16">
 
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                                 <TextBlock Text="{Binding TimeRangeDisplay}"

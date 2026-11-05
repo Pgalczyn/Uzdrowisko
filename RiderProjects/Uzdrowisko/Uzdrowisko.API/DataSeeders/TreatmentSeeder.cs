@@ -64,7 +64,8 @@ public static class TreatmentSeeder
                 Description = record.Description,
                 DurationMinutes = record.DurationMinutes,
                 Type = record.Type,
-                Flag = record.Flag
+                Flag = record.Flag,
+                Active= true
             };
 
             treatmentsToAdd.Add(newTreatment);

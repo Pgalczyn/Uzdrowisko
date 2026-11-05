@@ -35,6 +35,9 @@
       <None Update="DataSeeders\DataCSV\Rooms.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+      <None Update="DataSeeders\DataCSV\Appointments.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
