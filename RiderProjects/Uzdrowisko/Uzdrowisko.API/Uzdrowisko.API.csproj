@@ -7,19 +7,37 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.12" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="10.0.12" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.3.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\SharedStructures\SharedStructures.csproj" />
       <ProjectReference Include="..\Uzdrowisko.Infrastructure.DataBase\Uzdrowisko.Infrastructure.DataBase.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="DataSeeders\DataCSV\Treatments.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Employees.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Patients.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Rooms.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+      <None Update="DataSeeders\DataCSV\Appointments.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

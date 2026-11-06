@@ -16,7 +16,6 @@ public class CreateStayDto : IValidatableObject
     [MaxLength(20, ErrorMessage = "Status nie może przekraczać 20 znaków.")]
     public string? Status { get; set; } = "Zaplanowany";
 
-    // Walidacja logiczna sprawdzana automatycznie przez silnik .NET
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (DateTo < DateFrom)

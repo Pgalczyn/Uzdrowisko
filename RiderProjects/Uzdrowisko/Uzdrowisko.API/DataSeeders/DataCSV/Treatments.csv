@@ -1,0 +1,53 @@
+Name;Description;DurationMinutes;Type;Flag
+Fasony siarczkowe;Kąpiel częściowa w wodzie siarczkowej (fasony). Cena: 39 zł;15;Balneoterapia;Easy
+Kąpiel kwasowęglowa;Kąpiel w wodzie nasyconej dwutlenkiem węgla. Cena: 36 zł;12;Balneoterapia;Normal
+Kąpiel czterokomorowa;Hydroterapeutyczna kąpiel kończyn górnych i dolnych. Cena: 38 zł;12;Balneoterapia;Easy
+Kąpiel siarczkowa;Kąpiel ogólna w naturalnej wodzie siarkowej. Cena: 46 zł;15;Balneoterapia;Normal
+Kąpiel w zawiesinie borowinowej;Kąpiel termalna w roztworze borowiny. Cena: 45 zł;15;Balneoterapia;Normal
+Zawijania borowinowe całkowite;Okłady borowinowe na całe ciało. Cena: 150 zł;15;Balneoterapia;Hard
+Zawijania borowinowe częściowe;Okłady borowinowe na wybrane partie ciała. Cena: 80 zł;20;Balneoterapia;Normal
+Bicz szkocki;Masaż strumieniem wody pod zmiennym ciśnieniem i temperaturą. Cena: 35 zł;5;Hydroterapia;Hard
+Kinezyterapia indywidualna;Indywidualne ćwiczenia lecznicze z fizjoterapeutą. Cena: 55 zł;30;Kinezyterapia;Normal
+Kinezyterapia grupowa;Grupowe ćwiczenia usprawniające pod okiem fizjoterapeuty. Cena: 35 zł;30;Kinezyterapia;Easy
+UGUL;Ćwiczenia w podwieszeniu w kabinie UGUL. Cena: 36 zł;12;Kinezyterapia;Normal
+Metoda McKenzie;Terapia mechaniczna zespołów bólowych kręgosłupa. Cena: 100 zł;25;Kinezyterapia;Hard
+Terapia manualna;Specjalistyczna diagnostyka i leczenie narządu ruchu. Cena: 200 zł;60;Kinezyterapia;Hard
+Jonoforeza;Wprowadzanie cząstek leku za pomocą prądu stałego. Cena: 36 zł;15;Fizykoterapia;Easy
+Magnetronik;Terapia pulsującym polem magnetycznym niskiej częstotliwości. Cena: 36 zł;15;Fizykoterapia;Easy
+Laseroterapia;Biostymulacja punktowa promieniowaniem laserowym. Cena: 36 zł;12;Fizykoterapia;Easy
+Lampa Solaris;Światłoterapia z wykorzystaniem światła spolaryzowanego. Cena: 36 zł;15;Fizykoterapia;Easy
+Lampa Solmed;Naświetlanie promieniowaniem podczerwonym (IR). Cena: 36 zł;15;Fizykoterapia;Easy
+Lampa UVB 311 nm;Fototerapia wąskozakresowym promieniowaniem UVB. Cena: 36 zł;6;Fizykoterapia;Easy
+Ultrafonoforeza;Wprowadzanie leku za pomocą fali ultradźwiękowej. Cena: 36 zł;10;Fizykoterapia;Easy
+Prądy diadynamiczne;Elektroterapia prądami Bernarda o działaniu przeciwbólowym. Cena: 36 zł;10;Fizykoterapia;Normal
+Prądy galwaniczne;Zabieg z użyciem prądu stałego poprawiający ukrwienie. Cena: 35 zł;15;Fizykoterapia;Easy
+Prądy interferencyjne;Stymulacja prądami Nemeca o średniej częstotliwości. Cena: 36 zł;15;Fizykoterapia;Normal
+Prądy Kotza;Stymulacja wysokonapięciowa do odbudowy napięcia mięśniowego. Cena: 36 zł;15;Fizykoterapia;Hard
+Prądy TENS;Przezskórna elektryczna stymulacja przeciwbólowa. Cena: 36 zł;15;Fizykoterapia;Easy
+Prądy Traberta;Prąd impulsowy zmniejszający napięcie mięśniowe. Cena: 36 zł;15;Fizykoterapia;Normal
+Fala uderzeniowa;Terapia pozaustrojową skupioną falą uderzeniową (ESWT). Cena: 70 zł;20;Fizykoterapia;Hard
+Drenaż limfatyczny całościowy;Masaż uciskowy usprawniający odpływ chłonki na całym ciele. Cena: 100 zł;50;Masaże;Normal
+Drenaż limfatyczny częściowy;Masaż przeciwobrzękowy wybranej partii ciała. Cena: 75 zł;35;Masaże;Easy
+Fotel masujący;Mechaniczny masaż wibracyjno-rolkowy całego ciała. Cena: 36 zł;15;Masaże;Easy
+Masaż klasyczny całościowy;Leczniczy masaż całego ciała technikami klasycznymi. Cena: 100 zł;30;Masaże;Hard
+Masaż klasyczny częściowy;Leczniczy masaż wybranego odcinka (np. kręgosłupa). Cena: 60 zł;15;Masaże;Normal
+Masaż podwodny;Masaż strumieniem wody prowadzonym przez terapeutę w wannie. Cena: 50 zł;15;Masaże;Normal
+Masaż SPA (30 min);Relaksacyjny masaż aromaterapeutyczny 30 minut. Cena: 90 zł;30;Masaże;Easy
+Masaż SPA (50 min);Pełny relaksacyjny masaż aromaterapeutyczny 50 minut. Cena: 120 zł;50;Masaże;Easy
+Masaż wibracyjny;Masaż miejscowy aparatem wibracyjnym Aquavibron. Cena: 40 zł;7;Masaże;Easy
+Masaż wirowy całościowy;Kąpiel wirowa całego ciała rozluźniająca mięśnie. Cena: 60 zł;15;Masaże;Normal
+Masaż wirowy kończyn;Masaż wirowy rąk lub nóg w dedykowanej wanience. Cena: 50 zł;15;Masaże;Easy
+Krioterapia miejscowa;Miejscowy nadmuch oparami ciekłego azotu (-160°C). Cena: 25 zł;5;Termoterapia;Easy
+Kriosauna ogólnoustrojowa;Ekspozycja całego ciała na skrajnie niskie temperatury. Cena: 45 zł;3;Termoterapia;Hard
+Inhalacje solankowe;Wziewne podawanie aerozolu z solanki mineralnej. Cena: 30 zł;12;Inne;Easy
+Suchy hydromasaż;Masaż membranowy ciepłą wodą na suchym łóżku wodnym. Cena: 50 zł;15;Inne;Easy
+Gimnastyka indywidualna;Indywidualne ćwiczenia ogólnorozwojowe z fizjoterapeutą. Cena: 80 zł;30;Gimnastyka;Normal
+Gimnastyka indywidualna - barki;Ćwiczenia celowane na staw ramienny i obręcz barkową. Cena: 26 zł;30;Gimnastyka;Normal
+Gimnastyka indywidualna - ręce;Ćwiczenia manualne i usprawniające dłonie oraz ramiona. Cena: 26 zł;30;Gimnastyka;Easy
+Gimnastyka indywidualna - stopy;Ćwiczenia korekcyjne i wzmacniające mięśnie stóp. Cena: 26 zł;30;Gimnastyka;Easy
+Gimnastyka indywidualna w kabinie UGUL;Ćwiczenia w odciążeniu w kabinie UGUL z oporem. Cena: 26 zł;30;Gimnastyka;Normal
+Gimnastyka przyrządowa;Ćwiczenia wzmacniające z użyciem sprzętu rehabilitacyjnego. Cena: 26 zł;30;Gimnastyka;Normal
+Gimnastyka przyrządowa - bieżnia;Trening chodu i reedukacja wzorca chodu na bieżni. Cena: 26 zł;30;Gimnastyka;Hard
+Gimnastyka przyrządowa - ergometr;Trening cardio i wydolnościowy na ergometrze rowerowym. Cena: 26 zł;30;Gimnastyka;Normal
+Gimnastyka zbiorowa dyskopatyczna;Ćwiczenia grupowe odciążające kręgosłup i wzmacniające mięśnie głębokie. Cena: 26 zł;30;Gimnastyka;Normal
+Gimnastyka zbiorowa ogólna;Ogólnokondycyjne ćwiczenia gimnastyczne w grupie. Cena: 26 zł;30;Gimnastyka;Easy

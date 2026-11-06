@@ -1,0 +1,98 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Uzdrowisko.Views.UpdateEmployeeView"
+             x:DataType="vm:UpdateEmployeeViewModel">
+    
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <Grid RowSpacing="15" RowDefinitions="Auto, *" Margin="30" HorizontalAlignment="Stretch">
+            <Button
+                CornerRadius="12" 
+                Background="#34523F" 
+                Content="Wyjdź"
+                Foreground="White"
+                Command="{Binding GoBackCommand}"></Button>
+            <TextBlock Text="Edytuj dane Pracownika" 
+                       Classes="pageHeader"
+                       HorizontalAlignment="Center"
+                       Grid.Row="0"
+                       Margin="0,0,0,10"/>
+            <StackPanel Grid.Row="1" 
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Stretch"
+                        MaxWidth="600"
+                        Spacing="12">
+                    
+                    <StackPanel.Resources>
+                        <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#99D0DDD5" />
+                        <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#CCD0DDD5" />
+                        <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#CCD0DDD5" />
+                        <SolidColorBrush x:Key="TextControlBackground" Color="#4018261E" />
+                        <SolidColorBrush x:Key="TextControlBackgroundPointerOver" Color="#5518261E" />
+                        <SolidColorBrush x:Key="TextControlBackgroundFocused" Color="#5018261E" />
+
+                        <SolidColorBrush x:Key="TextControlForeground" Color="#FFFFFF" />
+                        <SolidColorBrush x:Key="TextControlForegroundPointerOver" Color="#FFFFFF" />
+                        <SolidColorBrush x:Key="TextControlForegroundFocused" Color="#FFFFFF" />
+                    </StackPanel.Resources>
+                    
+
+                    
+
+                    <TextBlock Text="{Binding ErrorMessage}" 
+                               Foreground="#FF7A7A" 
+                               FontSize="12"
+                               IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+
+                    <TextBox Classes="formElement"
+                             Watermark="Imię" 
+                             Text="{Binding Name}"
+                             VerticalContentAlignment="Center" />
+
+                    <TextBox Classes="formElement"
+                             Watermark="Nazwisko" 
+                             Text="{Binding Surname}"
+                             VerticalContentAlignment="Center" />
+
+                    <TextBox Classes="formElement"
+                             Watermark="Adres email" 
+                             Text="{Binding Email}"
+                             VerticalContentAlignment="Center" />
+
+
+                    <TextBox Classes="formElement"
+                             Watermark="Data urodzenia" 
+                             Text="{Binding DateOfBirth}"
+                             VerticalContentAlignment="Center" />
+
+                    <TextBox Classes="formElement"
+                             Watermark="Numer telefonu" 
+                             Text="{Binding PhoneNumber}"
+                             VerticalContentAlignment="Center" />
+
+                    <TextBlock Text="Dane zostały zapisane"
+                               IsVisible="{Binding IsDialogVisible}"
+                               Foreground="Red"
+                               HorizontalAlignment="Center"></TextBlock>
+                    <Button Content="Uaktualnij dane Pracownika" 
+                            Command="{Binding UpdateActionCommand}" 
+                            Height="46" 
+                            CornerRadius="12" 
+                            Background="#34523F" 
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            FontSize="15" 
+                            Margin="0,8,0,0" 
+                            Cursor="Hand"/>
+                    
+                    
+                </StackPanel>
+        </Grid>
+        </ScrollViewer>
+</UserControl>

@@ -1,0 +1,155 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="using:Uzdrowisko.DesktopUI.Models"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="Uzdrowisko.Views.CalendarView"
+             x:DataType="vm:CalendarViewModel">
+
+    <Grid RowSpacing="20" RowDefinitions="Auto,*" ColumnDefinitions="*, 340" ColumnSpacing="24">
+
+        <TextBlock Text="Terminarz"
+                   Classes="pageHeader"
+                   Grid.ColumnSpan="2" />
+
+        <Border Grid.Row="1" Grid.Column="0"
+                Classes="glassCard"
+                Padding="24">
+            <Grid RowDefinitions="Auto,*">
+                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                    <TextBlock Text="ZAPLANOWANE ZABIEGI"
+                               FontSize="11"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource SpaTextMuted}"
+                               LetterSpacing="1" />
+                    <TextBlock Text="{Binding SelectedDate, StringFormat='{}{0:dddd, d MMMM yyyy}'}"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               Foreground="#FFFFFF"
+                               Margin="0,4,0,0" />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel>
+                        <TextBlock Text="Brak zaplanowanych zabiegów w wybranym dniu."
+                                   IsVisible="{Binding IsEmpty}"
+                                   Foreground="{StaticResource SpaTextMuted}"
+                                   FontSize="14"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,40,0,0" />
+
+                        <ItemsControl ItemsSource="{Binding DayTreatments}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:AppointmentItem">
+                                    <Border Classes="treatmentCard" Margin="0,0,0,12">
+                                        <Grid ColumnDefinitions="110, *, Auto" ColumnSpacing="16">
+
+                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <TextBlock Text="{Binding TimeRangeDisplay}"
+                                                           FontWeight="Bold"
+                                                           FontSize="14"
+                                                           Foreground="#FFFFFF"
+                                                           HorizontalAlignment="Center" />
+                                                <Border Background="#25FFFFFF"
+                                                        CornerRadius="8"
+                                                        Padding="6,2"
+                                                        Margin="0,4,0,0"
+                                                        HorizontalAlignment="Center">
+                                                    <TextBlock Text="{Binding DurationDisplay}"
+                                                               FontSize="11"
+                                                               Foreground="#D0E3D7"
+                                                               HorizontalAlignment="Center" />
+                                                </Border>
+                                            </StackPanel>
+
+                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                                <TextBlock Text="{Binding TreatmentName}"
+                                                           FontWeight="SemiBold"
+                                                           FontSize="15"
+                                                           Foreground="#FFFFFF" />
+
+                                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                                    <TextBlock Text="Pacjent:"
+                                                               FontSize="12"
+                                                               Foreground="{StaticResource SpaTextMuted}" />
+                                                    <TextBlock Text="{Binding PatientFullName}"
+                                                               FontSize="12"
+                                                               FontWeight="Medium"
+                                                               Foreground="#E8F1EC" />
+                                                </StackPanel>
+                                                <TextBlock Text="{Binding RoomDisplay}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource SpaTextMuted}" />
+                                            </StackPanel>
+
+                                           
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="1"
+                Classes="glassCard"
+                Padding="20"
+                VerticalAlignment="Top">
+
+            <StackPanel Spacing="14">
+                <TextBlock Text="Kalendarz aktywności"
+                           FontSize="15"
+                           FontWeight="SemiBold"
+                           Foreground="#FFFFFF"
+                           Margin="4,0,0,0" />
+
+                <Calendar SelectionMode="SingleDate"
+                          SelectedDate="{Binding SelectedDate, Mode=TwoWay}"
+                          Foreground="White"
+                          Background="Transparent"
+                          BorderBrush="Transparent"
+                          BorderThickness="0"
+                          HorizontalAlignment="Center">
+                    <Calendar.Resources>
+                        <Color x:Key="SystemAccentColor">#5E9E75</Color>
+
+                        <SolidColorBrush x:Key="CalendarViewCalendarItemRevealBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="CalendarViewOutOfScopeBackground" Color="Transparent" />
+                        <SolidColorBrush x:Key="CalendarViewCalendarItemForeground" Color="White" />
+                        <SolidColorBrush x:Key="CalendarViewTodayForeground" Color="White" />
+                        <SolidColorBrush x:Key="CalendarViewForeground" Color="White" />
+                        <SolidColorBrush x:Key="CalendarViewOutOfScopeForeground" Color="#50FFFFFF" />
+                        <SolidColorBrush x:Key="CalendarViewHoverBorderBrush" Color="#40FFFFFF" />
+                        <SolidColorBrush x:Key="CalendarViewPressedBorderBrush" Color="#60FFFFFF" />
+                        <SolidColorBrush x:Key="CalendarViewSelectedBorderBrush" Color="Transparent" />
+                        <SolidColorBrush x:Key="CalendarViewSelectedHoverBorderBrush" Color="Transparent" />
+                        <SolidColorBrush x:Key="CalendarViewSelectedPressedBorderBrush" Color="Transparent" />
+                    </Calendar.Resources>
+
+                    <Calendar.Styles>
+                        <Style
+                            Selector="CalendarDayButton /template/ Border#Root, CalendarDayButton /template/ Border#Border">
+                            <Setter Property="CornerRadius" Value="20" />
+                        </Style>
+
+                        <Style Selector="CalendarDayButton:today /template/ Border#Root">
+                            <Setter Property="Background" Value="Transparent" />
+                        </Style>
+                        <Style Selector="CalendarDayButton:today /template/ Border#Border">
+                            <Setter Property="BorderBrush" Value="#81C784" />
+                        </Style>
+
+                        <Style Selector="CalendarDayButton:selected /template/ Border#Root">
+                            <Setter Property="Background" Value="{DynamicResource SystemAccentColor}" />
+                        </Style>
+                    </Calendar.Styles>
+                </Calendar>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</UserControl>

@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;
 
 namespace Uzdrowisko.Infrastructure.DataBase.Entities;
 
 [Index(nameof(Pesel), IsUnique = true)]
-public class Patient
+public class Patient : IHasPassword
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,6 +20,8 @@ public class Patient
     [MaxLength(30)]
     public required string Surname { get; set; }
 
+    [MaxLength(84)]
+    public required  string PasswordHash { get; set; }  = string.Empty;
     [Required]
     public DateOnly DateOfBirth { get; set; }
 

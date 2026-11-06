@@ -28,5 +28,8 @@ public class UzdrowiskoDbContext : DbContext
             .WithMany()
             .HasForeignKey(a => a.RoomId)
             .OnDelete(DeleteBehavior.SetNull);
+        
+        modelBuilder.Entity<Treatment>()
+            .HasQueryFilter(t => t.Active);
     }
 }

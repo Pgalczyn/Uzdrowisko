@@ -8,6 +8,9 @@ public class AppointmentResponseDto
     public int TreatmentId { get; set; }
     public string TreatmentName { get; set; } = string.Empty;
     public int TreatmentDurationMinutes { get; set; }
+    
+    public int PatientId { get; set; }
+    public string PatientFullName { get; set; } = string.Empty;
 
     public int? EmployeeId { get; set; }
     public string? EmployeeFullName { get; set; }
