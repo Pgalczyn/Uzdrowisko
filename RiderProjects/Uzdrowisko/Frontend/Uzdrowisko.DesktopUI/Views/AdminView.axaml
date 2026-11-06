@@ -30,62 +30,17 @@
                         FontWeight="SemiBold"
                         Foreground="#FFFFFF"
                         Classes="adminCardButton"/>
-                <!-- <Button Content="Zarejestruj pacjenta" -->
-                <!--         Command="{Binding OpenRegisterCommand}" -->
-                <!--         HorizontalAlignment="Stretch" -->
-                <!--         HorizontalContentAlignment="Center" -->
-                <!--         VerticalContentAlignment="Center" -->
-                <!--         Background="#34523F" -->
-                <!--         Foreground="White" -->
-                <!--         CornerRadius="8" -->
-                <!--         Height="40" -->
-                <!--         Cursor="Hand" /> -->
-                <!-- -->
-                <!-- <Button Content="Zarejestruj pracownika" -->
-                <!--         Command="{Binding OpenEmployeesCommand}" -->
-                <!--         HorizontalAlignment="Stretch" -->
-                <!--         HorizontalContentAlignment="Center" -->
-                <!--         VerticalContentAlignment="Center" -->
-                <!--         Background="#34523F" -->
-                <!--         Foreground="White" -->
-                <!--         CornerRadius="8" -->
-                <!--         Height="40" -->
-                <!--         Cursor="Hand" /> -->
-                <!-- <Button Content="Lista pacjentów" -->
-                <!--         Command="{Binding OpenUserViewCommand}" -->
-                <!--         HorizontalAlignment="Stretch" -->
-                <!--         HorizontalContentAlignment="Center" -->
-                <!--         VerticalContentAlignment="Center" -->
-                <!--         Background="#34523F" -->
-                <!--         Foreground="White" -->
-                <!--         CornerRadius="8" -->
-                <!--         Height="40" -->
-                <!--         Cursor="Hand" /> -->
+                <Button Content="Zarządzaj rezerwacjami"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        Classes="adminCardButton"/>
             </StackPanel>
 
         </Grid>
 
-        <!-- <Border Background="#18261E" -->
-        <!--         IsVisible="{Binding IsDialogOpen}" -->
-        <!--         HorizontalAlignment="Stretch" -->
-        <!--         CornerRadius="16" -->
-        <!--         VerticalAlignment="Stretch"> -->
-        <!--     <Grid RowDefinitions="Auto, *, Auto"> -->
-        <!--         <Grid Grid.Row="0"> -->
-        <!--             <Button Content="✕" -->
-        <!--                     Command="{Binding CloseDialogCommand}" -->
-        <!--                     HorizontalAlignment="Right" -->
-        <!--                     Background="Transparent" -->
-        <!--                     Foreground="White" -->
-        <!--                     FontSize="16" -->
-        <!--                     Cursor="Hand"/> -->
-        <!--         </Grid> -->
-        <!-- -->
-        <!--         <ContentControl Grid.Row="1" -->
-        <!--                         Content="{Binding CurrentDialog}" -->
-        <!--                         HorizontalContentAlignment="Stretch" -->
-        <!--                         VerticalContentAlignment="Stretch"/> -->
-        <!--     </Grid> -->
-        <!-- </Border> -->
+        
     </Grid>
 </UserControl>

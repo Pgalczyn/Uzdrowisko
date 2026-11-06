@@ -15,6 +15,7 @@ public partial class EmployeeViewModel : ViewModelBase
     private readonly IEmployeeService _employeeService;
     private readonly Action _goBack;
     private readonly Action _goToRegister;
+    private readonly Action<EmployeeItem> _goToEdit;
     private CancellationTokenSource? _cts;
 
     [ObservableProperty] private bool _isLoading;
@@ -23,11 +24,12 @@ public partial class EmployeeViewModel : ViewModelBase
 
     public ObservableCollection<EmployeeItem> EmployeeListItemDtos { get; } = new();
 
-    public EmployeeViewModel(IEmployeeService service, Action goBack, Action goToRegister)
+    public EmployeeViewModel(IEmployeeService service, Action goBack, Action goToRegister, Action<EmployeeItem> goToEdit)
     {
         _employeeService = service;
         _goBack = goBack;
         _goToRegister = goToRegister;
+        _goToEdit = goToEdit;
         _ = LoadAllUsersAsync();
     }
 
@@ -64,6 +66,8 @@ public partial class EmployeeViewModel : ViewModelBase
         SelectedEmployee = employee;
         IsDialogVisible = true;
     }
+    [RelayCommand]
+    private void GoToEdit(EmployeeItem employee) => _goToEdit(employee);
 
     [RelayCommand]
     public async Task RemoveEmployeeAsync()

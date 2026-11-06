@@ -20,17 +20,21 @@ public partial class UserViewModel : ViewModelBase
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isDialogVisible;
     [ObservableProperty] private PatientItem? _selectedPatient;
+    private Action<PatientItem> _goToEdit;
 
     public ObservableCollection<PatientItem> PatientListItemDtos { get; } = new();
 
-    public UserViewModel(IPatientService service, Action goBack, Action goToRegister)
+    public UserViewModel(IPatientService service, Action goBack, Action goToRegister, Action<PatientItem> goToEdit)
     {
         _patientService = service;
         _goBack = goBack;
         _goToRegister = goToRegister;
+        _goToEdit = goToEdit;
         _ = LoadAllUsersAsync();
     }
 
+    [RelayCommand]
+    private void GoToEdit(PatientItem patient) => _goToEdit(patient);
     [RelayCommand]
     public async Task LoadAllUsersAsync()
     {

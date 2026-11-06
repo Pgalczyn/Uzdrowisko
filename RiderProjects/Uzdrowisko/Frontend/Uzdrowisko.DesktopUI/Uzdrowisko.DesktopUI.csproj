@@ -47,5 +47,13 @@
         <DependentUpon>EmployeeView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Admin\UpdateEmployeeView.axaml.cs">
+        <DependentUpon>UpdateEmployeeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\UpdateUserView.axaml.cs">
+        <DependentUpon>UpdateUserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>
