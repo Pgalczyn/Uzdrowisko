@@ -27,10 +27,12 @@ public partial class RegisterEmployeeViewModel : ViewModelBase
     [ObservableProperty] private string? _selectedRole;
     [ObservableProperty] private bool _isDialogVisible;
     [ObservableProperty] private string _generatedPasswordDisplay = string.Empty;
+    private readonly Action _goBack;
 
-    public RegisterEmployeeViewModel(IEmployeeService employeeService)
+    public RegisterEmployeeViewModel(IEmployeeService employeeService, Action goBack)
     {
         _employeeService = employeeService;
+        _goBack = goBack;
     }
 
     [RelayCommand]
@@ -78,4 +80,6 @@ public partial class RegisterEmployeeViewModel : ViewModelBase
         PhoneNumber = string.Empty;
         SelectedRole = null;
     }
+    [RelayCommand]
+    private void GoBack() => _goBack();
 }

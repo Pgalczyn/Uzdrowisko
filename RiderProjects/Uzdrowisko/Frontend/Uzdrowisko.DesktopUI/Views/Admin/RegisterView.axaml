@@ -8,7 +8,13 @@
              x:DataType="vm:RegisterViewModel">
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
     <Grid RowSpacing="15" RowDefinitions="Auto, *" Margin="30" HorizontalAlignment="Stretch">
-            
+        <Button
+            CornerRadius="12" 
+            Background="#34523F" 
+            HorizontalContentAlignment="Left"
+            Foreground="White"
+            Content="Wyjdź"
+            Command="{Binding GoBackCommand}"></Button>
         <TextBlock Text="Wprowadź dane Pacjenta" 
                    Classes="pageHeader"
                    HorizontalAlignment="Center"

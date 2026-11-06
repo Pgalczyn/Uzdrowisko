@@ -9,6 +9,7 @@
              x:DataType="vm:DashboardViewModel">
 
     <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="15">
+        
         <TextBlock Text="Strona Główna" 
                    Classes="pageHeader"/>
         <Border
@@ -28,7 +29,7 @@
                                Margin="0,4,0,0"/>
                 </StackPanel>
 
-                <ScrollViewer Grid.Row="1">
+                <ScrollViewer Grid.Row="1" MaxHeight="400">
                     <StackPanel>
                         <TextBlock Text="Brak zaplanowanych zabiegów w dniu dzisiejszym."
                                    IsVisible="{Binding IsEmpty}"

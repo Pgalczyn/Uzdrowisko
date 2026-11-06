@@ -28,10 +28,11 @@ public partial class RegisterViewModel : ViewModelBase
     [ObservableProperty] private string _postalCode = string.Empty;
     [ObservableProperty] private bool _isDialogVisible;
     [ObservableProperty] private string _generatedPasswordDisplay = string.Empty;
-
-    public RegisterViewModel(IPatientService patientService)
+    private readonly Action _goBack;
+    public RegisterViewModel(IPatientService patientService, Action goBack)
     {
         _patientService = patientService;
+        _goBack = goBack;
     }
 
     [RelayCommand]
@@ -86,6 +87,8 @@ public partial class RegisterViewModel : ViewModelBase
         PostalCode = string.Empty;
         
     }
+    [RelayCommand]
+    private void GoBack() => _goBack();
 
     
 }

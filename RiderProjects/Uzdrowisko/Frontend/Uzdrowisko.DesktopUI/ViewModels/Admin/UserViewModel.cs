@@ -6,30 +6,30 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SharedStructures.Dtos.Patient;
 using Uzdrowisko.DesktopUI.Models;
-using Uzdrowisko.DesktopUI.Services;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
 
 public partial class UserViewModel : ViewModelBase
 {
-
-
     private readonly IPatientService _patientService;
+    private readonly Action _goBack;
+    private readonly Action _goToRegister;
     private CancellationTokenSource? _cts;
-    [ObservableProperty] private bool _isLoading;
-    public ObservableCollection<PatientItem> PatientListItemDtos { get; } = new();
-    [ObservableProperty] private bool _isDialogVisible;
-    [ObservableProperty] 
-    private PatientItem? _selectedPatient;
 
-    public UserViewModel(IPatientService service)
+    [ObservableProperty] private bool _isLoading;
+    [ObservableProperty] private bool _isDialogVisible;
+    [ObservableProperty] private PatientItem? _selectedPatient;
+
+    public ObservableCollection<PatientItem> PatientListItemDtos { get; } = new();
+
+    public UserViewModel(IPatientService service, Action goBack, Action goToRegister)
     {
         _patientService = service;
-         _ = LoadAllUsersAsync();
-        
+        _goBack = goBack;
+        _goToRegister = goToRegister;
+        _ = LoadAllUsersAsync();
     }
-
 
     [RelayCommand]
     public async Task LoadAllUsersAsync()
@@ -57,19 +57,27 @@ public partial class UserViewModel : ViewModelBase
             if (!ct.IsCancellationRequested) IsLoading = false;
         }
     }
+
+    [RelayCommand]
+    public void OpenRemoveDialog(PatientItem patient)
+    {
+        SelectedPatient = patient;
+        IsDialogVisible = true;
+    }
+
     [RelayCommand]
     public async Task RemovePatientAsync()
     {
         if (SelectedPatient == null) return;
+        
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         var ct = _cts.Token;
+        
         try
         {
             IsLoading = true;
-            
-            await _patientService.DeletePatientItemAsync(SelectedPatient.Id,ct); 
-
+            await _patientService.DeletePatientItemAsync(SelectedPatient.Id, ct); 
             PatientListItemDtos.Remove(SelectedPatient);
             CloseRemoveDialog();
         }
@@ -82,16 +90,16 @@ public partial class UserViewModel : ViewModelBase
             IsLoading = false;
         }
     }
+
     [RelayCommand]
-    public void OpenRemoveDialog(PatientItem patient)
+    public void CloseRemoveDialog()
     {
-        SelectedPatient = patient;
-        IsDialogVisible = true;
+        IsDialogVisible = false;
     }
 
     [RelayCommand]
-    public async Task CloseRemoveDialog()
-    {
-        IsDialogVisible =  false;
-    }
+    private void GoBack() => _goBack();
+
+    [RelayCommand]
+    private void GoToRegister() => _goToRegister();
 }

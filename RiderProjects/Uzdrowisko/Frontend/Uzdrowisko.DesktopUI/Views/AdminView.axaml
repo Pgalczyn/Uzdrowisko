@@ -12,63 +12,80 @@
                        Grid.ColumnSpan="2"
                        Margin="0,0,0,20"/>
 
-            <StackPanel Grid.Column="0" Grid.Row="1" Spacing="15" Margin="0,0,25,0" VerticalAlignment="Top">
-                <Button Content="Zarejestruj pacjenta"
-                        Command="{Binding OpenRegisterCommand}"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Background="#34523F"
-                        Foreground="White"
-                        CornerRadius="8"
-                        Height="40"
-                        Cursor="Hand" />
-
-                <Button Content="Zarejestruj pracownika"
-                        Command="{Binding OpenEmployeesCommand}"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        Background="#34523F"
-                        Foreground="White"
-                        CornerRadius="8"
-                        Height="40"
-                        Cursor="Hand" />
-                <Button Content="Lista pacjentów"
+            <StackPanel Grid.Column="0" Grid.Row="1" Spacing="15" Margin="0,0,25,0" VerticalAlignment="Top" Orientation="Horizontal">
+                <Button Content="Zarządzaj Pacjentami"
                         Command="{Binding OpenUserViewCommand}"
-                        HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Background="#34523F"
-                        Foreground="White"
-                        CornerRadius="8"
-                        Height="40"
-                        Cursor="Hand" />
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        Classes="adminCardButton"/>
+                
+                <Button Content="Zarządzaj Pracownikami"
+                        Command="{Binding OpenEmployeeViewCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        Classes="adminCardButton"/>
+                <!-- <Button Content="Zarejestruj pacjenta" -->
+                <!--         Command="{Binding OpenRegisterCommand}" -->
+                <!--         HorizontalAlignment="Stretch" -->
+                <!--         HorizontalContentAlignment="Center" -->
+                <!--         VerticalContentAlignment="Center" -->
+                <!--         Background="#34523F" -->
+                <!--         Foreground="White" -->
+                <!--         CornerRadius="8" -->
+                <!--         Height="40" -->
+                <!--         Cursor="Hand" /> -->
+                <!-- -->
+                <!-- <Button Content="Zarejestruj pracownika" -->
+                <!--         Command="{Binding OpenEmployeesCommand}" -->
+                <!--         HorizontalAlignment="Stretch" -->
+                <!--         HorizontalContentAlignment="Center" -->
+                <!--         VerticalContentAlignment="Center" -->
+                <!--         Background="#34523F" -->
+                <!--         Foreground="White" -->
+                <!--         CornerRadius="8" -->
+                <!--         Height="40" -->
+                <!--         Cursor="Hand" /> -->
+                <!-- <Button Content="Lista pacjentów" -->
+                <!--         Command="{Binding OpenUserViewCommand}" -->
+                <!--         HorizontalAlignment="Stretch" -->
+                <!--         HorizontalContentAlignment="Center" -->
+                <!--         VerticalContentAlignment="Center" -->
+                <!--         Background="#34523F" -->
+                <!--         Foreground="White" -->
+                <!--         CornerRadius="8" -->
+                <!--         Height="40" -->
+                <!--         Cursor="Hand" /> -->
             </StackPanel>
 
         </Grid>
 
-        <Border Background="#18261E"
-                IsVisible="{Binding IsDialogOpen}"
-                HorizontalAlignment="Stretch"
-                CornerRadius="16"
-                VerticalAlignment="Stretch">
-            <Grid RowDefinitions="Auto, *, Auto">
-                <Grid Grid.Row="0">
-                    <Button Content="✕"
-                            Command="{Binding CloseDialogCommand}"
-                            HorizontalAlignment="Right"
-                            Background="Transparent"
-                            Foreground="White"
-                            FontSize="16"
-                            Cursor="Hand"/>
-                </Grid>
-
-                <ContentControl Grid.Row="1"
-                                Content="{Binding CurrentDialog}"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"/>
-            </Grid>
-        </Border>
+        <!-- <Border Background="#18261E" -->
+        <!--         IsVisible="{Binding IsDialogOpen}" -->
+        <!--         HorizontalAlignment="Stretch" -->
+        <!--         CornerRadius="16" -->
+        <!--         VerticalAlignment="Stretch"> -->
+        <!--     <Grid RowDefinitions="Auto, *, Auto"> -->
+        <!--         <Grid Grid.Row="0"> -->
+        <!--             <Button Content="✕" -->
+        <!--                     Command="{Binding CloseDialogCommand}" -->
+        <!--                     HorizontalAlignment="Right" -->
+        <!--                     Background="Transparent" -->
+        <!--                     Foreground="White" -->
+        <!--                     FontSize="16" -->
+        <!--                     Cursor="Hand"/> -->
+        <!--         </Grid> -->
+        <!-- -->
+        <!--         <ContentControl Grid.Row="1" -->
+        <!--                         Content="{Binding CurrentDialog}" -->
+        <!--                         HorizontalContentAlignment="Stretch" -->
+        <!--                         VerticalContentAlignment="Stretch"/> -->
+        <!--     </Grid> -->
+        <!-- </Border> -->
     </Grid>
 </UserControl>

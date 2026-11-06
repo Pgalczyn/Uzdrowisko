@@ -46,17 +46,16 @@ public partial class HomeViewModel : ViewModelBase
         CurrentSubPage = new TreatmentsViewModel(_treatmentService);
     }
 
+    
     [RelayCommand]
-    public void NavigateToRegister()
+    private void NavigateToAdmin()
     {
-        CurrentSubPage = new RegisterViewModel(_patientService);
+        CurrentSubPage = new AdminViewModel(
+            _patientService, 
+            _employeeService, 
+            targetViewModel => CurrentSubPage = targetViewModel
+        );
     }
-    [RelayCommand]
-    public void NavigateToAdmin()
-    {
-        CurrentSubPage = new AdminViewModel(_patientService,_employeeService);
-    }
-
     [RelayCommand]
     public void Logout()
     {

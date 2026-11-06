@@ -6,9 +6,15 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.RegisterEmployeeView"
              x:DataType="vm:RegisterEmployeeViewModel">
+    
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
         <Grid RowSpacing="15" RowDefinitions="Auto, *" Margin="30" HorizontalAlignment="Stretch">
-            
+            <Button
+                CornerRadius="12" 
+                Background="#34523F" 
+                Content="Wyjdź"
+                Foreground="White"
+                Command="{Binding GoBackCommand}"></Button>
             <TextBlock Text="Wprowadź dane Pracownika" 
                        Classes="pageHeader"
                        HorizontalAlignment="Center"
@@ -68,7 +74,7 @@
                              VerticalContentAlignment="Center" />
 
                     
-                    <Button Content="Zarejestruj Pacjenta" 
+                    <Button Content="Zarejestruj Pracownika" 
                             Command="{Binding RegisterActionCommand}" 
                             Height="46" 
                             CornerRadius="12" 
@@ -92,7 +98,7 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center">
                 <StackPanel Spacing = "15" HorizontalAlignment="Center">
-                    <TextBlock Text="Pacjent został zarejestrowany"
+                    <TextBlock Text="Pracownik został zarejestrowany"
                                FontWeight="Bold"
                                HorizontalAlignment="Center"></TextBlock>
                     <TextBlock Text="Dane logowania:"

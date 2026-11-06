@@ -90,7 +90,7 @@
                                                     CornerRadius="16"
                                                     Background="#25FFFFFF"
                                                     VerticalAlignment="Center">
-                                                <TextBlock Text="›"
+                                                <Button Content="›"
                                                            FontSize="20"
                                                            Foreground="#FFFFFF"
                                                            HorizontalAlignment="Center"
