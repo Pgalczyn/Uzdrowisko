@@ -13,5 +13,7 @@ public class CreateRoomDto
     [MaxLength(100, ErrorMessage = "Opis lokalizacji nie może przekraczać 100 znaków.")]
     public string? Location { get; set; }
     
+    public int? TreatmentId { get; set; }
+    
     public int? Capacity { get; set; }
 }

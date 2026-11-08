@@ -6,7 +6,6 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using SharedStructures.Dtos.Appointment;
-using SharedStructures.Dtos.Patient;
 using Uzdrowisko.DesktopUI.Models;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 using Uzdrowisko.DesktopUI.Services.Common;

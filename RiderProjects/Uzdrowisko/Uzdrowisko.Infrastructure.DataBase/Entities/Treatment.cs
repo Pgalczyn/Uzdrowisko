@@ -23,6 +23,9 @@ public class Treatment
     
     public string Flag { get; set; }
     
+    public ICollection<Room> Rooms { get; set; } = new List<Room>();
+
+    
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
     public DateTime? UpdatedAt { get; set; }
