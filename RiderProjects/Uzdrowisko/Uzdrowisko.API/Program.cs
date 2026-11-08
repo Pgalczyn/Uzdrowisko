@@ -83,11 +83,15 @@ using (var scope = app.Services.CreateScope())
         var dbContext = services.GetRequiredService<UzdrowiskoDbContext>();
         var logger = services.GetRequiredService<ILogger<Program>>();
         var passwordService = services.GetRequiredService<IPasswordService>();
+        await dbContext.Database.MigrateAsync();
 
+        await TreatmentSeeder.SeedAsync(dbContext, logger);
         await TreatmentSeeder.SeedAsync(dbContext, logger);
         await EmployeeSeeder.SeedAsync(dbContext, logger,passwordService);
         await PatientsSeeder.SeedAsync(dbContext, logger, passwordService);
         await RoomsSeeder.SeedAsync(dbContext, logger);
+        await AppointmentsSeeder.SeedAsync(dbContext, logger);
+        
     }
     catch (Exception ex)
     {
@@ -102,7 +106,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

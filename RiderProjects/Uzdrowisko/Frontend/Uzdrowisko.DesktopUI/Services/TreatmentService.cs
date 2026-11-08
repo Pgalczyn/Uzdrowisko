@@ -12,7 +12,7 @@ using Uzdrowisko.DesktopUI.Services;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 using Uzdrowisko.DesktopUI.Services.Common;
 
-namespace Uzdrowisko.Services;
+namespace Uzdrowisko.DesktopUI.Services;
 
 public class TreatmentService : ITreatmentService
 {
@@ -30,7 +30,7 @@ public class TreatmentService : ITreatmentService
         _httpClient.EnsureAuthHeader();
         try
         {
-            var dtos = await _httpClient.GetFromJsonAsync<List<TreatmentResponseDto>>("treatment", ct);
+            var dtos = await _httpClient.GetFromJsonAsync<List<TreatmentResponseDto>>("api/treatment", ct);
             if (dtos == null) return Array.Empty<TreatmentItem>();
             
             return dtos.Select(TreatmentItem.FromDto).ToList();

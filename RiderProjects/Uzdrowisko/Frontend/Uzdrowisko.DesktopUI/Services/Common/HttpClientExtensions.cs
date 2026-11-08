@@ -1,6 +1,6 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
-using Uzdrowisko.Services;
+using Uzdrowisko.DesktopUI.Services;
 
 namespace Uzdrowisko.DesktopUI.Services.Common;
 

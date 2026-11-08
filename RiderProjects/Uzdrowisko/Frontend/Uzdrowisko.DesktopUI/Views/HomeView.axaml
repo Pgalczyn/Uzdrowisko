@@ -10,12 +10,9 @@
     <Grid>
         <Image Source="/Assets/uzdrowisko.jpeg" 
                Stretch="UniformToFill">
-            <Image.Effect>
-                <BlurEffect Radius="14"/>
-            </Image.Effect>
         </Image>
         
-        <Border Background="#700B1A12" />
+        <Border Background="#75203B2A" />
 
         <DockPanel>
             <Border DockPanel.Dock="Left" 
@@ -28,13 +25,13 @@
 
                     <StackPanel Grid.Row="1" Orientation="Vertical" Spacing="10" >
                         <TextBlock Text="Uzdrowisko" 
-                                   FontFamily="Times New Roman, Georgia, serif"
+                                   FontFamily="Georgia, serif" 
                                    FontSize="20"
                                    FontWeight="Light"
                                    Foreground="#FFFFFF" 
-                                   Margin="0,0,0,10"/>
+                                   Margin="20"/>
                         
-                        <Button Content="Pulpit" 
+                        <Button Content="Strona główna" 
                                 Background="Transparent" 
                                 Foreground="#D2E3D8" 
                                 CornerRadius="8"
@@ -52,6 +49,13 @@
                                 CornerRadius="8"
                                 Padding="12,6"
                                 Command="{Binding NavigateToTreatmentsCommand}"/>
+                        <Button Content="Administracja" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                IsVisible="{Binding IsAdmin}"
+                                Command="{Binding NavigateToAdminCommand}"/>
                         <Button Content="Wyloguj" 
                                 Background="Transparent" 
                                 Foreground="#D2E3D8" 
@@ -64,7 +68,7 @@
                 </Grid>
             </Border>
 
-            <ContentControl Content="{Binding CurrentSubPage}" />
+            <ContentControl Content="{Binding CurrentSubPage}" Margin="30" />
         </DockPanel>
     </Grid>
 </UserControl>

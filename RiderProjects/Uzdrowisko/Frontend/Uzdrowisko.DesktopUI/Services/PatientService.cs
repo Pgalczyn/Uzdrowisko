@@ -27,7 +27,7 @@ public class PatientService : IPatientService
         
         try
         {
-            var dtos = await _httpClient.GetFromJsonAsync<List<PatientResponseDto>>($"api/patient", ct);
+            var dtos = await _httpClient.GetFromJsonAsync<List<PatientResponseDto>>($"api/patients", ct);
             if (dtos == null) return Array.Empty<PatientItem>();
             
             return dtos.Select(PatientItem.FromDto).ToList();
@@ -45,7 +45,7 @@ public class PatientService : IPatientService
         
         try
         {
-            var dto = await _httpClient.GetFromJsonAsync<PatientResponseDto>($"api/patient{id}", ct);
+            var dto = await _httpClient.GetFromJsonAsync<PatientResponseDto>($"api/patients/register{id}", ct);
             
             return dto is not null ? PatientItem.FromDto(dto) : null;
 
@@ -67,7 +67,7 @@ public class PatientService : IPatientService
         
         try
         {
-            var response =await _httpClient.PostAsJsonAsync("api/patient",dto, ct);
+            var response = await _httpClient.PostAsJsonAsync("api/patients/register", dto, ct);
             if (!response.IsSuccessStatusCode)
             {
                 return null;
@@ -92,7 +92,7 @@ public class PatientService : IPatientService
         _httpClient.EnsureAuthHeader();
         try
         {
-            var response = await _httpClient.PatchAsJsonAsync($"api/patient/{id}", dto, ct);
+            var response = await _httpClient.PatchAsJsonAsync($"api/patients/{id}", dto, ct);
             return response.IsSuccessStatusCode;
         }
         catch (OperationCanceledException)
@@ -111,7 +111,7 @@ public class PatientService : IPatientService
         _httpClient.EnsureAuthHeader();
         try
         {
-            var response = await _httpClient.DeleteAsync($"api/patient/{id}", ct);
+            var response = await _httpClient.DeleteAsync($"api/patients/{id}", ct);
             return response.IsSuccessStatusCode;
         }
         catch (OperationCanceledException)
