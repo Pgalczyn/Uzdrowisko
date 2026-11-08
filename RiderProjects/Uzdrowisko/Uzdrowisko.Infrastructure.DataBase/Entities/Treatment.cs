@@ -21,7 +21,8 @@ public class Treatment
 
     public bool Active { get; set; } = true;
     
-    public string Flag { get; set; }
+    [MaxLength(50)]
+    public string? Flag { get; set; }
     
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
 

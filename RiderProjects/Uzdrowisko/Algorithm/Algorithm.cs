@@ -15,6 +15,8 @@ public class Scheduler {
 
     public readonly int blocksPerDay;
 
+    public static readonly TreatmentGroups treatmentGroups = new TreatmentGroups();
+
     public Scheduler(
         int bufferTimeMinutes, // 1440 = 24*60 => 24h => different days
         int timeBlockLengthMinutes, // 30 => 30 minutes
@@ -79,25 +81,25 @@ public class Scheduler {
         return aStart < bEnd && bStart < aEnd;
     }
 
-    private bool HasFlag(Treatment treatment, char flag) {
-        return treatment.Flag.Contains(flag); // rider said it's never null (._.)
-    }
+    // private bool HasFlag(Treatment treatment, char flag) {
+    //     return treatment.Flag.Contains(flag); // rider said it's never null (._.)
+    // }
+    //
+    // private bool IsCategory(Treatment treatment, string category) {
+    //     return string.Equals(
+    //         treatment.Type,
+    //         category,
+    //         StringComparison.OrdinalIgnoreCase);
+    // }
 
-    private bool IsCategory(Treatment treatment, string category) {
-        return string.Equals(
-            treatment.Type,
-            category,
-            StringComparison.OrdinalIgnoreCase);
-    }
-
-    private bool IsThermotherapy(Treatment t)
-        => IsCategory(t, "thermotherapy");
-
-    private bool IsPhysicotherapy(Treatment t)
-        => IsCategory(t, "physicotherapy");
-
-    private bool IsElectrotherapy(Treatment t)
-        => IsCategory(t, "electrotherapy");
+    // private bool IsThermotherapy(Treatment t)
+    //     => IsCategory(t, "thermotherapy");
+    //
+    // private bool IsPhysicotherapy(Treatment t)
+    //     => IsCategory(t, "physicotherapy");
+    //
+    // private bool IsElectrotherapy(Treatment t)
+    //     => IsCategory(t, "electrotherapy");
 
     private bool IsBlocked(
         DateOnly day,
@@ -155,45 +157,159 @@ public class Scheduler {
     // Treatment constraints
     // ------------------------------------------------------------
 
-    private bool TreatmentsConflict(Treatment a, Treatment b)
+    public static class TreatmentDependencyUtils
+{
+    public static bool TreatmentsConflict(
+        Treatment a,
+        Treatment b,
+        DependencyGraph dependencyGraph,
+        TreatmentGroups treatmentGroups)
     {
-        // T: separation from thermotherapy.
-        if (HasFlag(a, 'T') && IsThermotherapy(b))
+        if (a == b)
+        {
             return true;
+        }
 
-        if (HasFlag(b, 'T') && IsThermotherapy(a))
-            return true;
+        if (!dependencyGraph.Graph.ContainsKey(a) &&
+            !dependencyGraph.Graph.ContainsKey(b))
+        {
+            return false;
+        }
 
-        // P: separation from physicotherapy.
-        if ((HasFlag(a, 'P') && IsPhysicotherapy(b)) ||
-            (HasFlag(b, 'P') && IsPhysicotherapy(a)))
-            return true;
+        if (dependencyGraph.Graph.ContainsKey(a))
+        {
+            foreach (TreatmentDependency dep in dependencyGraph.Graph[a])
+            {
+                if (dep.Type == DependencyType.CONFLICT ||
+                    dep.Type == DependencyType.ORDER_SUCCESSION)
+                {
+                    if (dep.Target == "S")
+                    {
+                        if (dep.Id == b.Id)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (dep.Id == 0)
+                        {
+                            return true;
+                        }
 
-        // E: separation from electrotherapy.
-        if ((HasFlag(a, 'E') && IsElectrotherapy(b)) ||
-            (HasFlag(b, 'E') && IsElectrotherapy(a)))
-            return true;
+                        if (dep.Id > 0)
+                        {
+                            if (treatmentGroups.CategoryBasedGroups[dep.Id] == b.Type)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments)
+                            {
+                                if (treatment == b)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-        // S: separation between S-marked treatments.
-        if (HasFlag(a, 'S') && HasFlag(b, 'S'))
-            return true;
+        if (dependencyGraph.Graph.ContainsKey(b))
+        {
+            foreach (TreatmentDependency dep in dependencyGraph.Graph[b])
+            {
+                if (dep.Type == DependencyType.CONFLICT ||
+                    dep.Type == DependencyType.ORDER_PRECEDENCE)
+                {
+                    if (dep.Target == "S")
+                    {
+                        if (dep.Id == a.Id)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (dep.Id == 0)
+                        {
+                            return true;
+                        }
+
+                        if (dep.Id > 0)
+                        {
+                            if (treatmentGroups.CategoryBasedGroups[dep.Id] == a.Type)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments)
+                            {
+                                if (treatment == a)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         return false;
     }
+}
+    
+    // private bool TreatmentsConflict(Treatment a, Treatment b)
+    // {
+    //     // T: separation from thermotherapy.
+    //     if (HasFlag(a, 'T') && IsThermotherapy(b))
+    //         return true;
+    //
+    //     if (HasFlag(b, 'T') && IsThermotherapy(a))
+    //         return true;
+    //
+    //     // P: separation from physicotherapy.
+    //     if ((HasFlag(a, 'P') && IsPhysicotherapy(b)) ||
+    //         (HasFlag(b, 'P') && IsPhysicotherapy(a)))
+    //         return true;
+    //
+    //     // E: separation from electrotherapy.
+    //     if ((HasFlag(a, 'E') && IsElectrotherapy(b)) ||
+    //         (HasFlag(b, 'E') && IsElectrotherapy(a)))
+    //         return true;
+    //
+    //     // S: separation between S-marked treatments.
+    //     if (HasFlag(a, 'S') && HasFlag(b, 'S'))
+    //         return true;
+    //
+    //     return false;
+    // }
 
     private bool RespectsTreatmentConstraints(
         Treatment treatment,
         DateOnly day,
         int start,
         int end,
-        List<Placement> placed)
+        List<Placement> placed,
+        DependencyGraph dependencyGraph)
     {
         foreach (var other in placed)
         {
             if (day != other.day)
                 continue;
 
-            if (!TreatmentsConflict(treatment, other.treatment))
+            if (!TreatmentDependencyUtils.TreatmentsConflict(
+                    treatment,
+                    other.treatment,
+                    dependencyGraph,
+                    treatmentGroups))
                 continue;
 
             int gap;
@@ -354,6 +470,7 @@ public class Scheduler {
         PlanCostEvaluator evaluator)
     {
         blocksTaken ??= new List<BlockedTime>();
+        DependencyGraph dependencyGraph = new DependencyGraph(treatments);
 
         // --------------------------------------------------------
         // 1. Find dates
@@ -500,7 +617,7 @@ public class Scheduler {
                     continue;
 
                 if (!RespectsTreatmentConstraints(
-                    treatment, p.day, p.start, p.end, placed))
+                        treatment, p.day, p.start, p.end, placed, dependencyGraph))
                     continue;
 
                 placed.Add(p);
