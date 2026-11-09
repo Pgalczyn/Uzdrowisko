@@ -25,26 +25,27 @@ public partial class HomeViewModel : ViewModelBase
         _patientService = patientService;
         _employeeService = employeeService;
 
-        CurrentSubPage = new DashboardViewModel(_appointmentService,_weatherService);
+        CurrentSubPage = new DashboardViewModel(_appointmentService,_weatherService,targetViewModel => CurrentSubPage = targetViewModel);
     }
 
     public bool IsAdmin => UserSession.IsEmployee;
     [RelayCommand]
     public void NavigateToDashboard()
     {
-        CurrentSubPage = new DashboardViewModel(_appointmentService,_weatherService);
+        CurrentSubPage = new DashboardViewModel(_appointmentService,_weatherService,targetViewModel => CurrentSubPage = targetViewModel);
     }
 
     [RelayCommand]
     public void NavigateToCalendar()
     {
-        CurrentSubPage = new CalendarViewModel(_appointmentService);
+        CurrentSubPage = new CalendarViewModel(_appointmentService,targetViewModel => CurrentSubPage = targetViewModel);
     }
 
     [RelayCommand]
     public void NavigateToTreatments()
     {
-        CurrentSubPage = new TreatmentsViewModel(_treatmentService);
+        CurrentSubPage = new TreatmentsViewModel(_treatmentService,_appointmentService,targetViewModel => CurrentSubPage = targetViewModel
+        );
     }
 
     

@@ -1,0 +1,108 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="using:Uzdrowisko.DesktopUI.Models"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="Uzdrowisko.Views.ChooseAppointmentView"
+             x:DataType="vm:ChooseAppointmentViewModel"
+             x:Name="RootControl">
+
+    <Grid RowSpacing="20" RowDefinitions="Auto,*">
+
+        <TextBlock Text="Wybierz dostępne terminy"
+                   Classes="pageHeader" />
+        <Border Grid.Row="1"
+                CornerRadius="15"
+                Padding="25"
+                Classes="glassCard"
+                Width="700">
+            <Grid RowDefinitions="*,Auto,Auto">
+                <ScrollViewer>
+                    <ListBox ItemsSource="{Binding AvailableTimes}"
+                             SelectedItem="{Binding SelectedTime}"
+                             Background="#25FFFFFF"
+                             CornerRadius="15"
+                             Padding="25"
+                             Width="600">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:AppointmentItem">
+
+                                <Grid ColumnDefinitions="*,Auto, Auto"
+                                      ColumnSpacing="12">
+                                    <StackPanel Spacing="3">
+                                        <Grid ColumnDefinitions="110, *,*" ColumnSpacing="16">
+                                            <TextBlock Text="{Binding TimeRangeDisplay}"
+                                                       FontWeight="Bold"
+                                                       FontSize="14"
+                                                       Foreground="#FFFFFF"
+                                                       HorizontalAlignment="Center" />
+                                            <TextBlock Grid.Column="1" Text="{Binding TreatmentName}" FontSize="16"
+                                                       Foreground="white">
+                                            </TextBlock>
+                                            <TextBlock Grid.Column="2" Text="{Binding RoomDisplay}"
+                                                       FontSize="11"
+                                                       Foreground="{StaticResource SpaTextMuted}" />
+                                        </Grid>
+                                    </StackPanel>
+                                    <Border Grid.Column="1"
+                                            Background="#25FFFFFF"
+                                            CornerRadius="8"
+                                            Padding="10,5"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding DurationDisplay}"
+                                                   FontSize="12"
+                                                   FontWeight="Medium"
+                                                   Foreground="#D0E3D7" />
+                                    </Border>
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected Border.treatmentCard">
+                                <Setter Property="Background" Value="#402D5A43" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SpaAccent}" />
+                                <Setter Property="BorderThickness" Value="1.5" />
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
+
+
+                </ScrollViewer>
+                <Button Grid.Row="1" Content="Zapisz się"
+                        Height="40"
+                        CornerRadius="8"
+                        Background="#223B2A"
+                        Foreground="#FFFFFF"
+                        FontWeight="SemiBold"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        Margin="0,8,0,0"
+                        Cursor="Hand" />
+                <Button Grid.Row="2" Content="Zamknij"
+                        Command="{Binding CloseAppointmentDateViewCommand}"
+                        Height="40"
+                        CornerRadius="8"
+                        Background="#223B2A"
+                        Foreground="#FFFFFF"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        Cursor="Hand" />
+            </Grid>
+        </Border>
+    </Grid>
+
+
+</UserControl>

@@ -90,6 +90,7 @@ using (var scope = app.Services.CreateScope())
         await EmployeeSeeder.SeedAsync(dbContext, logger,passwordService);
         await PatientsSeeder.SeedAsync(dbContext, logger, passwordService);
         await RoomsSeeder.SeedAsync(dbContext, logger);
+        await StaysSeeder.SeedAsync(dbContext, logger);
         await AppointmentsSeeder.SeedAsync(dbContext, logger);
         
     }
