@@ -23,6 +23,9 @@ public class Room
 
     public bool Active { get; set; } = true;
     
+    public int? TreatmentId { get; set; }
+    public Treatment Treatment { get; set; } = null!;
+    
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }

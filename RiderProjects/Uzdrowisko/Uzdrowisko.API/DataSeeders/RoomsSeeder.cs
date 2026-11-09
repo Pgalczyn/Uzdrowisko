@@ -66,7 +66,8 @@ public static class RoomsSeeder
                 Location = record.Location,
                 Active = true,
                 CreatedAt = DateTime.UtcNow,
-                Capacity = record.Capacity
+                Capacity = record.Capacity,
+                TreatmentId = null
             };
 
             roomsToAdd.Add(room);

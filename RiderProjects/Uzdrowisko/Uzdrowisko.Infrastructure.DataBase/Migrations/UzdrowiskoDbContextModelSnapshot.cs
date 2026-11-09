@@ -240,6 +240,9 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<int?>("TreatmentId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -247,6 +250,8 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
                     b.HasIndex("Number")
                         .IsUnique();
+
+                    b.HasIndex("TreatmentId");
 
                     b.ToTable("Rooms");
                 });
@@ -378,6 +383,15 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.Navigation("Treatment");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Room", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", "Treatment")
+                        .WithMany("Rooms")
+                        .HasForeignKey("TreatmentId");
+
+                    b.Navigation("Treatment");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Schedule", b =>
                 {
                     b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Stay", "Stay")
@@ -403,6 +417,11 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Schedule", b =>
                 {
                     b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
+                {
+                    b.Navigation("Rooms");
                 });
 #pragma warning restore 612, 618
         }
