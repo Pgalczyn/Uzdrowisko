@@ -13,13 +13,19 @@ public partial class DashboardViewModel : ViewModelBase
 {
     public DateTime Today => DateTime.Today;
     private readonly IAppointmentService _service;
+    private readonly IWeatherService _weatherService;
     [ObservableProperty] private bool _isEmpty;
     public ObservableCollection<AppointmentItem> DayTreatments { get; } = new();
 
-    public DashboardViewModel(IAppointmentService service)
+    [ObservableProperty] private string _temperature = "--C";
+    [ObservableProperty] private string _weatherDescription = "Pobieranie.";
+
+    public DashboardViewModel(IAppointmentService service, IWeatherService weatherService)
     {
         _service = service;
+        _weatherService = weatherService;
         _ = LoadTreatmentsForToday(Today);
+        _ = LoadWeatherAsync();
     }
 
     private async Task LoadTreatmentsForToday(DateTime today)
@@ -38,5 +44,27 @@ public partial class DashboardViewModel : ViewModelBase
         }
 
         IsEmpty = DayTreatments.Count == 0;
+    }
+
+    private async Task LoadWeatherAsync()
+    {
+        try
+        {
+            var weather = await _weatherService.GetWeather();
+
+            if (weather != null)
+            {
+                Temperature = $"{weather.Current.TempC}";
+                WeatherDescription = $"{weather.Current.Condition.Text}";
+            }
+            else
+            {
+                WeatherDescription = "Brak danych o pogodzie";
+            }
+        }
+        catch (Exception)
+        {
+            WeatherDescription = "Błąd połączenia";
+        }
     }
 }

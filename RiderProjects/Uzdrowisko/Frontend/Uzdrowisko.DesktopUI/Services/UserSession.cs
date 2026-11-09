@@ -37,6 +37,10 @@ public static class UserSession
 
     public static int UserId
     {
+        set
+        {
+            UserId = value;
+        }
         get
         {
             var idStr = TryGetClaim("sub") 

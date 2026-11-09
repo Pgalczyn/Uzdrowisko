@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using Avalonia;
+using HotAvalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,42 +14,47 @@ namespace Uzdrowisko.DesktopUI;
 
 public partial class App : Application
 {
+    // Umożliwia dostęp do kontenera z poziomu całej aplikacji, np. przy nawigacji
+    public IServiceProvider Services { get; private set; } = null!;
+
     public override void Initialize()
     {
+        this.EnableHotReload(); 
         AvaloniaXamlLoader.Load(this);
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
+        // Krok 1: Tworzymy kolekcję serwisów
+        var serviceCollection = new ServiceCollection();
+
+        // Krok 2: Rejestrujemy wszystkie zależności
+        ConfigureServices(serviceCollection);
+
+        // Krok 3: Budujemy kontener IServiceProvider
+        Services = serviceCollection.BuildServiceProvider();
+
+        // Krok 4: Pobieramy okno z kontenera - DI sam wstrzyknie MainViewModel i wszystkie serwisy
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:5290/")
-            };
-
-            IAuthService authService = new AuthService(httpClient);
-            IAppointmentService appointmentService = new AppointmentService(httpClient);
-            ITreatmentService treatmentService = new TreatmentService(httpClient);
-            IPatientService patientService = new PatientService(httpClient);
-            IEmployeeService employeeService = new EmployeeService(httpClient);
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainViewModel(authService, appointmentService, treatmentService,patientService, employeeService),
-            };
+            desktop.MainWindow = Services.GetRequiredService<MainWindow>();
         }
 
         base.OnFrameworkInitializationCompleted();
     }
-    
+
     private void ConfigureServices(IServiceCollection services)
     {
-        var httpClient = new HttpClient
+        // 1. Rejestracja HttpClient dedykowanego do backendu
+        services.AddHttpClient("BackendApi", client =>
         {
-            BaseAddress = new Uri("http://localhost:5290/")
-        };
-        services.AddSingleton(httpClient);
+            client.BaseAddress = new Uri("http://localhost:5290/");
+        });
 
+        // Rejestracja domyślnego HttpClient pobieranego przez konstruktory serwisów
+        services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendApi"));
+
+        // 2. Rejestracja serwisów domenowych
         services.AddTransient<ITreatmentService, TreatmentService>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IPatientService, PatientService>();
@@ -57,7 +63,20 @@ public partial class App : Application
         services.AddTransient<IAppointmentService, AppointmentService>();
         services.AddTransient<IStayService, StayService>();
         services.AddTransient<IScheduleService, ScheduleService>();
+        services.AddHttpClient<IWeatherService, WeatherService>(client =>
+        {
+            client.BaseAddress = new Uri("https://api.weatherapi.com/v1/");
+        });
+        // 3. Rejestracja ViewModeli
+        services.AddTransient<MainViewModel>();
+        services.AddTransient<HomeViewModel>(); // <-- DOPISZ TĘ LINIJKĘ
+
+        // 4. Rejestracja Widoków z automatycznym powiązaniem DataContext
+        services.AddSingleton<MainWindow>(sp => new MainWindow
+        {
+            DataContext = sp.GetRequiredService<MainViewModel>()
+        });
     }
-
-
+    
+    
 }

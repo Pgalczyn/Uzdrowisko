@@ -12,11 +12,55 @@
         
         <TextBlock Text="Strona Główna" 
                    Classes="pageHeader"/>
-        <Border
+        
+        <Grid RowDefinitions="Auto,*">
+            <!-- 1. OSOBNA KARTA DLA POGODY (Wiersz 0) -->
+            <Border Grid.Row="0" 
+                    Classes="glassCard" 
+                    Padding="20">
+                <StackPanel Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
+        
+                    <!-- Miejscowość i status pogody -->
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="POGODA DLA SOLCA-ZDROJU"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource SpaTextMuted}"
+                                   LetterSpacing="1"/>
+                        <TextBlock Text="{Binding WeatherDescription}"
+                                   FontSize="14"
+                                   Foreground="#E8F1EC"
+                                   Margin="0,4,0,0"/>
+                    </StackPanel>
+
+                    <!-- Pionowa linia rozdzielająca -->
+                    <Rectangle Width="1" Fill="#25FFFFFF" Margin="5,0"/>
+
+                    <!-- Wartość temperatury -->
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{Binding Temperature}"
+                                   FontSize="26"
+                                   FontWeight="Bold"
+                                   Foreground="#FFFFFF"/>
+                        <TextBlock Text="°C"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource SpaTextMuted}"
+                                   Margin="2,2,0,0"
+                                   VerticalAlignment="Top"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+            
+            
+            <Border
+                Grid.Row="1"
                 Classes="glassCard"
                 Padding="24">
             <Grid RowDefinitions="Auto,*">
-                <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <StackPanel Grid.Row="1" Margin="0,0,0,20">
                     <TextBlock Text="ZAPLANOWANE ZABIEGI"
                                FontSize="11"
                                FontWeight="SemiBold"
@@ -44,7 +88,7 @@
                                 <DataTemplate x:DataType="models:AppointmentItem">
     <Border Classes="treatmentCard" Margin="0,0,0,12">
         <Grid ColumnDefinitions="110, *, Auto" ColumnSpacing="16">
-            
+
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                 <TextBlock Text="{Binding TimeRangeDisplay}" 
                            FontWeight="Bold" 
@@ -62,6 +106,9 @@
                                HorizontalAlignment="Center"/>
                 </Border>
             </StackPanel>
+            
+
+        
 
             <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
                 <TextBlock Text="{Binding TreatmentName}" 
@@ -93,6 +140,7 @@
                 </ScrollViewer>
             </Grid>
         </Border>
-        
+        </Grid>   
     </StackPanel>
+
 </UserControl>
