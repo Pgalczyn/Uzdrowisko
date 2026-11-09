@@ -15,7 +15,7 @@ public class Scheduler {
 
     public readonly int blocksPerDay;
 
-    public static readonly TreatmentGroups treatmentGroups = new TreatmentGroups();
+    public static readonly TreatmentGroups treatmentGroups = new();
 
     public Scheduler(
         int bufferTimeMinutes, // 1440 = 24*60 => 24h => different days
@@ -460,14 +460,17 @@ public class Scheduler {
     // ------------------------------------------------------------
 
     public List<AppointmentLocal> schedule(
-        List<Schedule> schedules,
-        List<AppointmentLocal> appointments,
-        List<Room> rooms,
-        List<Employee> personel,
-        List<Treatment> treatments,
-        Schedule cSchedule,
-        List<BlockedTime> blocksTaken,
-        PlanCostEvaluator evaluator)
+        /*  Returns list of AppointmentLocal objects, which represent scheduled
+            appointments for a patient.
+        */
+        // List<Schedule> schedules, // list of already existing schedules, unused
+        List<AppointmentLocal> appointments, // list of already existing appointments
+        List<Room> rooms, // available rooms
+        List<Employee> personel, // available employees
+        List<Treatment> treatments, // treatments we have to schedule for a patient
+        Schedule cSchedule, // database entity object assigned for a patient
+        List<BlockedTime> blocksTaken, // list of impossibilities (time slots when the patient is unavailable)
+        PlanCostEvaluator evaluator) // interface providing the function responsible for evaluating how good a plan is
     {
         blocksTaken ??= new List<BlockedTime>();
         DependencyGraph dependencyGraph = new DependencyGraph(treatments);

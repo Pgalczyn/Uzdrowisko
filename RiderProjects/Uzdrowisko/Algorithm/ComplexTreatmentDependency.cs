@@ -3,7 +3,7 @@ namespace Algorithm;
 using System.Linq;
 public class ComplexTreatmentDependency
 {
-    public string DbFlag { get; set; }
+    public string? DbFlag { get; set; }
     public List<string> SingularDependenciesFlags { get; set; }
 
     public ComplexTreatmentDependency(string dbFlag)
@@ -16,6 +16,6 @@ public class ComplexTreatmentDependency
 
     public override string ToString()
     {
-        return DbFlag;
+        return DbFlag == null ? "" : DbFlag;
     }
 }
