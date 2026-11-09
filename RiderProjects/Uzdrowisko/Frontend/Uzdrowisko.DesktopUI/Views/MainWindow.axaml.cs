@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace Uzdrowisko.DesktopUI.Views;
+namespace Uzdrowisko.Views;
 
 public partial class MainWindow : Window
 {

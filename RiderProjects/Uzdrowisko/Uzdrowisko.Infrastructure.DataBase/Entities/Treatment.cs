@@ -20,4 +20,10 @@ public class Treatment
     public string? Type { get; set; }
 
     public bool Active { get; set; } = true;
+    
+    public string Flag { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    
+    public DateTime? UpdatedAt { get; set; }
 }

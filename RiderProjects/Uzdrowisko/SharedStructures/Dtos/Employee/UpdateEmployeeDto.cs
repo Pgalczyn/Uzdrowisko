@@ -4,21 +4,17 @@ namespace SharedStructures.Dtos.Employee;
 
 public class UpdateEmployeeDto
 {
-    [Required(ErrorMessage = "Imię jest wymagane.")]
     [MaxLength(30, ErrorMessage = "Imię nie może przekraczać 30 znaków.")]
-    public required string FirstName { get; set; }
+    public string? Name { get; set; }
 
-    [Required(ErrorMessage = "Nazwisko jest wymagane.")]
     [MaxLength(30, ErrorMessage = "Nazwisko nie może przekraczać 30 znaków.")]
-    public required string LastName { get; set; }
+    public string? Surname { get; set; }
 
-    [Required(ErrorMessage = "Adres e-mail jest wymagany.")]
     [EmailAddress(ErrorMessage = "Podaj poprawny format adresu e-mail.")]
     [MaxLength(40, ErrorMessage = "Adres e-mail nie może przekraczać 40 znaków.")]
-    public required string Email { get; set; }
+    public string? Email { get; set; }
 
-    [Required(ErrorMessage = "Data urodzenia jest wymagana.")]
-    public DateOnly DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 
     [Phone(ErrorMessage = "Niepoprawny format numeru telefonu.")]
     [MaxLength(20, ErrorMessage = "Numer telefonu nie może przekraczać 20 znaków.")]
@@ -36,7 +32,7 @@ public class UpdateEmployeeDto
 
     [Required(ErrorMessage = "Rola pracownika jest wymagana.")]
     [MaxLength(20, ErrorMessage = "Nazwa roli nie może przekraczać 20 znaków.")]
-    public required string Role { get; set; }
+    public string? Role { get; set; }
 
-    public bool Active { get; set; }
+    public bool? Active { get; set; }
 }

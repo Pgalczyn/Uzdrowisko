@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             x:Class="Uzdrowisko.Views.AdminView"
+             x:DataType="vm:AdminViewModel">
+
+    <Grid>
+        <Grid ColumnDefinitions="260, *" RowDefinitions="Auto, *" Margin="30">
+
+            <TextBlock Text="Panel Administratora"
+                       Classes="pageHeader"
+                       Grid.ColumnSpan="2"
+                       Margin="0,0,0,20"/>
+
+            <StackPanel Grid.Column="0" Grid.Row="1" Spacing="15" Margin="0,0,25,0" VerticalAlignment="Top" Orientation="Horizontal">
+                <Button Content="Zarządzaj Pacjentami"
+                        Command="{Binding OpenUserViewCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        Classes="adminCardButton"/>
+                
+                <Button Content="Zarządzaj Pracownikami"
+                        Command="{Binding OpenEmployeeViewCommand}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        Classes="adminCardButton"/>
+                <Button Content="Zarządzaj rezerwacjami"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="22"
+                        FontWeight="SemiBold"
+                        Foreground="#FFFFFF"
+                        Classes="adminCardButton"/>
+            </StackPanel>
+
+        </Grid>
+
+        
+    </Grid>
+</UserControl>

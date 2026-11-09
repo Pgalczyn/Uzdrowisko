@@ -1,0 +1,41 @@
+﻿PatientPesel;TreatmentName;EmployeeEmail;RoomNumber;DayOfWeek;TimeFrom;Notes
+54051412351;Kąpiel siarczkowa;krzysztof.wojcik@uzdrowisko.pl;001;1;08:00;
+60112003462;Masaż klasyczny częściowy;marcin.lewandowski@uzdrowisko.pl;117;1;08:30;Odcinek lędźwiowy
+48031505673;Prądy TENS;tomasz.dabrowski@uzdrowisko.pl;106;1;09:00;
+52082207884;Kinezyterapia indywidualna;michal.jankowski@uzdrowisko.pl;208;1;09:30;
+58011009135;Inhalacje solankowe;jakub.mazur@uzdrowisko.pl;213;1;10:00;
+63090501246;Lampa Solaris;mateusz.piotrowski@uzdrowisko.pl;111;1;10:30;
+49071803457;Gimnastyka indywidualna - barki;lukasz.pawlowski@uzdrowisko.pl;211;1;11:00;Bark prawy
+55120305688;Krioterapia miejscowa;jan.kowalczyk@uzdrowisko.pl;114;1;11:30;
+54051412351;Fala uderzeniowa;marcin.lewandowski@uzdrowisko.pl;113;2;08:00;Łokieć tenisisty
+60112003462;Kąpiel kwasowęglowa;tomasz.dabrowski@uzdrowisko.pl;005;2;08:30;
+48031505673;Masaż wirowy kończyn;michal.jankowski@uzdrowisko.pl;007;2;09:00;
+52082207884;Prądy interferencyjne;jakub.mazur@uzdrowisko.pl;106;2;09:30;
+58011009135;Gimnastyka przyrządowa - ergometr;mateusz.piotrowski@uzdrowisko.pl;204;2;10:00;
+63090501246;Masaż klasyczny całościowy;lukasz.pawlowski@uzdrowisko.pl;116;2;10:30;
+49071803457;Magnetronik;jan.kowalczyk@uzdrowisko.pl;108;2;11:00;
+55120305688;Zawijania borowinowe częściowe;krzysztof.wojcik@uzdrowisko.pl;003;2;11:30;Kolana
+54051412351;Terapia manualna;tomasz.dabrowski@uzdrowisko.pl;125;3;08:00;
+60112003462;Laseroterapia;michal.jankowski@uzdrowisko.pl;109;3;08:30;
+48031505673;Kąpiel czterokomorowa;jakub.mazur@uzdrowisko.pl;004;3;09:00;
+52082207884;UGUL;mateusz.piotrowski@uzdrowisko.pl;205;3;09:30;
+58011009135;Masaż SPA (30 min);lukasz.pawlowski@uzdrowisko.pl;120;3;10:00;
+63090501246;Prądy diadynamiczne;jan.kowalczyk@uzdrowisko.pl;107;3;10:30;
+49071803457;Gimnastyka zbiorowa ogólna;krzysztof.wojcik@uzdrowisko.pl;201;3;11:00;
+55120305688;Ultrafonoforeza;marcin.lewandowski@uzdrowisko.pl;110;3;11:30;
+54051412351;Kąpiel w zawiesinie borowinowej;michal.jankowski@uzdrowisko.pl;003;4;08:00;
+60112003462;Jonoforeza;jakub.mazur@uzdrowisko.pl;106;4;08:30;
+48031505673;Drenaż limfatyczny częściowy;mateusz.piotrowski@uzdrowisko.pl;122;4;09:00;Obrzęk podudzi
+52082207884;Gimnastyka zbiorowa dyskopatyczna;lukasz.pawlowski@uzdrowisko.pl;202;4;09:30;
+58011009135;Prądy Traberta;jan.kowalczyk@uzdrowisko.pl;107;4;10:00;
+63090501246;Metoda McKenzie;krzysztof.wojcik@uzdrowisko.pl;210;4;10:30;
+49071803457;Suchy hydromasaż;marcin.lewandowski@uzdrowisko.pl;010;4;11:00;
+55120305688;Lampa UVB 311 nm;tomasz.dabrowski@uzdrowisko.pl;112;4;11:30;
+54051412351;Masaż podwodny;jakub.mazur@uzdrowisko.pl;008;5;08:00;
+60112003462;Kinezyterapia grupowa;mateusz.piotrowski@uzdrowisko.pl;201;5;08:30;
+48031505673;Fotel masujący;lukasz.pawlowski@uzdrowisko.pl;123;5;09:00;
+52082207884;Prądy galwaniczne;jan.kowalczyk@uzdrowisko.pl;106;5;09:30;
+58011009135;Gimnastyka indywidualna - stopy;krzysztof.wojcik@uzdrowisko.pl;212;5;10:00;
+63090501246;Lampa Solmed;marcin.lewandowski@uzdrowisko.pl;111;5;10:30;
+49071803457;Masaż wibracyjny;tomasz.dabrowski@uzdrowisko.pl;124;5;11:00;
+55120305688;Kąpiel siarczkowa;michal.jankowski@uzdrowisko.pl;002;5;11:30;

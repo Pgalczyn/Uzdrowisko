@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Folder Include="Models\"/>
         <AvaloniaResource Include="Assets\**"/>
     </ItemGroup>
 
@@ -25,5 +24,36 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\SharedStructures\SharedStructures.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\AdminView.axaml.cs">
+        <DependentUpon>AdminView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\RegisterView.axaml.cs">
+        <DependentUpon>RegisterView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\RegisterEmployeeView.axaml.cs">
+        <DependentUpon>RegisterEmployeeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\UserView.axaml.cs">
+        <DependentUpon>UserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\EmployeeView.axaml.cs">
+        <DependentUpon>EmployeeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\UpdateEmployeeView.axaml.cs">
+        <DependentUpon>UpdateEmployeeView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\UpdateUserView.axaml.cs">
+        <DependentUpon>UpdateUserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>
