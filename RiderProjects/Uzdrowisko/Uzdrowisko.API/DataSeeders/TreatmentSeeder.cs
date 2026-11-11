@@ -32,14 +32,15 @@ public static class TreatmentSeeder
             .Skip(1)
             .Where(s => !string.IsNullOrWhiteSpace(s))
             .Select(l => l.Split(';'))
-            .Where(columns => columns.Length >= 5)
+            .Where(columns => columns.Length >= 6)
             .Select(columns => new
             {
                 Name = columns[0].Trim(),
                 Description = columns[1].Trim(),
                 DurationMinutes = int.TryParse(columns[2].Trim(), out var duration) ? duration : 30,
                 Type = columns[3].Trim(),
-                Flag = columns[4].Trim()
+                Flag = columns[4].Trim(),
+                Price =  decimal.TryParse(columns[5].Trim(), out var price) ? price : 100,
             })
             .ToList();
 
@@ -65,6 +66,7 @@ public static class TreatmentSeeder
                 DurationMinutes = record.DurationMinutes,
                 Type = record.Type,
                 Flag = record.Flag,
+                Price = record.Price,
                 Active= true
             };
 

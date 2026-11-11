@@ -25,6 +25,5 @@ public class Appointment
     [MaxLength(30)]
     public required string Status { get; set; } = "Zaplanowana";
 
-    // Typ 'text' w PostgreSQL -> string bez atrybutu MaxLength
     public string? Notes { get; set; }
 }

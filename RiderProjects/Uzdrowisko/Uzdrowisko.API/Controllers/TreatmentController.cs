@@ -36,7 +36,8 @@ public class TreatmentController: ControllerBase
             Name = createTreatmentDto.Name,
             Description = createTreatmentDto.Description,
             DurationMinutes = createTreatmentDto.DurationMinutes,
-            Type = createTreatmentDto.Type
+            Type = createTreatmentDto.Type,
+            Price = createTreatmentDto.Price
         };
         
         _dbContext.Treatments.Add(newTreatment);
@@ -47,7 +48,8 @@ public class TreatmentController: ControllerBase
             Id = newTreatment.Id,
             Name = newTreatment.Name,
             Description = newTreatment.Description,
-            Type = newTreatment.Type
+            Type = newTreatment.Type,
+            Price = newTreatment.Price
         };
         return CreatedAtAction(nameof(GetTreatmentById), new { id = newTreatment.Id }, response);
 
@@ -67,6 +69,7 @@ public class TreatmentController: ControllerBase
                 Description = t.Description,
                 Type = t.Type,
                 DurationMinutes = t.DurationMinutes,
+                Price = t.Price
             })
             .FirstOrDefaultAsync();
         if (treatment == null)
@@ -105,7 +108,8 @@ public class TreatmentController: ControllerBase
                 Description = t.Description,
                 DurationMinutes = t.DurationMinutes,
                 Type = t.Type,
-                Active = t.Active
+                Active = t.Active,
+                Price = t.Price
             })
             .ToListAsync();
 
@@ -140,6 +144,11 @@ public class TreatmentController: ControllerBase
         if (treatmentDto.Name != null)
         {
             treatment.Name = treatmentDto.Name;
+        }
+
+        if (treatmentDto.Price != null)
+        {
+            treatment.Price = treatmentDto.Price.Value;
         }
         
         await  _dbContext.SaveChangesAsync();

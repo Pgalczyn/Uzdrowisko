@@ -9,6 +9,8 @@ public class CreateTreatmentDto
 
     [MaxLength(500, ErrorMessage = "Opis zabiegu nie może przekraczać 500 znaków.")]
     public string? Description { get; set; }
+    
+    public int Price { get; set; }
 
     [Required(ErrorMessage = "Czas trwania jest wymagany.")]
     [Range(5, 240, ErrorMessage = "Czas trwania zabiegu musi wynosić od 5 do 240 minut.")]

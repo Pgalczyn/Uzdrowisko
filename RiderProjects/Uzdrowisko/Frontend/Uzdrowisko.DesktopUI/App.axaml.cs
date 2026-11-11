@@ -1,5 +1,6 @@
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Avalonia;
 using HotAvalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -25,16 +26,12 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        // Krok 1: Tworzymy kolekcję serwisów
         var serviceCollection = new ServiceCollection();
-
-        // Krok 2: Rejestrujemy wszystkie zależności
+        
         ConfigureServices(serviceCollection);
 
-        // Krok 3: Budujemy kontener IServiceProvider
         Services = serviceCollection.BuildServiceProvider();
 
-        // Krok 4: Pobieramy okno z kontenera - DI sam wstrzyknie MainViewModel i wszystkie serwisy
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = Services.GetRequiredService<MainWindow>();
@@ -45,16 +42,25 @@ public partial class App : Application
 
     private void ConfigureServices(IServiceCollection services)
     {
-        // 1. Rejestracja HttpClient dedykowanego do backendu
+        var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+        services.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configuration);
+
+        services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendApi"));
+        
         services.AddHttpClient("BackendApi", client =>
         {
             client.BaseAddress = new Uri("http://localhost:5290/");
         });
+        
+        services.AddHttpClient("WeatherApi",client =>
+        {
+            client.BaseAddress = new Uri("https://api.weatherapi.com/v1/");
+        });
 
-        // Rejestracja domyślnego HttpClient pobieranego przez konstruktory serwisów
-        services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendApi"));
 
-        // 2. Rejestracja serwisów domenowych
         services.AddTransient<ITreatmentService, TreatmentService>();
         services.AddTransient<IEmployeeService, EmployeeService>();
         services.AddTransient<IPatientService, PatientService>();
@@ -63,15 +69,13 @@ public partial class App : Application
         services.AddTransient<IAppointmentService, AppointmentService>();
         services.AddTransient<IStayService, StayService>();
         services.AddTransient<IScheduleService, ScheduleService>();
-        services.AddHttpClient<IWeatherService, WeatherService>(client =>
-        {
-            client.BaseAddress = new Uri("https://api.weatherapi.com/v1/");
-        });
-        // 3. Rejestracja ViewModeli
-        services.AddTransient<MainViewModel>();
-        services.AddTransient<HomeViewModel>(); // <-- DOPISZ TĘ LINIJKĘ
+        services.AddTransient<IWeatherService, WeatherService>();
 
-        // 4. Rejestracja Widoków z automatycznym powiązaniem DataContext
+
+        services.AddTransient<MainViewModel>();
+        services.AddTransient<HomeViewModel>();
+
+
         services.AddSingleton<MainWindow>(sp => new MainWindow
         {
             DataContext = sp.GetRequiredService<MainViewModel>()

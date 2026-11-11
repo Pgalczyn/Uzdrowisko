@@ -7,6 +7,11 @@ using CommunityToolkit.Mvvm.Input;
 using Uzdrowisko.DesktopUI.Models;
 using Uzdrowisko.DesktopUI.Services;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
+using System.IO;
+using System.Net.Http;
+using Avalonia.Media.Imaging;
+using Avalonia.Threading;
+
 
 namespace Uzdrowisko.DesktopUI.ViewModels;
 
@@ -18,6 +23,7 @@ public partial class DashboardViewModel : ViewModelBase
     [ObservableProperty] private bool _isEmpty;
     private readonly Action<ViewModelBase> _navigateTo;
     public ObservableCollection<AppointmentItem> DayTreatments { get; } = new();
+    private readonly DispatcherTimer _weatherTimer;
 
     [ObservableProperty] private string _temperature = "--C";
     [ObservableProperty] private string _weatherDescription = "Pobieranie.";
@@ -30,6 +36,12 @@ public partial class DashboardViewModel : ViewModelBase
         _navigateTo = navigateTo;
         _ = LoadTreatmentsForToday(Today);
         _ = LoadWeatherAsync();
+        _weatherTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(15) };
+        _weatherTimer.Tick += (sender, args) =>
+        {
+            _ = LoadWeatherAsync();
+        };
+        _weatherTimer.Start();
     }
 
     private async Task LoadTreatmentsForToday(DateTime today)
@@ -50,6 +62,8 @@ public partial class DashboardViewModel : ViewModelBase
 
         IsEmpty = DayTreatments.Count == 0;
     }
+    [ObservableProperty] private Bitmap? _weatherIcon;
+    [ObservableProperty] private string _weatherDetails = "";
 
     private async Task LoadWeatherAsync()
     {
@@ -57,21 +71,44 @@ public partial class DashboardViewModel : ViewModelBase
         {
             var weather = await _weatherService.GetWeather();
 
-            if (weather != null)
+            if (weather?.Current?.Condition != null)
             {
                 Temperature = $"{weather.Current.TempC}";
-                WeatherDescription = $"{weather.Current.Condition.Text}";
+                WeatherDescription = weather.Current.Condition.Text;
+
+                // ikonka 
+                var iconUrl = weather.Current.Condition.IconUrl;
+                if (!string.IsNullOrWhiteSpace(iconUrl))
+                {
+                    var fullUrl = iconUrl.StartsWith("http") ? iconUrl : $"https:{iconUrl}";
+                
+                    using var httpClient = new HttpClient();
+                    var imageBytes = await httpClient.GetByteArrayAsync(fullUrl);
+                    using var stream = new MemoryStream(imageBytes);
+                
+                    WeatherIcon = new Bitmap(stream);
+                }
+
+                var todayForecast = weather.Forecast?.Days?.FirstOrDefault()?.Day;
+                if (todayForecast != null)
+                {
+                    WeatherDetails = $"Min: {todayForecast.MinTempC}°C | Max: {todayForecast.MaxTempC}°C | 🌧 Opady: {todayForecast.DailyChanceOfRain}%";
+                }
             }
             else
             {
-                WeatherDescription = "Brak danych o pogodzie";
+                WeatherDescription = "Brak sekcji 'current' w danych z serwera";
+                Temperature = "--";
+                WeatherDetails = "";
             }
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            WeatherDescription = "Błąd połączenia";
+            WeatherDescription = $"Błąd: {ex.Message}";
+            Console.WriteLine($"[DashboardViewModel] Błąd pobierania pogody: {ex}");
         }
     }
+
 
     [RelayCommand]
     private void NavigateToCalendar()

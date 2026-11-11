@@ -17,14 +17,14 @@ public partial class HomeViewModel : ViewModelBase
     [ObservableProperty]
     private ViewModelBase _currentSubPage;
 
-    public HomeViewModel(Action logout, IAppointmentService appointmentService, ITreatmentService treatmentService, IPatientService patientService, IEmployeeService employeeService)
+    public HomeViewModel(Action logout,IWeatherService weatherService, IAppointmentService appointmentService, ITreatmentService treatmentService, IPatientService patientService, IEmployeeService employeeService)
     {
         _logout = logout;
         _appointmentService = appointmentService;
         _treatmentService = treatmentService;
         _patientService = patientService;
         _employeeService = employeeService;
-
+        _weatherService  = weatherService;
         CurrentSubPage = new DashboardViewModel(_appointmentService,_weatherService,targetViewModel => CurrentSubPage = targetViewModel);
     }
 

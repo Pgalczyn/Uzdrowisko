@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedStructures.Dtos.Stay;
-using SharedStructures.Dtos.Treatment;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 
 namespace Uzdrowisko.API.Controllers;

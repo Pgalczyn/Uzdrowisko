@@ -36,23 +36,24 @@ public partial class LoginViewModel : ViewModelBase
     [RelayCommand]
     public async Task LoginAction()
     {
-        ErrorMessage = string.Empty;
-        
-        if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
-        {
-            ErrorMessage = "Wprowadź e-mail i hasło.";
-            return;
-        }
-        
-        var (success, error) = await _authService.LoginAsync(Login, Password);
-        
-        if (success)
-        {
-            _home?.Invoke();
-        }
-        else
-        {
-            ErrorMessage = error ?? "Logowanie nie powiodło się.";
-        }
+        _home?.Invoke();
+    //     ErrorMessage = string.Empty;
+    //     
+    //     if (string.IsNullOrWhiteSpace(Login) || string.IsNullOrWhiteSpace(Password))
+    //     {
+    //         ErrorMessage = "Wprowadź e-mail i hasło.";
+    //         return;
+    //     }
+    //     
+    //     var (success, error) = await _authService.LoginAsync(Login, Password);
+    //     
+    //     if (success)
+    //     {
+    //         _home?.Invoke();
+    //     }
+    //     else
+    //     {
+    //         ErrorMessage = error ?? "Logowanie nie powiodło się.";
+    //     }
     }
 }

@@ -14,6 +14,8 @@ public class UzdrowiskoDbContext : DbContext
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
+    
+    public DbSet<Transactions>  Transactions => Set<Transactions>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

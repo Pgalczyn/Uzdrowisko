@@ -309,6 +309,47 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.ToTable("Stays");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Transactions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndOfTreatment")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartOfTreatment")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TreatmentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("TreatmentId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
                 {
                     b.Property<int>("Id")
@@ -338,6 +379,9 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
 
                     b.Property<string>("Type")
                         .HasMaxLength(30)
@@ -414,6 +458,30 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Transactions", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Patient", "Patient")
+                        .WithMany("Transactions")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", "Treatment")
+                        .WithMany("Transactions")
+                        .HasForeignKey("TreatmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Treatment");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Patient", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Schedule", b =>
                 {
                     b.Navigation("Appointments");
@@ -422,6 +490,8 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
                 {
                     b.Navigation("Rooms");
+
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

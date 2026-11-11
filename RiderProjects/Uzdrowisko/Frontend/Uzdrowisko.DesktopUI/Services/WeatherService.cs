@@ -15,10 +15,10 @@ public class WeatherService: IWeatherService
     private readonly HttpClient  _httpClient;
     private readonly string _apiKey;
     
-    public WeatherService(HttpClient httpClient,IConfiguration configuration)
+    public WeatherService(IHttpClientFactory httpClientFactory,IConfiguration configuration)
     {
-        _httpClient = httpClient;
-        _apiKey = configuration["ApiKey"] 
+        _httpClient = httpClientFactory.CreateClient("WeatherApi");
+        _apiKey = configuration["WeatherApi:ApiKey"] 
                   ?? throw new InvalidOperationException("Brak klucza WeatherApi:ApiKey w appsettings.json");
     }
     
@@ -26,13 +26,16 @@ public class WeatherService: IWeatherService
     {
         try
         {
-            var relativeUrl = $"forecast.json?key={_apiKey}&q={location}&days=3&aqi=no&alerts=no";
+            Console.WriteLine($"[DEBUG] BaseAddress: {_httpClient.BaseAddress} | Key: {_apiKey}");
+
+            var relativeUrl = $"forecast.json?key={_apiKey}&q={location}&days=3&aqi=no&alerts=no&lang=pl";
             var weatherData = await _httpClient.GetFromJsonAsync<WeatherRecord>(relativeUrl, ct);
 
             return weatherData;
         }
         catch (HttpRequestException ex)
         {
+            Console.WriteLine($"[WeatherService Error]: {ex}");
             return null;
         }
 

@@ -23,9 +23,12 @@ public class Treatment
     
     public string Flag { get; set; }
     
+    [Range(1, int.MaxValue, ErrorMessage = "Cena musi być większa od zera.")]
+    public decimal Price { get; set; }
+    
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
 
-    
+    public ICollection<Transactions> Transactions { get; set; } = new List<Transactions>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     
     public DateTime? UpdatedAt { get; set; }
