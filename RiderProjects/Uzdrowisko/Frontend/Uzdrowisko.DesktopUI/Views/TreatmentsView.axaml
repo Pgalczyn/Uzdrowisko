@@ -7,117 +7,113 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Uzdrowisko.Views.TreatmentsView"
              x:DataType="vm:TreatmentsViewModel">
-    
-    <DockPanel >
-        <TextBlock Classes="pageHeader" 
+
+    <DockPanel>
+        <TextBlock Classes="pageHeader"
                    DockPanel.Dock="Top"
-                   Text="Oferowane zabiegi"
-                   />
-        
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="20" RowSpacing="20">
-                <Border Classes="glassCard"
-                        Padding="24"
-                        MaxWidth="650"
-                        HorizontalAlignment="Stretch">
+                   Text="Oferowane zabiegi" />
+
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="20" RowSpacing="20" Classes="glassCard">
+            <Border Classes="glassCard"
+                    Padding="24"
+                    MaxWidth="650"
+                    HorizontalAlignment="Stretch">
                 <ScrollViewer>
-                <ListBox ItemsSource="{Binding Treatments}"
-                         SelectedItem= "{Binding SelectedTreatment}"
-                         Background="Transparent">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate x:DataType="models:TreatmentItem">
-                            
+                    <ListBox ItemsSource="{Binding Treatments}"
+                             SelectedItem="{Binding SelectedTreatment}"
+                             Background="Transparent">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:TreatmentItem">
+
                                 <Grid ColumnDefinitions="*,Auto, Auto"
-                                          ColumnSpacing="12">
-                                <StackPanel Spacing="3" >
-                                    <TextBlock Text = "{Binding Name}" FontSize="16"
-                                               Foreground="white"
-                                               FontWeight="Bold"></TextBlock>
+                                      ColumnSpacing="12">
+                                    <StackPanel Spacing="3">
+                                        <TextBlock Text="{Binding Name}" FontSize="16"
+                                                   Foreground="white">
+                                        </TextBlock>
 
-                                </StackPanel>
-                                        <Border Grid.Column="1" 
-                                                Background="#25FFFFFF"
-                                                CornerRadius="8"
-                                                Padding="10,5"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Right">
-                                            <TextBlock Text="{Binding DurationDisplay}" 
-                                                       FontSize="12" 
-                                                       FontWeight="Medium"
-                                                       Foreground="#D0E3D7"/>
-                                        </Border>
-                                
-                                
+                                    </StackPanel>
+                                    <Border Grid.Column="1"
+                                            Background="#25FFFFFF"
+                                            CornerRadius="8"
+                                            Padding="10,5"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding DurationDisplay}"
+                                                   FontSize="12"
+                                                   FontWeight="Medium"
+                                                   Foreground="#D0E3D7" />
+                                    </Border>
+
+
                                 </Grid>
-                                </DataTemplate>
+                            </DataTemplate>
                         </ListBox.ItemTemplate>
-                    <ListBox.Styles>
-                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                            <Setter Property="Background" Value="Transparent"/>
-                        </Style>
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
 
-                        <Style Selector="ListBoxItem:selected Border.treatmentCard">
-                            <Setter Property="Background" Value="#402D5A43"/>
-                            <Setter Property="BorderBrush" Value="{StaticResource SpaAccent}"/>
-                            <Setter Property="BorderThickness" Value="1.5"/>
-                        </Style>
-                    </ListBox.Styles>
+                            <Style Selector="ListBoxItem:selected Border.treatmentCard">
+                                <Setter Property="Background" Value="#402D5A43" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SpaAccent}" />
+                                <Setter Property="BorderThickness" Value="1.5" />
+                            </Style>
+                        </ListBox.Styles>
                     </ListBox>
-                        
-            </ScrollViewer>
-                </Border>
-                
-                <Border Classes="glassCard"
-                        Padding="24"
-                        MaxWidth="650"
-                        HorizontalAlignment="Stretch"
-                        
-                        Grid.Column="1">
-                    <ItemsControl ItemsSource="{Binding SelectedTreatment}">
-                        <StackPanel >
-                            <TextBlock Text="{Binding SelectedTreatment.Name}" FontSize="25"
-                                       HorizontalAlignment="Center"
-                                       Margin="15"
-                                       Foreground="white" ></TextBlock>
-                            <Border
-                                Background="#25FFFFFF"
-                                CornerRadius="8"
-                                Padding="10,5"
-                                VerticalAlignment="Center">
-                                <TextBlock Text="{Binding SelectedTreatment.DurationDisplay}" 
-                                           FontSize="18" 
-                                           FontWeight="Medium"
-                                           Foreground="#D0E3D7" />
-                            </Border>
-                            
-                            
-                            <TextBlock Text="{Binding SelectedTreatment.Description}"
-                                       Foreground="{StaticResource SpaTextMuted}"
-                                       FontSize="16"
-                                       HorizontalAlignment="Center"
-                                       Margin="0,40,0,0"
-                                       TextWrapping="Wrap"
-                            />
-                            
-                            <Button 
-                                    Content="Zarezerwuj"
-                                    Height="50"
-                                    CornerRadius="12"
-                                    Background="#34523F"
-                                    Foreground="#FFFFFF"
-                                    FontWeight="SemiBold"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Center"
-                                    VerticalContentAlignment="Center"
-                                    FontSize="15"
-                                    Margin="0,8,0,0"
-                                    Cursor="Hand"/>
-                        </StackPanel>
-                        
-                    </ItemsControl>
-                </Border>
-            </Grid>
-            
 
-    
+                </ScrollViewer>
+            </Border>
+
+            <Border Classes="glassCard"
+                    Padding="24"
+                    MaxWidth="650"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Stretch"
+                    Grid.Column="1"
+                    IsVisible="{Binding SelectedTreatment, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <StackPanel Spacing="12">
+                    <TextBlock Text="{Binding SelectedTreatment.Name}"
+                               FontSize="25"
+                               HorizontalAlignment="Center"
+                               Margin="15"
+                               Foreground="White" />
+
+                    <Border Background="#25FFFFFF"
+                            CornerRadius="8"
+                            Padding="10,5"
+                            HorizontalAlignment="Center">
+                        <TextBlock Text="{Binding SelectedTreatment.DurationDisplay}"
+                                   FontSize="18"
+                                   FontWeight="Medium"
+                                   Foreground="#D0E3D7" />
+                    </Border>
+
+                    <TextBlock Text="{Binding SelectedTreatment.Description}"
+                               Foreground="{StaticResource SpaTextMuted}"
+                               FontSize="16"
+                               HorizontalAlignment="Center"
+                               Margin="0,28,0,0"
+                               TextWrapping="Wrap" />
+
+                    <Button Content="Zarezerwuj"
+                            Command="{Binding OpenFormCommand}"
+                            CommandParameter="{Binding SelectedTreatment}"
+                            Height="50"
+                            CornerRadius="12"
+                            Background="#34523F"
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="15"
+                            Margin="0,8,0,0"
+                            Cursor="Hand" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+
     </DockPanel>
 </UserControl>

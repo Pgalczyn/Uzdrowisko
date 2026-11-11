@@ -6,7 +6,8 @@
              xmlns:models="using:Uzdrowisko.DesktopUI.Models"
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
              x:Class="Uzdrowisko.Views.CalendarView"
-             x:DataType="vm:CalendarViewModel">
+             x:DataType="vm:CalendarViewModel"
+             x:Name="RootControl">
 
     <Grid RowSpacing="20" RowDefinitions="Auto,*" ColumnDefinitions="*, 340" ColumnSpacing="24">
 
@@ -43,50 +44,73 @@
                         <ItemsControl ItemsSource="{Binding DayTreatments}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="models:AppointmentItem">
-                                    <Border Classes="treatmentCard" Margin="0,0,0,12">
-                                        <Grid ColumnDefinitions="110, *, Auto" ColumnSpacing="16">
 
-                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock Text="{Binding TimeRangeDisplay}"
-                                                           FontWeight="Bold"
-                                                           FontSize="14"
-                                                           Foreground="#FFFFFF"
-                                                           HorizontalAlignment="Center" />
-                                                <Border Background="#25FFFFFF"
-                                                        CornerRadius="8"
-                                                        Padding="6,2"
-                                                        Margin="0,4,0,0"
-                                                        HorizontalAlignment="Center">
-                                                    <TextBlock Text="{Binding DurationDisplay}"
-                                                               FontSize="11"
-                                                               Foreground="#D0E3D7"
+                                    <Button
+                                        Command="{Binding #RootControl.((vm:CalendarViewModel)DataContext).OpenAppointmentDialogCommand}"
+                                        CommandParameter="{Binding}"
+                                        Margin="0,0,0,12"
+                                        Padding="0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Stretch"
+                                        Cursor="Hand">
+
+                                        <Button.Styles>
+                                            <Style
+                                                Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </Style>
+                                        </Button.Styles>
+                                        <Border Classes="treatmentCard">
+                                            <Grid ColumnDefinitions="110, *, Auto" ColumnSpacing="16">
+
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <TextBlock Text="{Binding TimeRangeDisplay}"
+                                                               FontWeight="Bold"
+                                                               FontSize="14"
+                                                               Foreground="#FFFFFF"
                                                                HorizontalAlignment="Center" />
-                                                </Border>
-                                            </StackPanel>
-
-                                            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
-                                                <TextBlock Text="{Binding TreatmentName}"
-                                                           FontWeight="SemiBold"
-                                                           FontSize="15"
-                                                           Foreground="#FFFFFF" />
-
-                                                <StackPanel Orientation="Horizontal" Spacing="6">
-                                                    <TextBlock Text="Pacjent:"
-                                                               FontSize="12"
-                                                               Foreground="{StaticResource SpaTextMuted}" />
-                                                    <TextBlock Text="{Binding PatientFullName}"
-                                                               FontSize="12"
-                                                               FontWeight="Medium"
-                                                               Foreground="#E8F1EC" />
+                                                    <Border Background="#25FFFFFF"
+                                                            CornerRadius="8"
+                                                            Padding="6,2"
+                                                            Margin="0,4,0,0"
+                                                            HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding DurationDisplay}"
+                                                                   FontSize="11"
+                                                                   Foreground="#D0E3D7"
+                                                                   HorizontalAlignment="Center" />
+                                                    </Border>
                                                 </StackPanel>
-                                                <TextBlock Text="{Binding RoomDisplay}"
-                                                           FontSize="11"
-                                                           Foreground="{StaticResource SpaTextMuted}" />
-                                            </StackPanel>
 
-                                           
-                                        </Grid>
-                                    </Border>
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                                    <TextBlock Text="{Binding TreatmentName}"
+                                                               FontWeight="SemiBold"
+                                                               FontSize="15"
+                                                               Foreground="#FFFFFF" />
+
+                                                    <StackPanel Orientation="Horizontal" Spacing="6">
+                                                        <TextBlock Text="Pacjent:"
+                                                                   FontSize="12"
+                                                                   Foreground="{StaticResource SpaTextMuted}" />
+                                                        <TextBlock Text="{Binding PatientFullName}"
+                                                                   FontSize="12"
+                                                                   FontWeight="Medium"
+                                                                   Foreground="#E8F1EC" />
+                                                    </StackPanel>
+                                                    <TextBlock Text="{Binding RoomDisplay}"
+                                                               FontSize="11"
+                                                               Foreground="{StaticResource SpaTextMuted}" />
+                                                </StackPanel>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="›"
+                                                           FontSize="24"
+                                                           Foreground="#50FFFFFF"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,10,0" />
+                                            </Grid>
+                                        </Border>
+                                    </Button>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -150,6 +174,156 @@
                 </Calendar>
             </StackPanel>
         </Border>
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                Grid.Column="0" Grid.ColumnSpan="2"
+                IsVisible="{Binding IsDialogVisible}"
+                ZIndex="100">
+            <Border Background="#34523F"
+                    CornerRadius="15"
+                    IsVisible="{Binding IsDialogVisible}"
+                    Padding="25"
+                    Width="400"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <StackPanel Spacing="15" HorizontalAlignment="Stretch">
 
+                    <TextBlock Text="Zarządzaj wizytą"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Foreground="White"
+                               HorizontalAlignment="Center" />
+
+                    <StackPanel HorizontalAlignment="Center" Spacing="2">
+                        <TextBlock Text="{Binding SelectedAppointment.TreatmentName, StringFormat='Zabieg: {0}'}"
+                                   Foreground="#D0E3D7" HorizontalAlignment="Center" />
+                        <TextBlock Text="{Binding SelectedAppointment.PatientFullName, StringFormat='Pacjent: {0}'}"
+                                   Foreground="#D0E3D7" HorizontalAlignment="Center" />
+                    </StackPanel>
+                    <Button Content="Przenieś zabieg"
+                            Height="40"
+                            CornerRadius="8"
+                            Command="{Binding OpenPostponeDialogCommand}"
+                            CommandParameter="{Binding SelectedAppointment}"
+                            Background="#223B2A"
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Margin="0,8,0,0"
+                            Cursor="Hand" />
+                    <Button Content="Odwołaj zabieg"
+                            Height="40"
+                            CornerRadius="8"
+                            Background="#223B2A"
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Margin="0,8,0,0"
+                            Cursor="Hand" />
+
+                    <Button Content="Zamknij"
+                            Command="{Binding CloseDialogCommand}"
+                            Height="40"
+                            CornerRadius="8"
+                            Background="Transparent"
+                            Foreground="#D0E3D7"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Cursor="Hand" />
+                </StackPanel>
+            </Border>
+        </Border>
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                Grid.Column="0" Grid.ColumnSpan="2"
+                IsVisible="{Binding IsPostponeDialogVisible}"
+                MaxWidth="650" MaxHeight="400" Background="#34523F"
+                CornerRadius="15"
+                Padding="25">
+            <Grid RowDefinitions="Auto,Auto,Auto">
+                <ScrollViewer>
+                    <ListBox ItemsSource="{Binding AvailableTimes}"
+                             SelectedItem="{Binding SelectedTime}"
+                             Background="#25FFFFFF"
+                             CornerRadius="15"
+                             Padding="25"
+                             Width="600">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:AppointmentItem">
+
+                                <Grid ColumnDefinitions="*,Auto, Auto"
+                                      ColumnSpacing="12">
+                                    <StackPanel Spacing="3">
+                                        <TextBlock Text="{Binding TreatmentName}" FontSize="16"
+                                                   Foreground="white">
+                                        </TextBlock>
+
+
+                                    </StackPanel>
+                                    <Border Grid.Column="1"
+                                            Background="#25FFFFFF"
+                                            CornerRadius="8"
+                                            Padding="10,5"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Right">
+                                        <TextBlock Text="{Binding DurationDisplay}"
+                                                   FontSize="12"
+                                                   FontWeight="Medium"
+                                                   Foreground="#D0E3D7" />
+                                    </Border>
+
+
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <ListBox.Styles>
+                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected Border.treatmentCard">
+                                <Setter Property="Background" Value="#402D5A43" />
+                                <Setter Property="BorderBrush" Value="{StaticResource SpaAccent}" />
+                                <Setter Property="BorderThickness" Value="1.5" />
+                            </Style>
+                        </ListBox.Styles>
+                    </ListBox>
+
+
+                </ScrollViewer>
+                <Button Grid.Row="1" Content="Przenieś"
+                        Height="40"
+                        CornerRadius="8"
+                        Command="{Binding OpenPostponeDialogCommand}"
+                        Background="#223B2A"
+                        Foreground="#FFFFFF"
+                        FontWeight="SemiBold"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        Margin="0,8,0,0"
+                        Cursor="Hand" />
+                <Button Grid.Row="2" Content="Zamknij"
+                        Command="{Binding ClosePostponeDialogCommand}"
+                        Height="40"
+                        CornerRadius="8"
+                        Background="#223B2A"
+                        Foreground="#FFFFFF"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        FontSize="14"
+                        Cursor="Hand" />
+            </Grid>
+        </Border>
     </Grid>
+
+
 </UserControl>

@@ -57,5 +57,13 @@
         <DependentUpon>UpdateUserView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Appointments\ChangeAppointmentDateView.axaml.cs">
+        <DependentUpon>CalendarView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Appointments\ChooseAppointmentView.axaml.cs">
+        <DependentUpon>ChooseAppointmentView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 </Project>
