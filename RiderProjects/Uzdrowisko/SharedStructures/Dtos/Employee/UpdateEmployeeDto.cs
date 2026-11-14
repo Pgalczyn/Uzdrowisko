@@ -35,4 +35,7 @@ public class UpdateEmployeeDto
     public string? Role { get; set; }
 
     public bool? Active { get; set; }
+    
+    public List<int>? RoleIds { get; set; }
+
 }

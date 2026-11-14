@@ -1,53 +1,53 @@
-Name;Description;DurationMinutes;Type;Flag;Price
-Fasony siarczkowe;Kąpiel częściowa w wodzie siarczkowej (fasony).;15;Balneoterapia;Easy;39
-Kąpiel kwasowęglowa;Kąpiel w wodzie nasyconej dwutlenkiem węgla.;12;Balneoterapia;Normal;36
-Kąpiel czterokomorowa;Hydroterapeutyczna kąpiel kończyn górnych i dolnych.;12;Balneoterapia;Easy;38
-Kąpiel siarczkowa;Kąpiel ogólna w naturalnej wodzie siarkowej.;15;Balneoterapia;Normal;46
-Kąpiel w zawiesinie borowinowej;Kąpiel termalna w roztworze borowiny.;15;Balneoterapia;Normal;45
-Zawijania borowinowe całkowite;Okłady borowinowe na całe ciało.;15;Balneoterapia;Hard;150
-Zawijania borowinowe częściowe;Okłady borowinowe na wybrane partie ciała.;20;Balneoterapia;Normal;80
-Bicz szkocki;Masaż strumieniem wody pod zmiennym ciśnieniem i temperaturą.;5;Hydroterapia;Hard;35
-Kinezyterapia indywidualna;Indywidualne ćwiczenia lecznicze z fizjoterapeutą.;30;Kinezyterapia;Normal;55
-Kinezyterapia grupowa;Grupowe ćwiczenia usprawniające pod okiem fizjoterapeuty.;30;Kinezyterapia;Easy;35
-UGUL;Ćwiczenia w podwieszeniu w kabinie UGUL.;12;Kinezyterapia;Normal;36
-Metoda McKenzie;Terapia mechaniczna zespołów bólowych kręgosłupa.;25;Kinezyterapia;Hard;100
-Terapia manualna;Specjalistyczna diagnostyka i leczenie narządu ruchu.;60;Kinezyterapia;Hard;200
-Jonoforeza;Wprowadzanie cząstek leku za pomocą prądu stałego.;15;Fizykoterapia;Easy;36
-Magnetronik;Terapia pulsującym polem magnetycznym niskiej częstotliwości.;15;Fizykoterapia;Easy;36
-Laseroterapia;Biostymulacja punktowa promieniowaniem laserowym.;12;Fizykoterapia;Easy;36
-Lampa Solaris;Światłoterapia z wykorzystaniem światła spolaryzowanego.;15;Fizykoterapia;Easy;36
-Lampa Solmed;Naświetlanie promieniowaniem podczerwonym (IR).;15;Fizykoterapia;Easy;36
-Lampa UVB 311 nm;Fototerapia wąskozakresowym promieniowaniem UVB.;6;Fizykoterapia;Easy;36
-Ultrafonoforeza;Wprowadzanie leku za pomocą fali ultradźwiękowej.;10;Fizykoterapia;Easy;36
-Prądy diadynamiczne;Elektroterapia prądami Bernarda o działaniu przeciwbólowym.;10;Fizykoterapia;Normal;36
-Prądy galwaniczne;Zabieg z użyciem prądu stałego poprawiający ukrwienie.;15;Fizykoterapia;Easy;35
-Prądy interferencyjne;Stymulacja prądami Nemeca o średniej częstotliwości.;15;Fizykoterapia;Normal;36
-Prądy Kotza;Stymulacja wysokonapięciowa do odbudowy napięcia mięśniowego.;15;Fizykoterapia;Hard;36
-Prądy TENS;Przezskórna elektryczna stymulacja przeciwbólowa.;15;Fizykoterapia;Easy;36
-Prądy Traberta;Prąd impulsowy zmniejszający napięcie mięśniowe.;15;Fizykoterapia;Normal;36
-Fala uderzeniowa;Terapia pozaustrojową skupioną falą uderzeniową (ESWT).;20;Fizykoterapia;Hard;70
-Drenaż limfatyczny całościowy;Masaż uciskowy usprawniający odpływ chłonki na całym ciele.;50;Masaże;Normal;100
-Drenaż limfatyczny częściowy;Masaż przeciwobrzękowy wybranej partii ciała.;35;Masaże;Easy;75
-Fotel masujący;Mechaniczny masaż wibracyjno-rolkowy całego ciała.;15;Masaże;Easy;36
-Masaż klasyczny całościowy;Leczniczy masaż całego ciała technikami klasycznymi.;30;Masaże;Hard;100
-Masaż klasyczny częściowy;Leczniczy masaż wybranego odcinka (np. kręgosłupa).;15;Masaże;Normal;60
-Masaż podwodny;Masaż strumieniem wody prowadzonym przez terapeutę w wannie.;15;Masaże;Normal;50
-Masaż SPA (30 min);Relaksacyjny masaż aromaterapeutyczny 30 minut.;30;Masaże;Easy;90
-Masaż SPA (50 min);Pełny relaksacyjny masaż aromaterapeutyczny 50 minut.;50;Masaże;Easy;120
-Masaż wibracyjny;Masaż miejscowy aparatem wibracyjnym Aquavibron.;7;Masaże;Easy;40
-Masaż wirowy całościowy;Kąpiel wirowa całego ciała rozluźniająca mięśnie.;15;Masaże;Normal;60
-Masaż wirowy kończyn;Masaż wirowy rąk lub nóg w dedykowanej wanience.;15;Masaże;Easy;50
-Krioterapia miejscowa;Miejscowy nadmuch oparami ciekłego azotu (-160°C).;5;Termoterapia;Easy;25
-Kriosauna ogólnoustrojowa;Ekspozycja całego ciała na skrajnie niskie temperatury.;3;Termoterapia;Hard;45
-Inhalacje solankowe;Wziewne podawanie aerozolu z solanki mineralnej.;12;Inne;Easy;30
-Suchy hydromasaż;Masaż membranowy ciepłą wodą na suchym łóżku wodnym.;15;Inne;Easy;50
-Gimnastyka indywidualna;Indywidualne ćwiczenia ogólnorozwojowe z fizjoterapeutą.;30;Gimnastyka;Normal;80
-Gimnastyka indywidualna - barki;Ćwiczenia celowane na staw ramienny i obręcz barkową.;30;Gimnastyka;Normal;26
-Gimnastyka indywidualna - ręce;Ćwiczenia manualne i usprawniające dłonie oraz ramiona.;30;Gimnastyka;Easy;26
-Gimnastyka indywidualna - stopy;Ćwiczenia korekcyjne i wzmacniające mięśnie stóp.;30;Gimnastyka;Easy;26
-Gimnastyka indywidualna w kabinie UGUL;Ćwiczenia w odciążeniu w kabinie UGUL z oporem.;30;Gimnastyka;Normal;26
-Gimnastyka przyrządowa;Ćwiczenia wzmacniające z użyciem sprzętu rehabilitacyjnego.;30;Gimnastyka;Normal;26
-Gimnastyka przyrządowa - bieżnia;Trening chodu i reedukacja wzorca chodu na bieżni.;30;Gimnastyka;Hard;26
-Gimnastyka przyrządowa - ergometr;Trening cardio i wydolnościowy na ergometrze rowerowym.;30;Gimnastyka;Normal;26
-Gimnastyka zbiorowa dyskopatyczna;Ćwiczenia grupowe odciążające kręgosłup i wzmacniające mięśnie głębokie.;30;Gimnastyka;Normal;26
-Gimnastyka zbiorowa ogólna;Ogólnokondycyjne ćwiczenia gimnastyczne w grupie.;30;Gimnastyka;Easy;26
+Name;Description;DurationMinutes;Type;Flag;Price;RequiredRole
+Fasony siarczkowe;Kąpiel częściowa w wodzie siarczkowej (fasony).;15;Balneoterapia;Easy;39;Balneotechnik / Pracownik Hydroterapii
+Kąpiel kwasowęglowa;Kąpiel w wodzie nasyconej dwutlenkiem węgla.;12;Balneoterapia;Normal;36;Balneotechnik / Pracownik Hydroterapii
+Kąpiel czterokomorowa;Hydroterapeutyczna kąpiel kończyn górnych i dolnych.;12;Balneoterapia;Easy;38;Balneotechnik / Pracownik Hydroterapii
+Kąpiel siarczkowa;Kąpiel ogólna w naturalnej wodzie siarkowej.;15;Balneoterapia;Normal;46;Balneotechnik / Pracownik Hydroterapii
+Kąpiel w zawiesinie borowinowej;Kąpiel termalna w roztworze borowiny.;15;Balneoterapia;Normal;45;Balneotechnik / Pracownik Hydroterapii
+Zawijania borowinowe całkowite;Okłady borowinowe na całe ciało.;15;Balneoterapia;Hard;150;Balneotechnik / Pracownik Hydroterapii
+Zawijania borowinowe częściowe;Okłady borowinowe na wybrane partie ciała.;20;Balneoterapia;Normal;80;Balneotechnik / Pracownik Hydroterapii
+Bicz szkocki;Masaż strumieniem wody pod zmiennym ciśnieniem i temperaturą.;5;Hydroterapia;Hard;35;Balneotechnik / Pracownik Hydroterapii
+Kinezyterapia indywidualna;Indywidualne ćwiczenia lecznicze z fizjoterapeutą.;30;Kinezyterapia;Normal;55;Fizjoterapeuta
+Kinezyterapia grupowa;Grupowe ćwiczenia usprawniające pod okiem fizjoterapeuty.;30;Kinezyterapia;Easy;35;Fizjoterapeuta
+UGUL;Ćwiczenia w podwieszeniu w kabinie UGUL.;12;Kinezyterapia;Normal;36;Fizjoterapeuta
+Metoda McKenzie;Terapia mechaniczna zespołów bólowych kręgosłupa.;25;Kinezyterapia;Hard;100;Fizjoterapeuta
+Terapia manualna;Specjalistyczna diagnostyka i leczenie narządu ruchu.;60;Kinezyterapia;Hard;200;Fizjoterapeuta
+Jonoforeza;Wprowadzanie cząstek leku za pomocą prądu stałego.;15;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Magnetronik;Terapia pulsującym polem magnetycznym niskiej częstotliwości.;15;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Laseroterapia;Biostymulacja punktowa promieniowaniem laserowym.;12;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Lampa Solaris;Światłoterapia z wykorzystaniem światła spolaryzowanego.;15;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Lampa Solmed;Naświetlanie promieniowaniem podczerwonym (IR).;15;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Lampa UVB 311 nm;Fototerapia wąskozakresowym promieniowaniem UVB.;6;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Ultrafonoforeza;Wprowadzanie leku za pomocą fali ultradźwiękowej.;10;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Prądy diadynamiczne;Elektroterapia prądami Bernarda o działaniu przeciwbólowym.;10;Fizykoterapia;Normal;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Prądy galwaniczne;Zabieg z użyciem prądu stałego poprawiający ukrwienie.;15;Fizykoterapia;Easy;35;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Prądy interferencyjne;Stymulacja prądami Nemeca o średniej częstotliwości.;15;Fizykoterapia;Normal;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Prądy Kotza;Stymulacja wysokonapięciowa do odbudowy napięcia mięśniowego.;15;Fizykoterapia;Hard;36;Fizjoterapeuta
+Prądy TENS;Przezskórna elektryczna stymulacja przeciwbólowa.;15;Fizykoterapia;Easy;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Prądy Traberta;Prąd impulsowy zmniejszający napięcie mięśniowe.;15;Fizykoterapia;Normal;36;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Fala uderzeniowa;Terapia pozaustrojową skupioną falą uderzeniową (ESWT).;20;Fizykoterapia;Hard;70;Fizjoterapeuta
+Drenaż limfatyczny całościowy;Masaż uciskowy usprawniający odpływ chłonki na całym ciele.;50;Masaże;Normal;100;Technik Masażysta
+Drenaż limfatyczny częściowy;Masaż przeciwobrzękowy wybranej partii ciała.;35;Masaże;Easy;75;Technik Masażysta
+Fotel masujący;Mechaniczny masaż wibracyjno-rolkowy całego ciała.;15;Masaże;Easy;36;Pracownik SPA / Obsługa
+Masaż klasyczny całościowy;Leczniczy masaż całego ciała technikami klasycznymi.;30;Masaże;Hard;100;Technik Masażysta
+Masaż klasyczny częściowy;Leczniczy masaż wybranego odcinka (np. kręgosłupa).;15;Masaże;Normal;60;Technik Masażysta
+Masaż podwodny;Masaż strumieniem wody prowadzonym przez terapeutę w wannie.;15;Masaże;Normal;50;Balneotechnik / Pracownik Hydroterapii
+Masaż SPA (30 min);Relaksacyjny masaż aromaterapeutyczny 30 minut.;30;Masaże;Easy;90;Pracownik SPA / Obsługa
+Masaż SPA (50 min);Pełny relaksacyjny masaż aromaterapeutyczny 50 minut.;50;Masaże;Easy;120;Pracownik SPA / Obsługa
+Masaż wibracyjny;Masaż miejscowy aparatem wibracyjnym Aquavibron.;7;Masaże;Easy;40;Technik Masażysta
+Masaż wirowy całościowy;Kąpiel wirowa całego ciała rozluźniająca mięśnie.;15;Masaże;Normal;60;Balneotechnik / Pracownik Hydroterapii
+Masaż wirowy kończyn;Masaż wirowy rąk lub nóg w dedykowanej wanience.;15;Masaże;Easy;50;Balneotechnik / Pracownik Hydroterapii
+Krioterapia miejscowa;Miejscowy nadmuch oparami ciekłego azotu (-160°C).;5;Termoterapia;Easy;25;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Kriosauna ogólnoustrojowa;Ekspozycja całego ciała na skrajnie niskie temperatury.;3;Termoterapia;Hard;45;Fizjoterapeuta
+Inhalacje solankowe;Wziewne podawanie aerozolu z solanki mineralnej.;12;Inne;Easy;30;Technik Fizjoterapii / Pielęgniarka uzdrowiskowa
+Suchy hydromasaż;Masaż membranowy ciepłą wodą na suchym łóżku wodnym.;15;Inne;Easy;50;Pracownik SPA / Obsługa
+Gimnastyka indywidualna;Indywidualne ćwiczenia ogólnorozwojowe z fizjoterapeutą.;30;Gimnastyka;Normal;80;Fizjoterapeuta
+Gimnastyka indywidualna - barki;Ćwiczenia celowane na staw ramienny i obręcz barkową.;30;Gimnastyka;Normal;26;Fizjoterapeuta
+Gimnastyka indywidualna - ręce;Ćwiczenia manualne i usprawniające dłonie oraz ramiona.;30;Gimnastyka;Easy;26;Fizjoterapeuta
+Gimnastyka indywidualna - stopy;Ćwiczenia korekcyjne i wzmacniające mięśnie stóp.;30;Gimnastyka;Easy;26;Fizjoterapeuta
+Gimnastyka indywidualna w kabinie UGUL;Ćwiczenia w odciążeniu w kabinie UGUL z oporem.;30;Gimnastyka;Normal;26;Fizjoterapeuta
+Gimnastyka przyrządowa;Ćwiczenia wzmacniające z użyciem sprzętu rehabilitacyjnego.;30;Gimnastyka;Normal;26;Fizjoterapeuta
+Gimnastyka przyrządowa - bieżnia;Trening chodu i reedukacja wzorca chodu na bieżni.;30;Gimnastyka;Hard;26;Fizjoterapeuta
+Gimnastyka przyrządowa - ergometr;Trening cardio i wydolnościowy na ergometrze rowerowym.;30;Gimnastyka;Normal;26;Fizjoterapeuta
+Gimnastyka zbiorowa dyskopatyczna;Ćwiczenia grupowe odciążające kręgosłup i wzmacniające mięśnie głębokie.;30;Gimnastyka;Normal;26;Fizjoterapeuta
+Gimnastyka zbiorowa ogólna;Ogólnokondycyjne ćwiczenia gimnastyczne w grupie.;30;Gimnastyka;Easy;26;Fizjoterapeuta

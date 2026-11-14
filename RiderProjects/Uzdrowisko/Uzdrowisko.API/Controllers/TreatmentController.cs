@@ -37,7 +37,8 @@ public class TreatmentController: ControllerBase
             Description = createTreatmentDto.Description,
             DurationMinutes = createTreatmentDto.DurationMinutes,
             Type = createTreatmentDto.Type,
-            Price = createTreatmentDto.Price
+            Price = createTreatmentDto.Price,
+            RequiredRoleId = createTreatmentDto.RequiredRoleId
         };
         
         _dbContext.Treatments.Add(newTreatment);
@@ -49,7 +50,8 @@ public class TreatmentController: ControllerBase
             Name = newTreatment.Name,
             Description = newTreatment.Description,
             Type = newTreatment.Type,
-            Price = newTreatment.Price
+            Price = newTreatment.Price,
+            RequiredRoleId = newTreatment.RequiredRoleId
         };
         return CreatedAtAction(nameof(GetTreatmentById), new { id = newTreatment.Id }, response);
 
@@ -69,7 +71,8 @@ public class TreatmentController: ControllerBase
                 Description = t.Description,
                 Type = t.Type,
                 DurationMinutes = t.DurationMinutes,
-                Price = t.Price
+                Price = t.Price,
+                RequiredRoleId = t.RequiredRoleId
             })
             .FirstOrDefaultAsync();
         if (treatment == null)
@@ -109,7 +112,8 @@ public class TreatmentController: ControllerBase
                 DurationMinutes = t.DurationMinutes,
                 Type = t.Type,
                 Active = t.Active,
-                Price = t.Price
+                Price = t.Price,
+                RequiredRoleId = t.RequiredRoleId
             })
             .ToListAsync();
 
@@ -149,6 +153,11 @@ public class TreatmentController: ControllerBase
         if (treatmentDto.Price != null)
         {
             treatment.Price = treatmentDto.Price.Value;
+        }
+
+        if (treatmentDto.RequiredRoleId != null)
+        {
+            treatment.RequiredRoleId = treatmentDto.RequiredRoleId.Value;
         }
         
         await  _dbContext.SaveChangesAsync();

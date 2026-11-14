@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedStructures.Dtos.Employee;
+using SharedStructures.Dtos.Role;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 using Uzdrowisko.Infrastructure.DataBase.Entities;
 using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;
@@ -37,6 +38,19 @@ public class EmployeeController: ControllerBase
                 return Conflict($"Adres e-mail '{registerDto.Email}' jest już zajęty w systemie.");
             }
         }
+        
+        var distinctRoleIds = registerDto.EmployeeRoleIds.Distinct().ToList();
+        var roles = distinctRoleIds.Count > 0
+            ? await _dbContext.Roles
+                .Where(r => distinctRoleIds.Contains(r.Id) && r.IsActive)
+                .ToListAsync()
+            : new List<Roles>();
+
+        if (roles.Count != distinctRoleIds.Count)
+        {
+            return BadRequest("Jedna lub więcej wybranych kwalifikacji nie istnieje lub jest nieaktywna.");
+        }
+
 
         var newEmployee = new Employee
         {
@@ -47,7 +61,8 @@ public class EmployeeController: ControllerBase
             DateOfBirth = registerDto.DateOfBirth,
             PasswordHash = string.Empty,
             Role = registerDto.Role,
-            Active = true
+            Active = true,
+            RolesCollection = roles
 
         };
         newEmployee.PasswordHash= _passwordService.HashPassword(newEmployee,registerDto.Password);
@@ -62,7 +77,14 @@ public class EmployeeController: ControllerBase
             Name = newEmployee.Name,
             Surname = newEmployee.Surname,
             PhoneNumber = newEmployee.PhoneNumber,
-            CreatedAt = newEmployee.CreatedAt
+            CreatedAt = newEmployee.CreatedAt,
+            Role = newEmployee.Role,
+            Qualifications = roles.Select(r => new RoleDto
+            {
+                Id = r.Id,
+                RoleName = r.RoleName
+            }).ToList()
+            
         };
         return CreatedAtAction(nameof(GetEmployeeById), new { id = responseDto.Id }, responseDto);
     }
@@ -79,7 +101,15 @@ public class EmployeeController: ControllerBase
                 Email = p.Email,
                 Surname = p.Surname,
                 PhoneNumber = p.PhoneNumber,
-                CreatedAt = p.CreatedAt
+                CreatedAt = p.CreatedAt,
+                Role = p.Role,
+                Qualifications = p.RolesCollection
+                    .Select(r => new RoleDto
+                    {
+                        Id = r.Id,
+                        RoleName = r.RoleName
+                    })
+                    .ToList()
             })
             .ToListAsync();
         
@@ -101,7 +131,14 @@ public class EmployeeController: ControllerBase
                 Email = p.Email,
                 Surname = p.Surname,
                 PhoneNumber = p.PhoneNumber,
-                CreatedAt = p.CreatedAt
+                CreatedAt = p.CreatedAt,
+                Qualifications = p.RolesCollection
+                .Select(r => new RoleDto
+                {
+                Id = r.Id,
+                RoleName = r.RoleName
+            })
+            .ToList()
             })
             .FirstOrDefaultAsync();
         
@@ -177,6 +214,27 @@ public class EmployeeController: ControllerBase
         
         if (patchDto.Role != null)
             employee.Role = patchDto.Role;
+
+        if (patchDto.RoleIds != null)
+        {
+            var distinctRoleIds = patchDto.RoleIds.Distinct().ToList();
+            var updatedRoles = distinctRoleIds.Count > 0
+                ? await _dbContext.Roles
+                    .Where(r => distinctRoleIds.Contains(r.Id) && r.IsActive)
+                    .ToListAsync()
+                : new List<Roles>();
+
+            if (updatedRoles.Count != distinctRoleIds.Count)
+            {
+                return BadRequest("Jedna lub więcej wybranych kwalifikacji nie istnieje lub jest nieaktywna.");
+            }
+            
+            employee.RolesCollection.Clear();
+            foreach (var role in updatedRoles)
+            {
+                employee.RolesCollection.Add(role);
+            }
+        }
 
         employee.UpdatedAt = DateTime.UtcNow;
 

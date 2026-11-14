@@ -70,7 +70,7 @@ public partial class App : Application
         services.AddTransient<IStayService, StayService>();
         services.AddTransient<IScheduleService, ScheduleService>();
         services.AddTransient<IWeatherService, WeatherService>();
-
+        services.AddTransient<IMenuService, MenuService>();
 
         services.AddTransient<MainViewModel>();
         services.AddTransient<HomeViewModel>();

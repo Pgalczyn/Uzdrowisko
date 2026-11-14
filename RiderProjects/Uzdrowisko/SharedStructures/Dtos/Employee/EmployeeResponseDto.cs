@@ -1,3 +1,5 @@
+using SharedStructures.Dtos.Role;
+
 namespace SharedStructures.Dtos.Employee;
 
 public class EmployeeResponseDto
@@ -13,6 +15,8 @@ public class EmployeeResponseDto
     public string? City { get; set; }
     public string? PostalCode { get; set; }
     public string? Role { get; set; }
+    
+    public List<RoleDto> Qualifications { get; set; } = new();
     
     public bool Active { get; set; }
     public DateTime CreatedAt { get; set; }

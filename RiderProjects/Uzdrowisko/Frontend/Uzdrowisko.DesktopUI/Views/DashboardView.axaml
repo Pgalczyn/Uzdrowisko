@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
              xmlns:models="using:Uzdrowisko.DesktopUI.Models"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="800"
              x:Class="Uzdrowisko.Views.DashboardView"
              x:DataType="vm:DashboardViewModel">
 
@@ -14,63 +14,67 @@
                    Classes="pageHeader" />
 
         <Grid RowDefinitions="Auto,*">
-<!-- 1. OSOBNA KARTA DLA POGODY (Wiersz 0) -->
-<Border Grid.Row="0"
-        Classes="glassCard"
-        Padding="20">
-    <StackPanel Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
-
-        <!-- Ikonka pogody -->
-        <Image Source="{Binding WeatherIcon}" 
-               Width="64" 
-               Height="64" 
-               VerticalAlignment="Center" />
-
-        <!-- Miejscowość i status pogody -->
-        <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="POGODA DLA SOLCA-ZDROJU – DZISIAJ"
-                       FontSize="11"
-                       FontWeight="SemiBold"
-                       Foreground="{StaticResource SpaTextMuted}"
-                       LetterSpacing="1" />
-            <TextBlock Text="{Binding WeatherDescription}"
-                       FontSize="14"
-                       Foreground="#E8F1EC"
-                       Margin="0,4,0,0" />
-        </StackPanel>
-
-        <!-- Pionowa linia rozdzielająca -->
-        <Rectangle Width="1" Fill="#25FFFFFF" Margin="5,0" />
-
-        <!-- Wartość temperatury i dodatkowe dane -->
-        <StackPanel VerticalAlignment="Center" Spacing="2">
             
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Temperature}"
-                           FontSize="26"
-                           FontWeight="Bold"
-                           Foreground="#FFFFFF" />
-                <TextBlock Text="°C"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="{StaticResource SpaTextMuted}"
-                           Margin="2,2,0,0"
-                           VerticalAlignment="Top" />
-            </StackPanel>
-            
-            <!-- Min, Max, Opady (Wyciągnięte z Forecast) -->
-            <TextBlock Text="{Binding WeatherDetails}"
-                       FontSize="12"
-                       FontWeight="Medium"
-                       Foreground="{StaticResource SpaTextMuted}" />
-                       
-        </StackPanel>
+            <!-- ============================================== -->
+            <!-- 1. OSOBNA KARTA DLA POGODY (Wiersz 0)          -->
+            <!-- ============================================== -->
+            <Border Grid.Row="0"
+                    Classes="glassCard"
+                    Padding="20">
+                <StackPanel Orientation="Horizontal" Spacing="20" VerticalAlignment="Center">
 
-    </StackPanel>
-</Border>
+                    <!-- Ikonka pogody -->
+                    <Image Source="{Binding WeatherIcon}" 
+                           Width="64" 
+                           Height="64" 
+                           VerticalAlignment="Center" />
 
+                    <!-- Miejscowość i status pogody -->
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Text="POGODA DLA SOLCA-ZDROJU – DZISIAJ"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="{StaticResource SpaTextMuted}"
+                                   LetterSpacing="1" />
+                        <TextBlock Text="{Binding WeatherDescription}"
+                                   FontSize="14"
+                                   Foreground="#E8F1EC"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
 
+                    <!-- Pionowa linia rozdzielająca -->
+                    <Rectangle Width="1" Fill="#25FFFFFF" Margin="5,0" />
 
+                    <!-- Wartość temperatury i dodatkowe dane -->
+                    <StackPanel VerticalAlignment="Center" Spacing="2">
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Temperature}"
+                                       FontSize="26"
+                                       FontWeight="Bold"
+                                       Foreground="#FFFFFF" />
+                            <TextBlock Text="°C"
+                                       FontSize="16"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource SpaTextMuted}"
+                                       Margin="2,2,0,0"
+                                       VerticalAlignment="Top" />
+                        </StackPanel>
+                        
+                        <!-- Min, Max, Opady -->
+                        <TextBlock Text="{Binding WeatherDetails}"
+                                   FontSize="12"
+                                   FontWeight="Medium"
+                                   Foreground="{StaticResource SpaTextMuted}" />
+                                   
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+            <!-- ============================================== -->
+            <!-- 2. OSOBNA KARTA DLA ZABIEGÓW (Wiersz 1)        -->
+            <!-- ============================================== -->
             <Border
                 Grid.Row="1"
                 Classes="glassCard"
@@ -144,7 +148,6 @@
                                                                Foreground="{StaticResource SpaTextMuted}" />
                                                 </StackPanel>
 
-
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
@@ -172,6 +175,96 @@
                 </Grid>
             </Border>
         </Grid>
-    </StackPanel>
+        
+        <!-- ============================================== -->
+        <!-- 3. NOWA SEKCJA: KARTY JADŁOSPISU               -->
+        <!-- ============================================== -->
+        <StackPanel DataContext="{Binding TodayMenu}" Margin="0,10,0,30" Spacing="15">
+            
+            <StackPanel Orientation="Horizontal" Spacing="15" VerticalAlignment="Center">
+                <TextBlock Text="MENU NA DZIŚ W UZDROWISKU"
+                           FontSize="11"
+                           FontWeight="SemiBold"
+                           Foreground="{StaticResource SpaTextMuted}"
+                           LetterSpacing="1" />
+                <TextBlock Text="{Binding TotalCaloriesDisplay}"
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Foreground="#95BCA2" />
+            </StackPanel>
 
+            <!-- Grid lub StackPanel układający 3 posiłki obok siebie -->
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                
+                <!-- ŚNIADANIE -->
+                <Border Classes="glassCard" Padding="20" Width="260" VerticalAlignment="Top">
+                    <StackPanel Spacing="8">
+                        <Border CornerRadius="8" ClipToBounds="True" Height="130" Margin="0,5,0,0">
+                            <Image Source="{Binding Breakfast.Image}" Stretch="UniformToFill" />
+                        </Border>
+                        <TextBlock Text="ŚNIADANIE" 
+                                   FontSize="11" 
+                                   FontWeight="Bold" 
+                                   Foreground="#95BCA2" 
+                                   LetterSpacing="1"/>
+                        <TextBlock Text="{Binding Breakfast.Name}" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#FFFFFF" 
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Breakfast.CaloriesDisplay}" 
+                                   FontSize="12" 
+                                   Foreground="{StaticResource SpaTextMuted}"/>
+                        
+                    </StackPanel>
+                </Border>
+
+                <!-- OBIAD -->
+                <Border Classes="glassCard" Padding="20" Width="260" VerticalAlignment="Top">
+                    <StackPanel Spacing="8">
+                        <Border CornerRadius="8" ClipToBounds="True" Height="130" Margin="0,5,0,0">
+                            <Image Source="{Binding Lunch.Image}" Stretch="UniformToFill" />
+                        </Border>
+                        <TextBlock Text="OBIAD" 
+                                   FontSize="11" 
+                                   FontWeight="Bold" 
+                                   Foreground="#95BCA2" 
+                                   LetterSpacing="1"/>
+                        <TextBlock Text="{Binding Lunch.Name}" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#FFFFFF" 
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Lunch.CaloriesDisplay}" 
+                                   FontSize="12" 
+                                   Foreground="{StaticResource SpaTextMuted}"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- KOLACJA -->
+                <Border Classes="glassCard" Padding="20" Width="260" VerticalAlignment="Top">
+                    <StackPanel Spacing="8">
+                        <Border CornerRadius="8" ClipToBounds="True" Height="130" Margin="0,5,0,0">
+                            <Image Source="{Binding Dinner.Image}" Stretch="UniformToFill" />
+                        </Border>
+                        <TextBlock Text="KOLACJA" 
+                                   FontSize="11" 
+                                   FontWeight="Bold" 
+                                   Foreground="#95BCA2" 
+                                   LetterSpacing="1"/>
+                        <TextBlock Text="{Binding Dinner.Name}" 
+                                   FontSize="16" 
+                                   FontWeight="SemiBold" 
+                                   Foreground="#FFFFFF" 
+                                   TextWrapping="Wrap"/>
+                        <TextBlock Text="{Binding Dinner.CaloriesDisplay}" 
+                                   FontSize="12" 
+                                   Foreground="{StaticResource SpaTextMuted}"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </StackPanel>
+
+    </StackPanel>
 </UserControl>

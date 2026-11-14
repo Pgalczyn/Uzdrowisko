@@ -27,6 +27,9 @@ public class Treatment
     public decimal Price { get; set; }
     
     public ICollection<Room> Rooms { get; set; } = new List<Room>();
+    
+    public int RequiredRoleId { get; set; }
+    public Roles RequiredRole { get; set; }
 
     public ICollection<Transactions> Transactions { get; set; } = new List<Transactions>();
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

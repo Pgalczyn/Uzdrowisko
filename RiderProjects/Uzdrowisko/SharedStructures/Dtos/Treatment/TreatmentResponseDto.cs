@@ -8,6 +8,8 @@ public class TreatmentResponseDto
     public int DurationMinutes { get; set; }
     
     public decimal Price { get; set; }
+    
+    public int RequiredRoleId { get; set; }
     public string? Type { get; set; }
     public bool Active { get; set; }
     public string? Flag { get; set; }

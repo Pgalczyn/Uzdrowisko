@@ -22,6 +22,21 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("EmployeeRoles", b =>
+                {
+                    b.Property<int>("EmployeesCollectionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RolesCollectionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EmployeesCollectionId", "RolesCollectionId");
+
+                    b.HasIndex("RolesCollectionId");
+
+                    b.ToTable("EmployeeRoles");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Appointment", b =>
                 {
                     b.Property<int>("Id")
@@ -209,6 +224,31 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("RoleDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -383,6 +423,9 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<int>("RequiredRoleId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Type")
                         .HasMaxLength(30)
                         .HasColumnType("character varying(30)");
@@ -392,7 +435,24 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RequiredRoleId");
+
                     b.ToTable("Treatments");
+                });
+
+            modelBuilder.Entity("EmployeeRoles", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", null)
+                        .WithMany()
+                        .HasForeignKey("RolesCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Appointment", b =>
@@ -477,9 +537,25 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.Navigation("Treatment");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", "RequiredRole")
+                        .WithMany("Treatments")
+                        .HasForeignKey("RequiredRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RequiredRole");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Patient", b =>
                 {
                     b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", b =>
+                {
+                    b.Navigation("Treatments");
                 });
 
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Schedule", b =>

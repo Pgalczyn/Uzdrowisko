@@ -13,6 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddMemoryCache();
+
+builder.Services.AddHttpClient("Spoonacular", client =>
+{
+    client.BaseAddress = new Uri("https://api.spoonacular.com/recipes/");
+});
+
+builder.Services.AddHttpClient("Translator", client =>
+{
+    client.BaseAddress = new Uri("https://api.mymemory.translated.net/");
+});
 builder.Services.AddDbContext<UzdrowiskoDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IPasswordService, PasswordService>();
@@ -85,13 +96,14 @@ using (var scope = app.Services.CreateScope())
         var passwordService = services.GetRequiredService<IPasswordService>();
         await dbContext.Database.MigrateAsync();
 
-        await TreatmentSeeder.SeedAsync(dbContext, logger);
+        await RolesSeeder.SeedAsync(dbContext, logger);
         await TreatmentSeeder.SeedAsync(dbContext, logger);
         await EmployeeSeeder.SeedAsync(dbContext, logger,passwordService);
         await PatientsSeeder.SeedAsync(dbContext, logger, passwordService);
         await RoomsSeeder.SeedAsync(dbContext, logger);
         await StaysSeeder.SeedAsync(dbContext, logger);
         await AppointmentsSeeder.SeedAsync(dbContext, logger);
+
         
     }
     catch (Exception ex)

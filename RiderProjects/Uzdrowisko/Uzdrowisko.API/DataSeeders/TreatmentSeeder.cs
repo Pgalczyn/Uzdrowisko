@@ -32,7 +32,7 @@ public static class TreatmentSeeder
             .Skip(1)
             .Where(s => !string.IsNullOrWhiteSpace(s))
             .Select(l => l.Split(';'))
-            .Where(columns => columns.Length >= 6)
+            .Where(columns => columns.Length >= 7)
             .Select(columns => new
             {
                 Name = columns[0].Trim(),
@@ -40,7 +40,8 @@ public static class TreatmentSeeder
                 DurationMinutes = int.TryParse(columns[2].Trim(), out var duration) ? duration : 30,
                 Type = columns[3].Trim(),
                 Flag = columns[4].Trim(),
-                Price =  decimal.TryParse(columns[5].Trim(), out var price) ? price : 100,
+                Price = decimal.TryParse(columns[5].Trim(), out var price) ? price : 100,
+                RequiredRole = columns[6].Trim()
             })
             .ToList();
 
@@ -49,12 +50,15 @@ public static class TreatmentSeeder
             .Where(t => treatmentNamesInCsv.Contains(t.Name))
             .Select(t => t.Name)
             .ToListAsync();
+
+        var rolesByName = await dbContext.Roles
+            .ToDictionaryAsync(r => r.RoleName, r => r.Id);
         
         var treatmentsToAdd = new List<Treatment>();
 
         foreach (var record in parsedRecords)
         {
-            if (existingTreatmentNames.Contains(record.Name))
+            if (existingTreatmentNames.Contains(record.Name) || !rolesByName.TryGetValue(record.RequiredRole, out var roleId))
             {
                 continue;
             }
@@ -67,7 +71,8 @@ public static class TreatmentSeeder
                 Type = record.Type,
                 Flag = record.Flag,
                 Price = record.Price,
-                Active= true
+                Active = true,
+                RequiredRoleId = roleId
             };
 
             treatmentsToAdd.Add(newTreatment);

@@ -148,7 +148,7 @@ public static class EmployeeSeeder
             .Skip(1)
             .Where(s => !string.IsNullOrWhiteSpace(s))
             .Select(l => l.Split(';'))
-            .Where(columns => columns.Length > 2)
+            .Where(columns => columns.Length >= 8)
             .Select(columns => new
             {
                 Name = columns[0].Trim(),
@@ -157,7 +157,8 @@ public static class EmployeeSeeder
                 Role = columns[3].Trim(),
                 DateOfBirth = DateOnly.ParseExact(columns[4].Trim(), "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 PhoneNumber = columns[5].Trim(),
-                Password = columns[6].Trim()
+                Password = columns[6].Trim(),
+                Roles = columns[7].Trim()
             })
             .ToList();
         var emailsInFile = parsedRecords.Select(r => r.Email).ToList();
@@ -166,6 +167,9 @@ public static class EmployeeSeeder
             .Select(e => e.Email)
             .ToListAsync();
 
+        var rolesByName = await dbContext.Roles
+            .ToDictionaryAsync(r => r.RoleName);
+
         var employeesToAdd = new List<Employee>();
         foreach (var record in parsedRecords)
         {
@@ -173,6 +177,12 @@ public static class EmployeeSeeder
             {
                 continue;
             }
+
+            var employeeRoles = record.Roles
+                .Split('|', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Where(rolesByName.ContainsKey)
+                .Select(roleName => rolesByName[roleName])
+                .ToList();
 
             var newEmployee = new Employee
             {
@@ -184,7 +194,8 @@ public static class EmployeeSeeder
                 PhoneNumber = record.PhoneNumber,
                 Active = true,
                 CreatedAt = DateTime.UtcNow,
-                PasswordHash = string.Empty
+                PasswordHash = string.Empty,
+                RolesCollection = employeeRoles
             };
 
             newEmployee.PasswordHash = passwordService.HashPassword(newEmployee, record.Password);

@@ -21,6 +21,10 @@ public partial class DashboardViewModel : ViewModelBase
     private readonly IAppointmentService _service;
     private readonly IWeatherService _weatherService;
     [ObservableProperty] private bool _isEmpty;
+    
+    private readonly IMenuService _menuService;
+    [ObservableProperty] private MenuItem? _todayMenu;
+    
     private readonly Action<ViewModelBase> _navigateTo;
     public ObservableCollection<AppointmentItem> DayTreatments { get; } = new();
     private readonly DispatcherTimer _weatherTimer;
@@ -28,14 +32,16 @@ public partial class DashboardViewModel : ViewModelBase
     [ObservableProperty] private string _temperature = "--C";
     [ObservableProperty] private string _weatherDescription = "Pobieranie.";
 
-    public DashboardViewModel(IAppointmentService service, IWeatherService weatherService,
+    public DashboardViewModel(IAppointmentService service, IWeatherService weatherService,IMenuService menuService,
         Action<ViewModelBase> navigateTo)
     {
         _service = service;
         _weatherService = weatherService;
         _navigateTo = navigateTo;
+        _menuService = menuService;
         _ = LoadTreatmentsForToday(Today);
         _ = LoadWeatherAsync();
+        _ =  LoadMenu();
         _weatherTimer = new DispatcherTimer { Interval = TimeSpan.FromMinutes(15) };
         _weatherTimer.Tick += (sender, args) =>
         {
@@ -108,6 +114,53 @@ public partial class DashboardViewModel : ViewModelBase
             Console.WriteLine($"[DashboardViewModel] Błąd pobierania pogody: {ex}");
         }
     }
+
+    private async Task LoadMenu()
+    {
+        try
+        {
+            var menu = await _menuService.GetMenu();
+        
+            if (menu != null)
+            {
+                using var httpClient = new HttpClient();
+            
+                var breakfastImageTask = DownloadImage(httpClient, menu.Breakfast.ImageUrl);
+                var lunchImageTask = DownloadImage(httpClient, menu.Lunch.ImageUrl);
+                var dinnerImageTask = DownloadImage(httpClient, menu.Dinner.ImageUrl);
+
+                await Task.WhenAll(breakfastImageTask, lunchImageTask, dinnerImageTask);
+
+                menu.Breakfast.Image = await breakfastImageTask;
+                menu.Lunch.Image = await lunchImageTask;
+                menu.Dinner.Image = await dinnerImageTask;
+            }
+
+            TodayMenu = menu;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[DashboardViewModel] Błąd pobierania jadłospisu: {ex}");
+        }
+    }
+
+    private async Task<Bitmap?> DownloadImage(HttpClient client, string url)
+    {
+        if (string.IsNullOrWhiteSpace(url)) return null;
+    
+        try
+        {
+            var bytes = await client.GetByteArrayAsync(url);
+            using var stream = new MemoryStream(bytes);
+            return new Bitmap(stream);
+        }
+        catch
+        {
+            return null; 
+        }
+    }
+
+
 
 
     [RelayCommand]
