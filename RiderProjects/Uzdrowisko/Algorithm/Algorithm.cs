@@ -14,6 +14,8 @@ public class Scheduler {
     public readonly int endWorkHour;
 
     public readonly int blocksPerDay;
+    
+    public String failureReason = "No failure"; // debugging only - remove it once everything works!
 
     public static readonly TreatmentGroups treatmentGroups = new();
 
@@ -29,13 +31,10 @@ public class Scheduler {
         if (timeBlockLengthMinutes <= 0)
             throw new ArgumentOutOfRangeException(nameof(timeBlockLengthMinutes));
 
-        if (endWorkHour <= startWorkHour)
+        if (endWorkMinutesOfDay <= startWorkHourMinutesOfDay)
             throw new ArgumentException("End hour must be greater than start hour.");
 
-        int blockCount = (endWorkMinutesOfDay - startWorkHourMinutesOfDay) / timeBlockLengthMinutes;
-
-        if (Math.Abs(blockCount - blockCount) > 1e-9)
-            throw new ArgumentException("Working hours must be divisible by block length.");
+        blocksPerDay = (endWorkMinutesOfDay - startWorkHourMinutesOfDay) / timeBlockLengthMinutes;
 
         bufferTime = bufferTimeMinutes;
         timeBlockLength = timeBlockLengthMinutes;
@@ -470,7 +469,7 @@ public class Scheduler {
         List<Treatment> treatments, // treatments we have to schedule for a patient
         Schedule cSchedule, // database entity object assigned for a patient
         List<BlockedTime> blocksTaken, // list of impossibilities (time slots when the patient is unavailable)
-        PlanCostEvaluator evaluator) // interface providing the function responsible for evaluating how good a plan is
+        PlanCostEvaluator? evaluator) // interface providing the function responsible for evaluating how good a plan is
     {
         blocksTaken ??= new List<BlockedTime>();
         DependencyGraph dependencyGraph = new DependencyGraph(treatments);
@@ -485,8 +484,10 @@ public class Scheduler {
             days.Add(day);
         }
 
-        if (days.Count == 0)
+        if (days.Count == 0) {
+            failureReason = "No available days!";
             return null;
+        }
 
         // --------------------------------------------------------
         // 2. Existing appointments of this customer
@@ -505,8 +506,10 @@ public class Scheduler {
         foreach (var treatment in treatments) {
             int length = (treatment.DurationMinutes + timeBlockLength -1)/timeBlockLength; // It's the same as Top(duration/timeBlockLenth)
             if (length <= 0 ||
-                length > blocksPerDay)
+                length > blocksPerDay) {
+                failureReason = "Can't allocate enough time for user ("+length.ToString()+" blocks)!";
                 return null;
+            }
 
             List<Room> availableRooms =
                 CompatibleRooms(treatment, rooms);
@@ -515,8 +518,10 @@ public class Scheduler {
                 CompatiblePersonnel(treatment, personel);
 
             if (availableRooms.Count == 0 ||
-                availablePersonnel.Count == 0)
+                availablePersonnel.Count == 0) {
+                failureReason = "No available personel!";
                 return null;
+            }
 
             List<Placement> possible = new();
 
@@ -546,8 +551,10 @@ public class Scheduler {
 
             options[treatment.Id] = possible;
 
-            if (possible.Count == 0)
+            if (possible.Count == 0) {
+                failureReason = "No possible placement combinations!";
                 return null;
+            }
         }
 
         // --------------------------------------------------------
@@ -637,8 +644,10 @@ public class Scheduler {
         // 6. No valid complete schedule
         // --------------------------------------------------------
 
-        if (bestPlacements == null)
+        if (bestPlacements == null) {
+            failureReason = "No possible placement combinations (null)!";
             return null;
+        }
 
         // --------------------------------------------------------
         // 7. Create final appointments
@@ -664,6 +673,7 @@ public class Scheduler {
             ));
         }
 
+        failureReason = "No failure";
         return result;
     }
 }

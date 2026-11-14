@@ -27,7 +27,7 @@ public class AppointmentLocal {
 		endMinutes -= scheduler.startWorkHour;
 		
 		time_from = (startMinutes+scheduler.timeBlockLength-1)/scheduler.timeBlockLength; // It's the same as Top(startMinutes/timeBlockLength)
-		time_to = (endMinutes+scheduler.timeBlockLength-1)/scheduler.timeBlockLength;
+		time_to = (endMinutes+scheduler.timeBlockLength-1)/scheduler.timeBlockLength; // the same as above...
 	}
 
 	public AppointmentLocal(
