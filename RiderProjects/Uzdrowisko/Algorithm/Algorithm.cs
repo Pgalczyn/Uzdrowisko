@@ -593,7 +593,8 @@ public class Scheduler {
                         p.room,
                         p.day,
                         p.start,
-                        p.end
+                        p.end,
+                        this
                     ));
                 }
 
@@ -669,7 +670,8 @@ public class Scheduler {
                 p.room,
                 p.day,
                 p.start,
-                p.end
+                p.end,
+                this
             ));
         }
 

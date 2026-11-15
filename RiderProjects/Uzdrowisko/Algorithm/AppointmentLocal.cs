@@ -1,10 +1,13 @@
 ﻿using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uzdrowisko.Infrastructure.DataBase.Entities;
 
 namespace Algorithm;
 
 public class AppointmentLocal {
 	public int id;
+	public Scheduler SchedulerLocal;
 	public Schedule schedule;
 	public Treatment treatment;
 	public Employee employee;
@@ -13,7 +16,8 @@ public class AppointmentLocal {
 	public int time_from; // number of time blocks
 	public int time_to; // number of time blocks
 
-	public AppointmentLocal(Scheduler scheduler, Appointment appointment) {
+	public AppointmentLocal(Scheduler scheduler, Appointment appointment)
+	{
 		id = appointment.Id;
 		schedule = appointment.Schedule;
 		treatment = appointment.Treatment;
@@ -38,8 +42,10 @@ public class AppointmentLocal {
 		Room room,
 		DateOnly date,
 		int time_from,
-		int time_to)
+		int time_to,
+		Scheduler scheduler)
 	{
+		SchedulerLocal = scheduler;
 		this.id = id;
 		this.schedule = schedule;
 		this.treatment = treatment;
@@ -48,5 +54,25 @@ public class AppointmentLocal {
 		this.date = date;
 		this.time_from = time_from;
 		this.time_to = time_to;
+	}
+
+
+	public Appointment ConvertToAppointment()
+	{
+		int startMinutesRaw = SchedulerLocal.startWorkHour + (SchedulerLocal.timeBlockLength * time_from);
+		int endMinutesRaw = SchedulerLocal.startWorkHour + (SchedulerLocal.timeBlockLength * time_to);
+
+		var newAppointment = new Appointment
+		{
+			ScheduleId =schedule.Id,
+			TreatmentId = treatment.Id,
+			EmployeeId = employee.Id,
+			RoomId = room.Id,
+			Date = date,
+			Status = "Zaplanowana",
+			TimeFrom = TimeOnly.FromTimeSpan(TimeSpan.FromMinutes(startMinutesRaw)),
+			TimeTo = TimeOnly.FromTimeSpan(TimeSpan.FromMinutes(endMinutesRaw))
+		};
+		return newAppointment;
 	}
 }

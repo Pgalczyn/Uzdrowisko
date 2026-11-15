@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Algorithm\Algorithm.csproj" />
       <ProjectReference Include="..\SharedStructures\SharedStructures.csproj" />
       <ProjectReference Include="..\Uzdrowisko.Infrastructure.DataBase\Uzdrowisko.Infrastructure.DataBase.csproj" />
     </ItemGroup>
