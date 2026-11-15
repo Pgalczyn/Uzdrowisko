@@ -21,7 +21,8 @@ public class Treatment
 
     public bool Active { get; set; } = true;
     
-    public string Flag { get; set; }
+    [MaxLength(50)]
+    public string? Flag { get; set; }
     
     [Range(1, int.MaxValue, ErrorMessage = "Cena musi być większa od zera.")]
     public decimal Price { get; set; }
