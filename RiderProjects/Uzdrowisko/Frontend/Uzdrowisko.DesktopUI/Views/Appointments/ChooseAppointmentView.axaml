@@ -22,44 +22,43 @@
                 <ScrollViewer>
                     <ListBox ItemsSource="{Binding AvailableTimes}"
                              SelectedItem="{Binding SelectedTime}"
-                             Background="#25FFFFFF"
-                             CornerRadius="15"
-                             Padding="25"
+                             Background="Transparent"
                              Width="600">
                         <ListBox.ItemTemplate>
                             <DataTemplate x:DataType="models:AppointmentItem">
+                                <Border Classes="treatmentCard" Padding="15" CornerRadius="8" Margin="0,0,0,10">
+                                    <Grid ColumnDefinitions="*,Auto, Auto"
+                                          ColumnSpacing="12">
+                                        <StackPanel Spacing="3">
+                                            <Grid ColumnDefinitions="110, *,*" ColumnSpacing="16">
+                                                <TextBlock Text="{Binding TimeRangeDisplay}"
+                                                           FontWeight="Bold"
+                                                           FontSize="14"
+                                                           Foreground="#FFFFFF"
+                                                           HorizontalAlignment="Center" />
+                                                <TextBlock Grid.Column="1" Text="{Binding TreatmentName}" FontSize="16"
+                                                           Foreground="white">
+                                                </TextBlock>
+                                                <TextBlock Grid.Column="2" Text="{Binding RoomDisplay}"
+                                                           FontSize="11"
+                                                           Foreground="{StaticResource SpaTextMuted}" />
+                                            </Grid>
+                                        </StackPanel>
+                                        <Border Grid.Column="1"
+                                                Background="#25FFFFFF"
+                                                CornerRadius="8"
+                                                Padding="10,5"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Right">
+                                            <TextBlock Text="{Binding DurationDisplay}"
+                                                       FontSize="12"
+                                                       FontWeight="Medium"
+                                                       Foreground="#D0E3D7" />
+                                        </Border>
 
-                                <Grid ColumnDefinitions="*,Auto, Auto"
-                                      ColumnSpacing="12">
-                                    <StackPanel Spacing="3">
-                                        <Grid ColumnDefinitions="110, *,*" ColumnSpacing="16">
-                                            <TextBlock Text="{Binding TimeRangeDisplay}"
-                                                       FontWeight="Bold"
-                                                       FontSize="14"
-                                                       Foreground="#FFFFFF"
-                                                       HorizontalAlignment="Center" />
-                                            <TextBlock Grid.Column="1" Text="{Binding TreatmentName}" FontSize="16"
-                                                       Foreground="white">
-                                            </TextBlock>
-                                            <TextBlock Grid.Column="2" Text="{Binding RoomDisplay}"
-                                                       FontSize="11"
-                                                       Foreground="{StaticResource SpaTextMuted}" />
-                                        </Grid>
-                                    </StackPanel>
-                                    <Border Grid.Column="1"
-                                            Background="#25FFFFFF"
-                                            CornerRadius="8"
-                                            Padding="10,5"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Right">
-                                        <TextBlock Text="{Binding DurationDisplay}"
-                                                   FontSize="12"
-                                                   FontWeight="Medium"
-                                                   Foreground="#D0E3D7" />
-                                    </Border>
-
-
-                                </Grid>
+                                    </Grid>
+                                </Border>
+                                
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.Styles>

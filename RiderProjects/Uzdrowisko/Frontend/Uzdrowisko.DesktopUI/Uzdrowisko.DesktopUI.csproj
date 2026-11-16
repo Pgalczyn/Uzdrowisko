@@ -31,10 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\AdminView.axaml.cs">
-        <DependentUpon>AdminView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\Admin\RegisterView.axaml.cs">
         <DependentUpon>RegisterView.axaml</DependentUpon>
         <SubType>Code</SubType>
@@ -65,6 +61,14 @@
       </Compile>
       <Compile Update="Views\Appointments\ChooseAppointmentView.axaml.cs">
         <DependentUpon>ChooseAppointmentView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\DoctorView.axaml.cs">
+        <DependentUpon>AdminView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\AdminView.axaml.cs">
+        <DependentUpon>AdminView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
     </ItemGroup>

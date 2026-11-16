@@ -24,7 +24,7 @@
                              Background="Transparent">
                         <ListBox.ItemTemplate>
                             <DataTemplate x:DataType="models:TreatmentItem">
-
+                                <Border Classes="treatmentCard" Padding="15" CornerRadius="8" Margin="0,0,0,10">
                                 <Grid ColumnDefinitions="*,Auto, Auto"
                                       ColumnSpacing="12">
                                     <StackPanel Spacing="3">
@@ -47,6 +47,7 @@
 
 
                                 </Grid>
+                                    </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         <ListBox.Styles>

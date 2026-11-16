@@ -60,6 +60,16 @@ public partial class HomeViewModel : ViewModelBase
             targetViewModel => CurrentSubPage = targetViewModel
         );
     }
+
+    [RelayCommand]
+    public void NavigateToDoctor()
+    {
+        CurrentSubPage = new DoctorViewModel(
+            _patientService, 
+            _employeeService, 
+            targetViewModel => CurrentSubPage = targetViewModel
+        );
+    }
     [RelayCommand]
     public void Logout()
     {

@@ -49,6 +49,13 @@
                                 CornerRadius="8"
                                 Padding="12,6"
                                 Command="{Binding NavigateToTreatmentsCommand}"/>
+                        <Button Content="Panel lekarza" 
+                                Background="Transparent" 
+                                Foreground="#D2E3D8" 
+                                CornerRadius="8"
+                                Padding="12,6"
+                                IsVisible="{Binding IsAdmin}"
+                                Command="{Binding NavigateToDoctorCommand}"/>
                         <Button Content="Administracja" 
                                 Background="Transparent" 
                                 Foreground="#D2E3D8" 

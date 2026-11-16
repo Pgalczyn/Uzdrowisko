@@ -23,6 +23,7 @@ public class UzdrowiskoDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Employee>()
+            .HasQueryFilter(e => e.Active)
             .HasIndex(e => e.Email)
             .IsUnique();
 
@@ -33,6 +34,8 @@ public class UzdrowiskoDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
         
         modelBuilder.Entity<Treatment>()
+            .HasQueryFilter(t => t.Active);
+        modelBuilder.Entity<Patient>()
             .HasQueryFilter(t => t.Active);
     }
 }

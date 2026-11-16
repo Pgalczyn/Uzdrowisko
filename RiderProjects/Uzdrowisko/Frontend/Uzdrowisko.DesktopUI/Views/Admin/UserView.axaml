@@ -10,14 +10,15 @@
              x:Name="RootControl">
 
     <Grid>
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Spacing="15" Margin="30">
+        <Grid RowDefinitions="Auto, *" HorizontalAlignment="Left" Margin="30">
             
             <TextBlock Text="Lista Pacjentów" 
                        Classes="pageHeader"/>
 
             <Border Classes="glassCard"
                     Padding="24"
-                    Width="650">
+                    Grid.Row = "1"
+                    Width = "900">
                 <Grid RowDefinitions="Auto, *">
                     
                     <StackPanel Grid.Row="0" Margin="0,0,0,20" Orientation="Horizontal">
@@ -82,7 +83,7 @@
                     </ScrollViewer>
                 </Grid>
             </Border>
-        </StackPanel>
+        </Grid>
 
        <Border Background="#18261E"
                 IsVisible="{Binding IsDialogVisible}"

@@ -30,6 +30,8 @@ public partial class DashboardViewModel : ViewModelBase
     private readonly DispatcherTimer _weatherTimer;
 
     [ObservableProperty] private string _temperature = "--C";
+    [ObservableProperty] private string _temperatureTomorrow = "--C";
+    [ObservableProperty] private string _temperatureInTwoDays = "--C";
     [ObservableProperty] private string _weatherDescription = "Pobieranie.";
 
     public DashboardViewModel(IAppointmentService service, IWeatherService weatherService,IMenuService menuService,
@@ -95,16 +97,32 @@ public partial class DashboardViewModel : ViewModelBase
                     WeatherIcon = new Bitmap(stream);
                 }
 
-                var todayForecast = weather.Forecast?.Days?.FirstOrDefault()?.Day;
-                if (todayForecast != null)
+                var forecastDays = weather.Forecast?.Days;
+                
+                if (forecastDays != null)
                 {
-                    WeatherDetails = $"Min: {todayForecast.MinTempC}°C | Max: {todayForecast.MaxTempC}°C | 🌧 Opady: {todayForecast.DailyChanceOfRain}%";
+                    var todayForecast = forecastDays.FirstOrDefault()?.Day;
+                    if (todayForecast != null)
+                    {
+                        WeatherDetails = $"Min: {todayForecast.MinTempC}°C | Max: {todayForecast.MaxTempC}°C | 🌧 Opady: {todayForecast.DailyChanceOfRain}%";
+                    }
+
+                    if (forecastDays.Count > 1 && forecastDays[1]?.Day != null)
+                    {
+                        TemperatureTomorrow = $"{forecastDays[1].Day.MaxTempC}";
+                    }
+                    if (forecastDays.Count > 2 && forecastDays[2]?.Day != null)
+                    {
+                        TemperatureInTwoDays = $"{forecastDays[2].Day.MaxTempC}";
+                    }
                 }
             }
             else
             {
                 WeatherDescription = "Brak sekcji 'current' w danych z serwera";
                 Temperature = "--";
+                TemperatureTomorrow = "--";
+                TemperatureInTwoDays = "--";
                 WeatherDetails = "";
             }
         }

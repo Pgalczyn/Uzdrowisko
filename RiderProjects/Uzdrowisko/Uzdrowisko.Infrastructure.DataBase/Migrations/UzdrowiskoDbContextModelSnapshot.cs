@@ -45,6 +45,12 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("BlockFrom")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BlockTo")
+                        .HasColumnType("integer");
+
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
@@ -412,8 +418,8 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Flag")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
