@@ -45,10 +45,6 @@ public class GenScheduleController: ControllerBase
 
         var scheduler = new Scheduler(15,20,480,960);
         
-        List<AppointmentLocal> localAppointments = appointments
-            .Select(a => new AppointmentLocal(scheduler,a))
-            .ToList();
-        
         var employees = await _dbContext.Employees.AsNoTracking().ToListAsync();
         var rooms = await _dbContext.Rooms.AsNoTracking().ToListAsync();
         var randomTreatmentsDb = await _dbContext.Treatments
@@ -72,17 +68,12 @@ public class GenScheduleController: ControllerBase
         
         var blocksTaken = new List<BlockedTime>();
         
-        var newAppointments =scheduler.schedule(localAppointments,rooms,employees,randomTreatmentsDb,patientSchedule,blocksTaken,null);
+        var newAppointments =scheduler.schedule(appointments,rooms,employees,randomTreatmentsDb,patientSchedule,blocksTaken,null);
         
-        
-        List<Appointment> resultAppointments = newAppointments
-            .Select(app => app.ConvertToAppointment())
-            .ToList();
-        
-        await _dbContext.Appointments.AddRangeAsync(resultAppointments);
+        await _dbContext.Appointments.AddRangeAsync(newAppointments);
         await _dbContext.SaveChangesAsync();
         
-        return Ok(resultAppointments);
+        return Ok(newAppointments);
     }
     
 }

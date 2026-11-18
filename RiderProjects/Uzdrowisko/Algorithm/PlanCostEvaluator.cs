@@ -3,5 +3,5 @@
 namespace Algorithm;
 
 public interface PlanCostEvaluator {
-	public int evaluate(Schedule schedule, List<AppointmentLocal> newAppointments);
+	public int evaluate(Schedule schedule, List<Appointment> newAppointments);
 }

@@ -19,6 +19,21 @@ public class Scheduler {
 
     public static readonly TreatmentGroups treatmentGroups = new();
 
+    public int getBlock(TimeOnly time) {
+        int minutes = (int) time.ToTimeSpan().TotalMinutes;
+        minutes -= startWorkHour;
+		
+        return (minutes+timeBlockLength-1)/timeBlockLength; // It's the same as Top(minutes/timeBlockLength)
+    }
+
+    public TimeOnly getTime(int block) {
+        // int minutes = block*timeBlockLength + startWorkHour;
+        // int hours = minutes / 60;
+        // minutes %= 60;
+        // return new TimeOnly(hours, minutes, 0);
+        return TimeOnly.FromTimeSpan(TimeSpan.FromMinutes(block * timeBlockLength + startWorkHour));
+    }
+
     public Scheduler(
         int bufferTimeMinutes, // 1440 = 24*60 => 24h => different days
         int timeBlockLengthMinutes, // 30 => 30 minutes
@@ -40,36 +55,6 @@ public class Scheduler {
         timeBlockLength = timeBlockLengthMinutes;
         startWorkHour = startWorkHourMinutesOfDay;
         endWorkHour = endWorkMinutesOfDay;
-    }
-
-    // ------------------------------------------------------------
-    // Internal placement representation
-    // ------------------------------------------------------------
-
-    private class Placement
-    {
-        public Treatment treatment;
-        public DateOnly day;
-        public int start;
-        public int end;
-        public Room room;
-        public Employee employee;
-
-        public Placement(
-            Treatment treatment,
-            DateOnly day,
-            int start,
-            int end,
-            Room room,
-            Employee employee)
-        {
-            this.treatment = treatment;
-            this.day = day;
-            this.start = start;
-            this.end = end;
-            this.room = room;
-            this.employee = employee;
-        }
     }
 
     // ------------------------------------------------------------
@@ -121,13 +106,9 @@ public class Scheduler {
     // ------------------------------------------------------------
 
     private bool BelongsToCustomer(
-        AppointmentLocal appointment,
-        Schedule cSchedule)
-    {
-        if (appointment.schedule.Id == cSchedule.Id)
-            return true;
-
-        return appointment.schedule.Stay.PatientId == cSchedule.Stay.PatientId;
+        Appointment appointment,
+        int patientId) {
+        return appointment.Schedule.Stay.PatientId == patientId;
     }
 
     // ------------------------------------------------------------
@@ -136,10 +117,9 @@ public class Scheduler {
 
     private List<Room> CompatibleRooms(
         Treatment treatment,
-        List<Room> rooms)
-    {
+        List<Room> rooms) {
         return rooms
-            .Where(r => r.Treatment.Id == treatment.Id && (r.Capacity == null || r.Capacity > 0))
+            .Where(r => r.TreatmentId == treatment.Id && (r.Capacity == null || r.Capacity > 0))
             .ToList();
     }
 
@@ -164,11 +144,6 @@ public class Scheduler {
         DependencyGraph dependencyGraph,
         TreatmentGroups treatmentGroups)
     {
-        if (a == b)
-        {
-            return true;
-        }
-
         if (!dependencyGraph.Graph.ContainsKey(a) &&
             !dependencyGraph.Graph.ContainsKey(b))
         {
@@ -296,27 +271,27 @@ public class Scheduler {
         DateOnly day,
         int start,
         int end,
-        List<Placement> placed,
+        List<Appointment> placed,
         DependencyGraph dependencyGraph)
     {
         foreach (var other in placed)
         {
-            if (day != other.day)
+            if (day != other.Date)
                 continue;
 
             if (!TreatmentDependencyUtils.TreatmentsConflict(
                     treatment,
-                    other.treatment,
+                    other.Treatment,
                     dependencyGraph,
                     treatmentGroups))
                 continue;
 
             int gap;
 
-            if (start >= other.end)
-                gap = start - other.end;
-            else if (other.start >= end)
-                gap = other.start - end;
+            if (start >= other.BlockTo)
+                gap = start - other.BlockTo;
+            else if (other.BlockFrom >= end)
+                gap = other.BlockFrom - end;
             else
                 gap = 0;
 
@@ -336,8 +311,8 @@ public class Scheduler {
         DateOnly day,
         int start,
         int end,
-        List<AppointmentLocal> appointments,
-        List<Placement> placed)
+        List<Appointment> appointments,
+        List<Appointment> placed)
     {
         for (int block = start; block < end; block++)
         {
@@ -345,25 +320,25 @@ public class Scheduler {
 
             foreach (var a in appointments)
             {
-                if (a.date != day)
+                if (a.Date != day)
                     continue;
 
-                if (a.room.Id != room.Id)
+                if (a.Room.Id != room.Id)
                     continue;
 
-                if (a.time_from <= block && block < a.time_to)
+                if (a.BlockFrom <= block && block < a.BlockTo)
                     usage++;
             }
 
             foreach (var p in placed)
             {
-                if (p.day != day)
+                if (p.Date != day)
                     continue;
 
-                if (p.room.Id != room.Id)
+                if (p.RoomId != room.Id)
                     continue;
                 
-                if (p.start <= block && block < p.end)
+                if (p.BlockFrom <= block && block < p.BlockFrom)
                     usage++;
             }
 
@@ -384,38 +359,36 @@ public class Scheduler {
         DateOnly day,
         int start,
         int end,
-        List<AppointmentLocal> appointments,
-        List<Placement> placed)
+        List<Appointment> appointments,
+        List<Appointment> placed)
     {
-        foreach (var a in appointments)
-        {
-            if (a.date != day)
+        foreach (var a in appointments) {
+            if (a.Date != day)
                 continue;
 
-            if (a.employee.Id != employee.Id)
+            if (a.EmployeeId != employee.Id)
                 continue;
 
-            if (!Overlaps(start, end, a.time_from, a.time_to))
+            if (!Overlaps(start, end, a.BlockFrom, a.BlockTo))
                 continue;
 
             // Same employee can serve multiple customers
             // simultaneously in the same room.
-            if (a.room.Id != room.Id)
+            if (a.RoomId != room.Id)
                 return false;
         }
 
-        foreach (var p in placed)
-        {
-            if (p.day != day)
+        foreach (var p in placed) {
+            if (p.Date != day)
                 continue;
 
-            if (p.employee.Id != employee.Id)
+            if (p.EmployeeId != employee.Id)
                 continue;
 
-            if (!Overlaps(start, end, p.start, p.end))
+            if (!Overlaps(start, end, p.BlockFrom, p.BlockTo))
                 continue;
 
-            if (p.room.Id != room.Id)
+            if (p.RoomId != room.Id)
                 return false;
         }
 
@@ -430,24 +403,24 @@ public class Scheduler {
         DateOnly day,
         int start,
         int end,
-        List<AppointmentLocal> customerAppointments,
-        List<Placement> placed)
+        List<Appointment> customerAppointments,
+        List<Appointment> placed)
     {
         foreach (var a in customerAppointments)
         {
-            if (a.date != day)
+            if (a.Date != day)
                 continue;
 
-            if (Overlaps(start, end, a.time_from, a.time_to))
+            if (Overlaps(start, end, a.BlockFrom, a.BlockTo))
                 return false;
         }
 
         foreach (var p in placed)
         {
-            if (p.day != day)
+            if (p.Date != day)
                 continue;
 
-            if (Overlaps(start, end, p.start, p.end))
+            if (Overlaps(start, end, p.BlockFrom, p.BlockTo))
                 return false;
         }
 
@@ -458,12 +431,12 @@ public class Scheduler {
     // Main scheduling method
     // ------------------------------------------------------------
 
-    public List<AppointmentLocal> schedule(
-        /*  Returns list of AppointmentLocal objects, which represent scheduled
+    public List<Appointment> schedule(
+        /*  Returns list of Appointment objects, which represent scheduled
             appointments for a patient.
         */
         // List<Schedule> schedules, // list of already existing schedules, unused
-        List<AppointmentLocal> appointments, // list of already existing appointments
+        List<Appointment> appointments, // list of already existing appointments
         List<Room> rooms, // available rooms
         List<Employee> personel, // available employees
         List<Treatment> treatments, // treatments we have to schedule for a patient
@@ -471,8 +444,8 @@ public class Scheduler {
         List<BlockedTime> blocksTaken, // list of impossibilities (time slots when the patient is unavailable)
         PlanCostEvaluator? evaluator) // interface providing the function responsible for evaluating how good a plan is
     {
-        blocksTaken ??= new List<BlockedTime>();
-        DependencyGraph dependencyGraph = new DependencyGraph(treatments);
+        //blocksTaken ??= new List<BlockedTime>();
+        //DependencyGraph dependencyGraph = new DependencyGraph(treatments); // I'm moving it to a different place so it includes pre-existing appointments as well
 
         // --------------------------------------------------------
         // 1. Find dates
@@ -493,15 +466,19 @@ public class Scheduler {
         // 2. Existing appointments of this customer
         // --------------------------------------------------------
 
-        List<AppointmentLocal> customerAppointments = appointments
-            .Where(a => BelongsToCustomer(a, cSchedule))
+        List<Appointment> customerAppointments = appointments
+            .Where(a => BelongsToCustomer(a, cSchedule.Stay.PatientId))
             .ToList();
 
+        List<Treatment> allCustomerTreatments = treatments.Union(customerAppointments.Select(b => b.Treatment)).ToList();
+        
+        DependencyGraph dependencyGraph = new DependencyGraph(allCustomerTreatments); // moved to here!
+        
         // --------------------------------------------------------
         // 3. Generate all possible placements
         // --------------------------------------------------------
 
-        Dictionary<int, List<Placement>> options = new();
+        Dictionary<int, List<Appointment>> options = new();
 
         foreach (var treatment in treatments) {
             int length = (treatment.DurationMinutes + timeBlockLength -1)/timeBlockLength; // It's the same as Top(duration/timeBlockLenth)
@@ -523,7 +500,7 @@ public class Scheduler {
                 return null;
             }
 
-            List<Placement> possible = new();
+            List<Appointment> possible = new();
 
             foreach (DateOnly day in days) {
                 for (int start = 0; start <= blocksPerDay - length; start++)
@@ -537,13 +514,19 @@ public class Scheduler {
                     {
                         foreach (var employee in availablePersonnel)
                         {
-                            possible.Add(new Placement(
-                                treatment,
-                                day,
-                                start,
-                                end,
-                                room,
-                                employee));
+                            possible.Add(new Appointment() {
+                                //Id = 0,
+                                Treatment = treatment,
+                                TreatmentId = treatment.Id,
+                                Date = day,
+                                BlockFrom = start,
+                                BlockTo  = end,
+                                RoomId=room.Id,
+                                Room=room,
+                                Employee = employee,
+                                EmployeeId = employee.Id,
+                                Status = "Temprorary"
+                            });
                         }
                     }
                 }
@@ -569,9 +552,9 @@ public class Scheduler {
         // 5. Backtracking search
         // --------------------------------------------------------
 
-        List<Placement> placed = new();
+        List<Appointment> placed = new();
 
-        List<Placement> bestPlacements = null;
+        List<Appointment> bestPlacements = null;
         double bestScore = double.PositiveInfinity;
 
         void Search(int index)
@@ -579,30 +562,19 @@ public class Scheduler {
             // All treatments have been assigned.
             if (index == orderedTreatments.Count)
             {
-                List<AppointmentLocal> candidate = new();
-
-                int tempId = -1;
+                List<Appointment> candidate = new();
 
                 foreach (var p in placed) {
-                    candidate.Add(new AppointmentLocal
-                    (
-                        tempId--,
-                        cSchedule,
-                        p.treatment,
-                        p.employee,
-                        p.room,
-                        p.day,
-                        p.start,
-                        p.end,
-                        this
-                    ));
+                    candidate.Add(p);
+                    p.TimeFrom = getTime(p.BlockFrom);
+                    p.TimeTo = getTime(p.BlockTo);
                 }
 
-                double score = (evaluator == null) ? (0) : (evaluator.evaluate(cSchedule, candidate));
+                double score = (evaluator == null) ? (0) : (evaluator.evaluate(cSchedule, customerAppointments.Concat(candidate).ToList()));
 
                 if (score < bestScore) {
                     bestScore = score;
-                    bestPlacements = new List<Placement>(placed);
+                    bestPlacements = new List<Appointment>(placed);
                 }
 
                 return;
@@ -613,22 +585,22 @@ public class Scheduler {
             foreach (var p in options[treatment.Id])
             {
                 if (!CustomerIsAvailable(
-                    p.day, p.start, p.end,
+                    p.Date, p.BlockFrom, p.BlockTo,
                     customerAppointments, placed))
                     continue;
 
                 if (!RoomHasCapacity(
-                    p.room, p.day, p.start, p.end,
+                    p.Room, p.Date, p.BlockFrom, p.BlockTo,
                     appointments, placed))
                     continue;
 
                 if (!EmployeeIsAvailable(
-                    p.employee, p.room, p.day,
-                    p.start, p.end, appointments, placed))
+                    p.Employee, p.Room, p.Date,
+                    p.BlockFrom, p.BlockTo, appointments, placed))
                     continue;
 
                 if (!RespectsTreatmentConstraints(
-                        treatment, p.day, p.start, p.end, placed, dependencyGraph))
+                        treatment, p.Date, p.BlockFrom, p.BlockTo, customerAppointments.Concat(placed).ToList(), dependencyGraph))
                     continue;
 
                 placed.Add(p);
@@ -656,23 +628,17 @@ public class Scheduler {
 
         int nextId = appointments.Count == 0
             ? 0
-            : appointments.Max(a => a.id) + 1;
+            : appointments.Max(a => a.Id) + 1;
 
-        List<AppointmentLocal> result = new();
+        List<Appointment> result = new();
 
-        foreach (var p in bestPlacements)
-        {
-            result.Add(new AppointmentLocal(
-                nextId++,
-                cSchedule,
-                p.treatment,
-                p.employee,
-                p.room,
-                p.day,
-                p.start,
-                p.end,
-                this
-            ));
+        foreach (var p in bestPlacements) {
+            //p.Id=;
+            p.Status = "Zaplanowane";
+            p.ScheduleId = cSchedule.Id;
+            p.Schedule = cSchedule;
+            result.Add(p);
+            cSchedule.Appointments.Add(p);
         }
 
         failureReason = "No failure";
