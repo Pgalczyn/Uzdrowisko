@@ -11,4 +11,5 @@ public interface IStayService
     Task<IReadOnlyList<StayItem>> GetAllStays();
     Task<StayItem?> GetStay(int id, CancellationToken ct);
     Task<bool> UpdateStay(int id, UpdateStayDto dto, CancellationToken ct);
+    Task<bool> CreateStay(CreateStayDto dto, CancellationToken ct = default);
 }

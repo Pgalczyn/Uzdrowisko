@@ -35,6 +35,7 @@ public class RoomController : ControllerBase
             Name = dtoRoom.Name,
             Location = dtoRoom.Location,
             Capacity = dtoRoom.Capacity,
+            TreatmentId = dtoRoom.TreatmentId,
         };
         
         _dbContext.Rooms.Add(newRoom);
@@ -46,6 +47,7 @@ public class RoomController : ControllerBase
             Name = newRoom.Name,
             Location = newRoom.Location,
             Capacity = newRoom.Capacity,
+            TreatmentId = newRoom.TreatmentId,
         };
         return CreatedAtAction(nameof(GetRoomById), new { id = newRoom.Id }, response);
 
@@ -64,6 +66,7 @@ public class RoomController : ControllerBase
                 Name = r.Name,
                 Location = r.Location,
                 Capacity = r.Capacity,
+                TreatmentId = r.TreatmentId,
             })
             .FirstOrDefaultAsync();
         
@@ -86,6 +89,7 @@ public class RoomController : ControllerBase
                 Name = r.Name,
                 Location = r.Location,
                 Capacity = r.Capacity,
+                TreatmentId = r.TreatmentId,
             })
             .ToListAsync();
         
@@ -141,6 +145,11 @@ public class RoomController : ControllerBase
         if (dtoRoom.Active != null)
         {
             room.Active =  dtoRoom.Active.Value;
+        }
+
+        if (dtoRoom.TreatmentId != null)
+        {
+            room.TreatmentId = dtoRoom.TreatmentId.Value;
         }
         
         await  _dbContext.SaveChangesAsync();

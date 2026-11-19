@@ -40,4 +40,6 @@ public class RegisterEmployeeDto
     [Required(ErrorMessage = "Musisz wybrać rolę dla pracownika.")]
     [EnumDataType(typeof(EmployeeRole), ErrorMessage = "Wybrana rola jest nieprawidłowa.")]
     public required string Role { get; set; }
+    
+    public List<int> EmployeeRoleIds { get; set; } = new();
 }

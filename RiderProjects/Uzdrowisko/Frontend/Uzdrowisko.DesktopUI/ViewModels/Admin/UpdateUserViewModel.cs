@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SharedStructures.Dtos.Patient;
+using SharedStructures.Dtos.Stay;
 using Uzdrowisko.DesktopUI.Models;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 
@@ -12,6 +13,7 @@ namespace Uzdrowisko.DesktopUI.ViewModels;
 public partial class UpdateUserViewModel : ViewModelBase
 {
     private readonly IPatientService _patientService;
+    private readonly IStayService _stayService;
     private readonly Action _goBack;
     private readonly int _patientId;
 
@@ -28,11 +30,20 @@ public partial class UpdateUserViewModel : ViewModelBase
     [ObservableProperty] private string _city = string.Empty;
     [ObservableProperty] private string _postalCode = string.Empty;
     [ObservableProperty] private bool _isDialogVisible;
+    [ObservableProperty] private DateTime? _stayDateFrom = DateTime.Today;
+    [ObservableProperty] private DateTime? _stayDateTo = DateTime.Today.AddDays(14);
+    [ObservableProperty] private string? _stayStatusMessage;
 
     private CancellationTokenSource? _cts;
-    public UpdateUserViewModel(PatientItem patientToEdit, IPatientService patientService, Action goBack)
+
+    public UpdateUserViewModel(
+        PatientItem patientToEdit,
+        IPatientService patientService,
+        IStayService stayService,
+        Action goBack)
     {
         _patientService = patientService;
+        _stayService = stayService;
         _goBack = goBack;
         _patientId = patientToEdit.Id;
 
@@ -50,6 +61,7 @@ public partial class UpdateUserViewModel : ViewModelBase
         _cts?.Cancel();
         _cts = new CancellationTokenSource();
         var ct = _cts.Token;
+
         DateOnly? parsedDate = null;
         if (DateOnly.TryParse(DateOfBirth, out var dt))
         {
@@ -70,7 +82,7 @@ public partial class UpdateUserViewModel : ViewModelBase
 
         try
         {
-            await _patientService.UpdatePatientItemAsync(_patientId, dto,ct);
+            await _patientService.UpdatePatientItemAsync(_patientId, dto, ct);
             SuccessMessage = "Dane pacjenta zostały pomyślnie zaktualizowane!";
             IsDialogVisible = true;
         }
@@ -89,4 +101,37 @@ public partial class UpdateUserViewModel : ViewModelBase
 
     [RelayCommand]
     private void GoBack() => _goBack();
+
+    [RelayCommand]
+    private async Task AddStayAsync()
+    {
+        if (StayDateFrom == null || StayDateTo == null)
+        {
+            StayStatusMessage = "Wybierz obie daty pobytu.";
+            return;
+        }
+
+        if (StayDateTo < StayDateFrom)
+        {
+            StayStatusMessage = "Data zakończenia nie może być wcześniejsza niż rozpoczęcia.";
+            return;
+        }
+
+        var dto = new UpdateStayDto
+        {
+            DateFrom = DateOnly.FromDateTime(StayDateFrom.Value),
+            DateTo = DateOnly.FromDateTime(StayDateTo.Value),
+            Status = "Aktywny",
+            Active = true
+        };
+
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        var ct = _cts.Token;
+
+        bool isSuccess = await _stayService.UpdateStay(_patientId, dto, ct);
+        StayStatusMessage = isSuccess
+            ? "Pobyt i harmonogram zostały zapisane."
+            : $"Błąd";
+    }
 }

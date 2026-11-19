@@ -6,7 +6,6 @@ using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using SharedStructures.Dtos.Appointment;
-using SharedStructures.Dtos.Patient;
 using Uzdrowisko.DesktopUI.Models;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 using Uzdrowisko.DesktopUI.Services.Common;
@@ -36,6 +35,11 @@ public class AppointmentService : IAppointmentService
         {
             return Array.Empty<AppointmentItem>();
         }
+    }
+    public async Task<bool> DeleteAppointmentAsync(int id, CancellationToken ct = default)
+    {
+        var response = await _httpClient.DeleteAsync($"api/Appointment/{id}", ct);
+        return response.IsSuccessStatusCode;
     }
 
     public async Task<AppointmentItem?> GetAppointmentAsync(int id, CancellationToken ct = default)

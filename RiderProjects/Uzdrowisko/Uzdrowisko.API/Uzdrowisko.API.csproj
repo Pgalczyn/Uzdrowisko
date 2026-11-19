@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Algorithm\Algorithm.csproj" />
       <ProjectReference Include="..\SharedStructures\SharedStructures.csproj" />
       <ProjectReference Include="..\Uzdrowisko.Infrastructure.DataBase\Uzdrowisko.Infrastructure.DataBase.csproj" />
     </ItemGroup>
@@ -38,6 +39,12 @@
       <None Update="DataSeeders\DataCSV\Appointments.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="DataSeeders\DataCSV\Stays.csv">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

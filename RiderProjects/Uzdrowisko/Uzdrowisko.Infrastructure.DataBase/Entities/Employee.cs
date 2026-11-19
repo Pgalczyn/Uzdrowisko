@@ -30,4 +30,7 @@ public class Employee : IHasPassword
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; }
     public required bool Active { get; set; } = true;
+    
+    public ICollection<Roles> RolesCollection{ get; set; } = new List<Roles>();
+
 }

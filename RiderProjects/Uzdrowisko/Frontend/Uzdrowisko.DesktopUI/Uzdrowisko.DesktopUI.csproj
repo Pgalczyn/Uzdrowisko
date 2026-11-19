@@ -7,19 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AvaloniaResource Include="Assets\**"/>
+        <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="12.1.4"/>
-        <PackageReference Include="Avalonia.Desktop" Version="12.1.4"/>
-        <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.4"/>
-        <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.4"/>
+        <PackageReference Include="Avalonia" Version="12.1.4" />
+        <PackageReference Include="Avalonia.Desktop" Version="12.1.4" />
+        <PackageReference Include="Avalonia.Themes.Fluent" Version="12.1.4" />
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.4" />
         <PackageReference Include="AvaloniaUI.DiagnosticsSupport" Version="2.2.3">
             <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2"/>
+        <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+        <PackageReference Include="HotAvalonia" Version="3.1.5" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="11.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.14" />
     </ItemGroup>
 
     <ItemGroup>
@@ -27,10 +31,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Views\AdminView.axaml.cs">
-        <DependentUpon>AdminView.axaml</DependentUpon>
-        <SubType>Code</SubType>
-      </Compile>
       <Compile Update="Views\Admin\RegisterView.axaml.cs">
         <DependentUpon>RegisterView.axaml</DependentUpon>
         <SubType>Code</SubType>
@@ -55,5 +55,43 @@
         <DependentUpon>UpdateUserView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Appointments\ChangeAppointmentDateView.axaml.cs">
+        <DependentUpon>CalendarView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Appointments\ChooseAppointmentView.axaml.cs">
+        <DependentUpon>ChooseAppointmentView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\DoctorView.axaml.cs">
+        <DependentUpon>AdminView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\AdminView.axaml.cs">
+        <DependentUpon>AdminView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\UserView.axaml.cs">
+        <DependentUpon>UserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\GenerateScheduleView.axaml.cs">
+        <DependentUpon>GenerateScheduleView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\PatientTreatmentsView.axaml.cs">
+        <DependentUpon>CalendarView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Admin\EditTreatmentsView.axaml.cs">
+        <DependentUpon>EditTreatmentsView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

@@ -22,6 +22,21 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("EmployeeRoles", b =>
+                {
+                    b.Property<int>("EmployeesCollectionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RolesCollectionId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EmployeesCollectionId", "RolesCollectionId");
+
+                    b.HasIndex("RolesCollectionId");
+
+                    b.ToTable("EmployeeRoles");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Appointment", b =>
                 {
                     b.Property<int>("Id")
@@ -29,6 +44,12 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("BlockFrom")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BlockTo")
+                        .HasColumnType("integer");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
@@ -209,6 +230,31 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.ToTable("Patients");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("RoleDescription")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RoleName")
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("character varying(60)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Roles");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Room", b =>
                 {
                     b.Property<int>("Id")
@@ -240,6 +286,9 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
+                    b.Property<int?>("TreatmentId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -247,6 +296,8 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
                     b.HasIndex("Number")
                         .IsUnique();
+
+                    b.HasIndex("TreatmentId");
 
                     b.ToTable("Rooms");
                 });
@@ -304,6 +355,47 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.ToTable("Stays");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Transactions", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("EndOfTreatment")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("PatientId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("StartOfTreatment")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TreatmentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.HasIndex("TreatmentId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
                 {
                     b.Property<int>("Id")
@@ -326,13 +418,19 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Flag")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("RequiredRoleId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Type")
                         .HasMaxLength(30)
@@ -343,7 +441,24 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("RequiredRoleId");
+
                     b.ToTable("Treatments");
+                });
+
+            modelBuilder.Entity("EmployeeRoles", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Employee", null)
+                        .WithMany()
+                        .HasForeignKey("EmployeesCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", null)
+                        .WithMany()
+                        .HasForeignKey("RolesCollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Appointment", b =>
@@ -378,6 +493,15 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.Navigation("Treatment");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Room", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", "Treatment")
+                        .WithMany("Rooms")
+                        .HasForeignKey("TreatmentId");
+
+                    b.Navigation("Treatment");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Schedule", b =>
                 {
                     b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Stay", "Stay")
@@ -400,9 +524,56 @@ namespace Uzdrowisko.Infrastructure.DataBase.Migrations
                     b.Navigation("Patient");
                 });
 
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Transactions", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Patient", "Patient")
+                        .WithMany("Transactions")
+                        .HasForeignKey("PatientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", "Treatment")
+                        .WithMany("Transactions")
+                        .HasForeignKey("TreatmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Patient");
+
+                    b.Navigation("Treatment");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
+                {
+                    b.HasOne("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", "RequiredRole")
+                        .WithMany("Treatments")
+                        .HasForeignKey("RequiredRoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RequiredRole");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Patient", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Roles", b =>
+                {
+                    b.Navigation("Treatments");
+                });
+
             modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Schedule", b =>
                 {
                     b.Navigation("Appointments");
+                });
+
+            modelBuilder.Entity("Uzdrowisko.Infrastructure.DataBase.Entities.Treatment", b =>
+                {
+                    b.Navigation("Rooms");
+
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

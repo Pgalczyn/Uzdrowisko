@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SharedStructures.Dtos.Stay;
-using SharedStructures.Dtos.Treatment;
 using Uzdrowisko.Infrastructure.DataBase.Context;
+using Uzdrowisko.Infrastructure.DataBase.Entities;
 
 namespace Uzdrowisko.API.Controllers;
 
@@ -99,6 +99,39 @@ public class StaysController : ControllerBase
         
         await  _dbContext.SaveChangesAsync();
         return NoContent();
+    }
+    [HttpPost]
+    public async Task<IActionResult> CreateStay([FromBody] CreateStayDto stayDto)
+    {
+        if (stayDto.DateTo < stayDto.DateFrom)
+            return BadRequest("Data zakończenia nie może być wcześniejsza niż rozpoczęcia.");
+
+        var patientExists = await _dbContext.Patients.AnyAsync(p => p.Id == stayDto.PatientId);
+        if (!patientExists)
+            return NotFound($"Pacjent o id {stayDto.PatientId} nie istnieje.");
+
+        var stay = new Stay
+        {
+            PatientId = stayDto.PatientId,
+            DateFrom = stayDto.DateFrom,
+            DateTo = stayDto.DateTo,
+            Status = "Aktywny",
+            Active = true
+        };
+
+        _dbContext.Stays.Add(stay);
+        await _dbContext.SaveChangesAsync();
+
+        var schedule = new Schedule
+        {
+            StayId = stay.Id,
+            Active = true
+        };
+
+        _dbContext.Schedules.Add(schedule);
+        await _dbContext.SaveChangesAsync();
+
+        return Ok(new { stay.Id, stay.PatientId, stay.DateFrom, stay.DateTo, ScheduleId = schedule.Id });
     }
     
 }

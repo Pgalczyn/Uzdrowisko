@@ -49,4 +49,7 @@ public class Patient : IHasPassword
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; }
+    
+    public ICollection<Transactions> Transactions { get; set; } = new List<Transactions>();
+
 }

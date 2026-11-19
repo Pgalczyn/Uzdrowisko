@@ -74,4 +74,9 @@ public class StayService : IStayService
             return false;
         }
     }
+    public async Task<bool> CreateStay(CreateStayDto dto, CancellationToken ct = default)
+    {
+        var response = await _httpClient.PostAsJsonAsync("api/Stays", dto, ct);
+        return response.IsSuccessStatusCode;
+    }
 }
