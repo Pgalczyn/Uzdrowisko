@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
@@ -11,14 +12,17 @@ public partial class AdminViewModel : ViewModelBase
     private readonly IPatientService _patientService;
     private readonly IEmployeeService _employeeService;
     private readonly Action<ViewModelBase> _navigateTo;
+    private readonly ITreatmentService  _treatmentService;
 
     public AdminViewModel(
         IPatientService patientService, 
-        IEmployeeService employeeService, 
+        IEmployeeService employeeService,
+        ITreatmentService treatmentService,
         Action<ViewModelBase> navigateTo)
     {
         _patientService = patientService;
         _employeeService = employeeService;
+        _treatmentService = treatmentService;
         _navigateTo = navigateTo;
     }
 
@@ -64,6 +68,17 @@ public partial class AdminViewModel : ViewModelBase
                 _employeeService, 
                 () => OpenEmployeeView()
             ))
+        ));
+    }
+    [RelayCommand] 
+    private void OpenEditTreatmentsView() 
+    {
+        _navigateTo(new EditTreatmentsViewModel(
+            _treatmentService, 
+            _navigateTo,
+        
+            () => _navigateTo(this)
+            
         ));
     }
     

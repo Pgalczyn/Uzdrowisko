@@ -59,6 +59,7 @@ public partial class HomeViewModel : ViewModelBase
         CurrentSubPage = new AdminViewModel(
             _patientService, 
             _employeeService, 
+            _treatmentService,
             targetViewModel => CurrentSubPage = targetViewModel
         );
     }

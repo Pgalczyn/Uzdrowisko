@@ -21,13 +21,13 @@
                         FontWeight="SemiBold"
                         Foreground="#FFFFFF"
                         Classes="adminCardButton"/>
-                <Button Content="Edytuj zabiegi"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        FontSize="22"
-                        FontWeight="SemiBold"
-                        Foreground="#FFFFFF"
-                        Classes="adminCardButton"/>
+                <!-- <Button Content="Edytuj zabiegi" -->
+                <!--         HorizontalContentAlignment="Center" -->
+                <!--         VerticalContentAlignment="Center" -->
+                <!--         FontSize="22" -->
+                <!--         FontWeight="SemiBold" -->
+                <!--         Foreground="#FFFFFF" -->
+                <!--         Classes="adminCardButton"/> -->
             </StackPanel>
 
         </Grid>

@@ -36,6 +36,20 @@
                             <ItemsControl ItemsSource="{Binding PatientListItemDtos}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate x:DataType="models:PatientItem">
+                                        <Button Command="{Binding #RootControl.((vm:PatientViewModel)DataContext).GoToTreatmentsCommand}"
+                                                CommandParameter="{Binding}"
+                                                Margin="0,0,0,12"
+                                                Padding="0"
+                                                Background="Transparent"
+                                                BorderThickness="0"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Stretch"
+                                                Cursor="Hand">
+                                            <Button.Styles>
+                                                <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent" />
+                                                </Style>
+                                            </Button.Styles>
                                         <Border Classes="treatmentCard" Margin="0,0,0,12">
                                             <Grid ColumnDefinitions="*, Auto,Auto" ColumnSpacing="15">
                                                 
@@ -47,20 +61,18 @@
                                                     <TextBlock Text="{Binding Email}" FontSize="12" Foreground="#D0E3D7"/>
                                                     <TextBlock Text="{Binding Pesel, StringFormat='PESEL: {0}'}" FontSize="11" Foreground="{StaticResource SpaTextMuted}"/>
                                                 </StackPanel>
-                                                <Button Grid.Column="1"
-                                                        Content="Zarządzaj zabiegami Pacjenta"
-                                                        Command="{Binding #RootControl.((vm:PatientViewModel)DataContext).GoToTreatmentsCommand}"
-                                                        CommandParameter="{Binding}"
-                                                        Background="#34523F"
-                                                        Foreground="White"
-                                                        CornerRadius="8"
-                                                        Padding="14,8"
-                                                        VerticalAlignment="Center"
-                                                        Cursor="Hand"/>
+                                                <TextBlock Grid.Column="2"
+                                                           Text="›"
+                                                           FontSize="24"
+                                                           Foreground="#50FFFFFF"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,10,0" />
                                             </Grid>
                                         </Border>
+                                            </Button>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
+                                
                             </ItemsControl>
                         </StackPanel>
                     </ScrollViewer>

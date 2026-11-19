@@ -83,6 +83,10 @@
         <DependentUpon>CalendarView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Admin\EditTreatmentsView.axaml.cs">
+        <DependentUpon>EditTreatmentsView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>
