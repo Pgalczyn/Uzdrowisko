@@ -72,7 +72,21 @@ public class GenScheduleController: ControllerBase
         await _dbContext.Appointments.AddRangeAsync(newAppointments);
         await _dbContext.SaveChangesAsync();
         
-        return Ok(newAppointments);
+        var response = newAppointments.Select(a => new
+        {
+            a.Id,
+            a.ScheduleId,
+            a.TreatmentId,
+            a.EmployeeId,
+            a.RoomId,
+            a.Date,
+            a.TimeFrom,
+            a.TimeTo,
+            a.Status,
+            a.Notes
+        }).ToList();
+        
+        return Ok(response);
     }
     
 }
