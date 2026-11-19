@@ -167,6 +167,8 @@
                             Margin="0,8,0,0"
                             Cursor="Hand" />
                     <Button Content="Odwołaj zabieg"
+                            Command="{Binding RemoveAppointmentCommand}"
+                            CommandParameter="{Binding SelectedAppointment}"
                             Height="40"
                             CornerRadius="8"
                             Background="#223B2A"

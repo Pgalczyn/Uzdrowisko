@@ -40,6 +40,33 @@ public partial class CalendarViewModel : ViewModelBase
     }
 
     partial void OnSelectedDateChanged(DateTime? value) => _ = LoadAsync(value);
+    [RelayCommand]
+    public async Task RemoveAppointmentAsync()
+    {
+        if (SelectedAppointment == null) return;
+        
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        var ct = _cts.Token;
+        
+        try
+        {
+            IsLoading = true;
+            await _service.DeleteAppointmentAsync(SelectedAppointment.Id, ct);
+            DayTreatments.Remove(SelectedAppointment);
+            IsEmpty = DayTreatments.Count == 0;
+            SelectedAppointment = null;
+            CloseDialog();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Błąd usuwania wizyty: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
 
     private async Task LoadAsync(DateTime? day)
     {

@@ -13,17 +13,21 @@ public partial class AdminViewModel : ViewModelBase
     private readonly IEmployeeService _employeeService;
     private readonly Action<ViewModelBase> _navigateTo;
     private readonly ITreatmentService  _treatmentService;
+    private readonly IStayService _stayService;
 
     public AdminViewModel(
         IPatientService patientService, 
         IEmployeeService employeeService,
         ITreatmentService treatmentService,
+        IStayService stayService,
         Action<ViewModelBase> navigateTo)
     {
         _patientService = patientService;
         _employeeService = employeeService;
         _treatmentService = treatmentService;
+        _stayService = stayService;
         _navigateTo = navigateTo;
+        
     }
 
     // [RelayCommand] 
@@ -43,11 +47,13 @@ public partial class AdminViewModel : ViewModelBase
         
             () => _navigateTo(new RegisterViewModel(
                 _patientService, 
+                _stayService,
                 () => OpenUserView() 
             )),
             (selectedPatient) => _navigateTo(new UpdateUserViewModel(
                 selectedPatient,
                 _patientService, 
+                _stayService,
                 () => OpenUserView()
             ))
         ));

@@ -23,6 +23,7 @@ public class AppointmentController: ControllerBase
     {
         var appointments = await _dbContext.Appointments
             .AsNoTracking()
+            .Where(a => a.Status != "Usuniety")
             .Select(a => new AppointmentResponseDto()
             {
                 Id = a.Id,

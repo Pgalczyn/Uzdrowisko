@@ -10,7 +10,7 @@
              x:Name="RootControl">
 
     <Grid>
-        <Grid RowDefinitions="Auto, Auto,*" HorizontalAlignment="Left" Margin="30">
+        <Grid RowDefinitions="Auto, Auto,*"  Margin="30">
             
             <TextBlock Text="Lista dostępnych zabiegów" 
                        Classes="pageHeader"/>
@@ -22,13 +22,13 @@
                 Command="{Binding GoBackCommand}"></Button>
             <Border Classes="glassCard"
                     Padding="24"
-                    Grid.Row="2"
-                    Width="900">
-                <StackPanel Spacing="15">
+                    Grid.Row="2">
+                <Grid RowDefinitions="Auto, Auto, *, Auto, Auto" RowSpacing="15">
                     <Expander Header="Wybierz zabiegi dla Pacjenta" 
                               HorizontalAlignment="Stretch"
                               Background="#1f2c24" 
-                              Foreground="White">
+                              Foreground="White"
+                              Grid.Row="0">
 
                         <StackPanel Spacing="10">
                             <TextBox Watermark="Szukaj zabiegu..." 
@@ -56,9 +56,9 @@
                             </ScrollViewer>
                         </StackPanel>
                     </Expander>
-                    <TextBlock Text="Wybrane zabiegi:" FontWeight="Bold" Foreground="White" FontSize="14" Margin="0,5,0,0"/>
+                    <TextBlock Grid.Row="1" Text="Wybrane zabiegi:" FontWeight="Bold" Foreground="White" FontSize="14" Margin="0,5,0,0"/>
                     
-                    <ScrollViewer MaxHeight="120">
+                    <ScrollViewer Grid.Row="2" MaxHeight="400">
                         <ItemsControl ItemsSource="{Binding SelectedTreatments}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate DataType="models:TreatmentItem">
@@ -66,20 +66,13 @@
                                         <Grid ColumnDefinitions="*, Auto">
                                             <TextBlock Text="{Binding Name}" Foreground="White" VerticalAlignment="Center"/>
                                             
-                                            <Button Grid.Column="1" 
-                                                    Content="✕" 
-                                                    Background="Transparent" 
-                                                    Foreground="#E57373"
-                                                    Command="{Binding #RootControl.((vm:GenerateScheduleViewModel)DataContext).RemoveSelectedTreatmentCommand}"
-                                                    CommandParameter="{Binding}"
-                                                    Cursor="Hand"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </ScrollViewer>
-                    <Button Content="Wygeneruj plan" 
+                    <Button Grid.Row = "3" Content="Wygeneruj plan" 
                             Command="{Binding GenerateScheduleCommand}" 
                             Height="46" 
                             CornerRadius="12" 
@@ -92,13 +85,13 @@
                             FontSize="15" 
                             Cursor="Hand"/>
 
-                    <TextBlock Text="{Binding StatusMessage}"
+                    <TextBlock Grid.Row = "4" Text="{Binding StatusMessage}"
                                Foreground="#FF8A80"
                                FontSize="13"
                                TextWrapping="Wrap"
                                HorizontalAlignment="Center"
                                IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
-                </StackPanel>
+                </Grid>
             </Border>
         </Grid>
     <Border 

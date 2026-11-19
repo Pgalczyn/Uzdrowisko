@@ -12,6 +12,7 @@ public partial class DoctorViewModel : ViewModelBase
     private readonly IGenSchedule _genScheduleService;
     private readonly ITreatmentService _treatmentService;
     private readonly IAppointmentService _appointmentService;
+    private readonly IStayService _stayService;
 
     public DoctorViewModel(
         IPatientService patientService, 
@@ -19,7 +20,8 @@ public partial class DoctorViewModel : ViewModelBase
         IGenSchedule genScheduleService,
         ITreatmentService treatmentService,
         Action<ViewModelBase> navigateTo,
-        IAppointmentService appointmentService)
+        IAppointmentService appointmentService,
+        IStayService stayService)
     {
         _patientService = patientService;
         _employeeService = employeeService;
@@ -27,8 +29,9 @@ public partial class DoctorViewModel : ViewModelBase
         _treatmentService = treatmentService;
         _navigateTo = navigateTo;
         _appointmentService = appointmentService;
+        _stayService = stayService;
     }
-
+    
     [RelayCommand] 
     private void OpenPatientView()
     {
@@ -39,12 +42,14 @@ public partial class DoctorViewModel : ViewModelBase
 
             () => _navigateTo(new RegisterViewModel(
                 _patientService,
+                _stayService,
                 () => OpenPatientView()
             )),
 
             (selectedPatient) => _navigateTo(new UpdateUserViewModel(
                 selectedPatient,
                 _patientService,
+                _stayService,
                 () => OpenPatientView()
             )),
             (selectedPatient) => _navigateTo(new GenerateScheduleViewModel(

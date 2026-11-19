@@ -30,7 +30,7 @@
                         FontWeight="SemiBold"
                         Foreground="#FFFFFF"
                         Classes="adminCardButton"/>
-                <Button Content="Zarządzaj rezerwacjami"
+                <Button Content="Zarządzaj zabiegami"
                         Command="{Binding OpenEditTreatmentsViewCommand}"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"

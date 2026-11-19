@@ -72,6 +72,8 @@ public partial class PatientViewModel : ViewModelBase
         IsDialogVisible = true;
     }
 
+    
+
     [RelayCommand]
     public async Task RemovePatientAsync()
     {

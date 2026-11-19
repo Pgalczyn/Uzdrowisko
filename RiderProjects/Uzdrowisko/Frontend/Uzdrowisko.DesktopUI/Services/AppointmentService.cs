@@ -36,6 +36,11 @@ public class AppointmentService : IAppointmentService
             return Array.Empty<AppointmentItem>();
         }
     }
+    public async Task<bool> DeleteAppointmentAsync(int id, CancellationToken ct = default)
+    {
+        var response = await _httpClient.DeleteAsync($"api/Appointment/{id}", ct);
+        return response.IsSuccessStatusCode;
+    }
 
     public async Task<AppointmentItem?> GetAppointmentAsync(int id, CancellationToken ct = default)
     {

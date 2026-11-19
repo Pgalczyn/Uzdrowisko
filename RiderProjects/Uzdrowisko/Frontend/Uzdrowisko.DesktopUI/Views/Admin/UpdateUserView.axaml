@@ -20,13 +20,15 @@
                    HorizontalAlignment="Center"
                    Grid.Row="0"
                    Margin="0,0,0,10"/>
-        <StackPanel Grid.Row="1" 
+        <Grid Grid.Row="1" 
                      VerticalAlignment="Top" 
                      HorizontalAlignment="Stretch"
                      MaxWidth="600"
-                     Spacing="12">
+                     ColumnDefinitions="*,400"
+                     >
+            <StackPanel Grid.Column="0">
                     
-                    <StackPanel.Resources>
+            <StackPanel.Resources>
                         <SolidColorBrush x:Key="TextControlPlaceholderForeground" Color="#99D0DDD5" />
                         <SolidColorBrush x:Key="TextControlPlaceholderForegroundPointerOver" Color="#CCD0DDD5" />
                         <SolidColorBrush x:Key="TextControlPlaceholderForegroundFocused" Color="#CCD0DDD5" />
@@ -109,8 +111,52 @@
                             Margin="0,8,0,0" 
                             Cursor="Hand"/>
 
-                    
-                </StackPanel>
+                    </StackPanel>
+            <Border Grid.Column="1"
+                        Classes="glassCard"
+                        Padding="24"
+                        VerticalAlignment="Top">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="Pobyt Pacjenta"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="White" />
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Data rozpoczęcia"
+                                       FontSize="12"
+                                       Foreground="#D0E3D7" />
+                            <CalendarDatePicker SelectedDate="{Binding StayDateFrom, Mode=TwoWay}"
+                                                HorizontalAlignment="Stretch"
+                                                Watermark="Wybierz datę od" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Data zakończenia"
+                                       FontSize="12"
+                                       Foreground="#D0E3D7" />
+                            <CalendarDatePicker SelectedDate="{Binding StayDateTo, Mode=TwoWay}"
+                                                HorizontalAlignment="Stretch"
+                                                Watermark="Wybierz datę do" />
+                        </StackPanel>
+
+                        
+                        <Button Content="Dodaj pobyt"
+                                Command="{Binding AddStayCommand}"
+                                Height="44"
+                                CornerRadius="12"
+                                Background="#34523F"
+                                Foreground="#FFFFFF"
+                                FontWeight="SemiBold"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                FontSize="14"
+                                Margin="0,6,0,0"
+                                Cursor="Hand" />
+                    </StackPanel>
+                </Border>
+                </Grid>
         
         </Grid>
         </ScrollViewer>

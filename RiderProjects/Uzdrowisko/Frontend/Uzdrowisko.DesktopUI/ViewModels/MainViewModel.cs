@@ -17,6 +17,7 @@ public partial class MainViewModel : ViewModelBase
     private readonly IWeatherService _weatherService;
     private readonly IMenuService _menuService;
     private readonly IGenSchedule _genScheduleService;
+    private readonly IStayService _stayService;
 
     public MainViewModel(
         IAuthService authService, 
@@ -26,7 +27,8 @@ public partial class MainViewModel : ViewModelBase
         IEmployeeService employeeService,
         IWeatherService weatherService,
         IMenuService  menuService,
-        IGenSchedule genScheduleService)
+        IGenSchedule genScheduleService,
+        IStayService stayService)
     {
         _authService = authService;
         _appointmentService = appointmentService;
@@ -37,12 +39,13 @@ public partial class MainViewModel : ViewModelBase
         _weatherService =  weatherService;
         _menuService = menuService;
         _genScheduleService =  genScheduleService;
+        _stayService = stayService;
     }
 
     [RelayCommand]
     public void NavigateToHome()
     {
-        CurrentView = new HomeViewModel(NavigateToLogin,_weatherService,_menuService, _appointmentService, _treatmentService, _patientService,_employeeService,_genScheduleService);
+        CurrentView = new HomeViewModel(NavigateToLogin,_weatherService,_menuService, _appointmentService, _treatmentService, _patientService,_employeeService,_genScheduleService, _stayService);
     }
 
     [RelayCommand]

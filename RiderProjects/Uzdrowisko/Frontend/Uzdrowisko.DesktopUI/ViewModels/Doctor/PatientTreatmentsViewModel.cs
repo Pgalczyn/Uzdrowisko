@@ -48,7 +48,33 @@ public partial class PatientTreatmentsViewModel : ViewModelBase
         _goBack = goBack;
         _ = LoadAllAsync();
     }
-
+    [RelayCommand]
+    public async Task RemoveAppointmentAsync()
+    {
+        if (SelectedAppointment == null) return;
+        
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+        var ct = _cts.Token;
+        
+        try
+        {
+            IsLoading = true;
+            await _service.DeleteAppointmentAsync(SelectedAppointment.Id, ct);
+            AllTreatments.Remove(SelectedAppointment);
+            IsEmpty = AllTreatments.Count == 0;
+            SelectedAppointment = null;
+            CloseDialog();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"Błąd usuwania wizyty: {ex.Message}");
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
     [RelayCommand]
     public async Task LoadAllAsync()
     {
@@ -67,6 +93,7 @@ public partial class PatientTreatmentsViewModel : ViewModelBase
             {
                 items = items
                     .Where(a => a.PatientId == _selectedPatient.Id)
+                    .Where(a => a.Status != "Usuniety")
                     .ToList();
             }
             else if (!UserSession.IsEmployee)

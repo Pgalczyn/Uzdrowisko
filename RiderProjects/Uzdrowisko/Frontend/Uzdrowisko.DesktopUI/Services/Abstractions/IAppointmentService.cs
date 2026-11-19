@@ -11,4 +11,5 @@ public interface IAppointmentService
     Task<IReadOnlyList<AppointmentItem>> GetAllAppointments();
     Task<AppointmentItem?> GetAppointmentAsync(int id, CancellationToken ct = default);
     Task<IReadOnlyList<AppointmentItem>> GetForDayAsync(DateTime day, CancellationToken ct = default);
+    Task<bool> DeleteAppointmentAsync(int id, CancellationToken ct = default);
 }

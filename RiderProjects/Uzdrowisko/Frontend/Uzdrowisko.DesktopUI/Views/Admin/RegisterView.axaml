@@ -20,7 +20,8 @@
                    HorizontalAlignment="Center"
                    Grid.Row="0"
                    Margin="0,0,0,10"/>
-        <StackPanel Grid.Row="1" 
+        <Grid Grid.Row = "1" ColumnDefinitions="*,400">
+        <StackPanel  
                      VerticalAlignment="Top" 
                      HorizontalAlignment="Stretch"
                      MaxWidth="600"
@@ -107,6 +108,39 @@
 
                     
                 </StackPanel>
+        <Border  Grid.Column="1"
+                        Classes="glassCard"
+                        Padding="24"
+                        VerticalAlignment="Top">
+                    <StackPanel Spacing="14">
+                        <TextBlock Text="Pobyt Pacjenta"
+                                   FontSize="18"
+                                   FontWeight="SemiBold"
+                                   Foreground="White" />
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Data rozpoczęcia"
+                                       FontSize="12"
+                                       Foreground="#D0E3D7" />
+                            <CalendarDatePicker SelectedDate="{Binding StayDateFrom, Mode=TwoWay}"
+                                                HorizontalAlignment="Stretch"
+                                                Watermark="Wybierz datę od" />
+                        </StackPanel>
+
+                        <StackPanel Spacing="6">
+                            <TextBlock Text="Data zakończenia"
+                                       FontSize="12"
+                                       Foreground="#D0E3D7" />
+                            <CalendarDatePicker SelectedDate="{Binding StayDateTo, Mode=TwoWay}"
+                                                HorizontalAlignment="Stretch"
+                                                Watermark="Wybierz datę do" />
+                        </StackPanel>
+
+                        
+                        
+                    </StackPanel>
+                </Border>
+            </Grid>
         <Grid IsVisible="{Binding IsDialogVisible}">
             <Border Background="#34523F" 
                     CornerRadius="15"
