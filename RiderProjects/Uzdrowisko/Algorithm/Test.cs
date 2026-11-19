@@ -6,7 +6,7 @@ namespace Algorithm;
 using System;
 
 public class Test {
-	static void Main() {
+	void Main() { // make static to run
 		Scheduler sch = new Scheduler(24*60,30,8*60,16*60);
 		List<Appointment> appointments= new List<Appointment>();
 		
