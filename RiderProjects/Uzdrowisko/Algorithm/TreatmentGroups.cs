@@ -2,18 +2,20 @@ namespace Algorithm;
 
 using Uzdrowisko.Infrastructure.DataBase.Entities;
 
+// TEMPORARY - remove after adding categories and custom groups to database
 public class TreatmentGroups
 {
-    public Dictionary<int, string> CategoryBasedGroups { get; set; }
+    public Dictionary<int, string> CategoryBasedGroups { get; }
 
-    public Dictionary<int, (string Name, List<Treatment> Treatments)> CustomGroups { get; set; }
+    public Dictionary<int, (string Name, List<Treatment> Treatments)> CustomGroups { get; }
 
-    public int NewCategoryIndex { get; set; }
+    private int NewCategoryIndex { get; set; }
 
-    public int NewCustomGroupIndex { get; set; }
+    private int NewCustomGroupIndex { get; set; }
 
     public TreatmentGroups()
     {
+        // TEMPORARY - change initialization after adding support for custom groups in database
         CategoryBasedGroups = new Dictionary<int, string>
         {
             { 0, "all" },
@@ -28,15 +30,17 @@ public class TreatmentGroups
         };
 
         NewCategoryIndex = CategoryBasedGroups.Keys.Max() + 1;
-
+        
         CustomGroups = new Dictionary<int, (string Name, List<Treatment> Treatments)>
         {
             { -1, ("electrotherapy", new List<Treatment>()) }
         };
 
         NewCustomGroupIndex = CategoryBasedGroups.Keys.Min() - 1;
+        // END OF TEMPORARY PART
     }
 
+    // Methods below are only for testing
     public void AddNewCategory(string categoryName)
     {
         CategoryBasedGroups[NewCategoryIndex] = categoryName;
