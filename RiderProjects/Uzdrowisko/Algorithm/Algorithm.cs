@@ -27,10 +27,6 @@ public class Scheduler {
     }
 
     public TimeOnly getTime(int block) {
-        // int minutes = block*timeBlockLength + startWorkHour;
-        // int hours = minutes / 60;
-        // minutes %= 60;
-        // return new TimeOnly(hours, minutes, 0);
         return TimeOnly.FromTimeSpan(TimeSpan.FromMinutes(block * timeBlockLength + startWorkHour));
     }
 
@@ -64,26 +60,6 @@ public class Scheduler {
     private bool Overlaps(int aStart, int aEnd, int bStart, int bEnd) {
         return aStart < bEnd && bStart < aEnd;
     }
-
-    // private bool HasFlag(Treatment treatment, char flag) {
-    //     return treatment.Flag.Contains(flag); // rider said it's never null (._.)
-    // }
-    //
-    // private bool IsCategory(Treatment treatment, string category) {
-    //     return string.Equals(
-    //         treatment.Type,
-    //         category,
-    //         StringComparison.OrdinalIgnoreCase);
-    // }
-
-    // private bool IsThermotherapy(Treatment t)
-    //     => IsCategory(t, "thermotherapy");
-    //
-    // private bool IsPhysicotherapy(Treatment t)
-    //     => IsCategory(t, "physicotherapy");
-    //
-    // private bool IsElectrotherapy(Treatment t)
-    //     => IsCategory(t, "electrotherapy");
 
     private bool IsBlocked(
         DateOnly day,
@@ -137,134 +113,83 @@ public class Scheduler {
     // ------------------------------------------------------------
 
     public static class TreatmentDependencyUtils
-{
-    public static bool TreatmentsConflict(
-        Treatment a,
-        Treatment b,
-        DependencyGraph dependencyGraph,
-        TreatmentGroups treatmentGroups)
     {
-        if (!dependencyGraph.Graph.ContainsKey(a) &&
-            !dependencyGraph.Graph.ContainsKey(b))
+        public static bool TreatmentsConflict(
+            Treatment a,
+            Treatment b,
+            DependencyGraph dependencyGraph,
+            TreatmentGroups treatmentGroups)
         {
+            if (!dependencyGraph.Graph.ContainsKey(a) &&
+                !dependencyGraph.Graph.ContainsKey(b))
+            {
+                return false;
+            }
+
+            if (dependencyGraph.Graph.ContainsKey(a)) {
+                foreach (TreatmentDependency dep in dependencyGraph.Graph[a]) {
+                    if (dep.Type == DependencyType.CONFLICT ||
+                        dep.Type == DependencyType.ORDER_SUCCESSION)
+                    {
+                        if (dep.Target == "S") {
+                            if (dep.Id == b.Id) {
+                                return true;
+                            }
+                        } else {
+                            if (dep.Id == 0) {
+                                return true;
+                            }
+
+                            if (dep.Id > 0) {
+                                if (treatmentGroups.CategoryBasedGroups[dep.Id] == b.Type) {
+                                    return true;
+                                }
+                            } else {
+                                foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments) {
+                                    if (treatment == b) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (dependencyGraph.Graph.ContainsKey(b)) {
+                foreach (TreatmentDependency dep in dependencyGraph.Graph[b]) {
+                    if (dep.Type == DependencyType.CONFLICT ||
+                        dep.Type == DependencyType.ORDER_PRECEDENCE)
+                    {
+                        if (dep.Target == "S") {
+                            if (dep.Id == a.Id) {
+                                return true;
+                            }
+                        } else {
+                            if (dep.Id == 0) {
+                                return true;
+                            }
+
+                            if (dep.Id > 0) {
+                                if (treatmentGroups.CategoryBasedGroups[dep.Id] == a.Type) {
+                                    return true;
+                                }
+                            }
+                            else {
+                                foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments) {
+                                    if (treatment == a) {
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             return false;
         }
-
-        if (dependencyGraph.Graph.ContainsKey(a))
-        {
-            foreach (TreatmentDependency dep in dependencyGraph.Graph[a])
-            {
-                if (dep.Type == DependencyType.CONFLICT ||
-                    dep.Type == DependencyType.ORDER_SUCCESSION)
-                {
-                    if (dep.Target == "S")
-                    {
-                        if (dep.Id == b.Id)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (dep.Id == 0)
-                        {
-                            return true;
-                        }
-
-                        if (dep.Id > 0)
-                        {
-                            if (treatmentGroups.CategoryBasedGroups[dep.Id] == b.Type)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments)
-                            {
-                                if (treatment == b)
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        if (dependencyGraph.Graph.ContainsKey(b))
-        {
-            foreach (TreatmentDependency dep in dependencyGraph.Graph[b])
-            {
-                if (dep.Type == DependencyType.CONFLICT ||
-                    dep.Type == DependencyType.ORDER_PRECEDENCE)
-                {
-                    if (dep.Target == "S")
-                    {
-                        if (dep.Id == a.Id)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (dep.Id == 0)
-                        {
-                            return true;
-                        }
-
-                        if (dep.Id > 0)
-                        {
-                            if (treatmentGroups.CategoryBasedGroups[dep.Id] == a.Type)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments)
-                            {
-                                if (treatment == a)
-                                {
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
     }
-}
-    
-    // private bool TreatmentsConflict(Treatment a, Treatment b)
-    // {
-    //     // T: separation from thermotherapy.
-    //     if (HasFlag(a, 'T') && IsThermotherapy(b))
-    //         return true;
-    //
-    //     if (HasFlag(b, 'T') && IsThermotherapy(a))
-    //         return true;
-    //
-    //     // P: separation from physicotherapy.
-    //     if ((HasFlag(a, 'P') && IsPhysicotherapy(b)) ||
-    //         (HasFlag(b, 'P') && IsPhysicotherapy(a)))
-    //         return true;
-    //
-    //     // E: separation from electrotherapy.
-    //     if ((HasFlag(a, 'E') && IsElectrotherapy(b)) ||
-    //         (HasFlag(b, 'E') && IsElectrotherapy(a)))
-    //         return true;
-    //
-    //     // S: separation between S-marked treatments.
-    //     if (HasFlag(a, 'S') && HasFlag(b, 'S'))
-    //         return true;
-    //
-    //     return false;
-    // }
 
     private bool RespectsTreatmentConstraints(
         Treatment treatment,
@@ -274,8 +199,7 @@ public class Scheduler {
         List<Appointment> placed,
         DependencyGraph dependencyGraph)
     {
-        foreach (var other in placed)
-        {
+        foreach (var other in placed) {
             if (day != other.Date)
                 continue;
 
@@ -314,12 +238,10 @@ public class Scheduler {
         List<Appointment> appointments,
         List<Appointment> placed)
     {
-        for (int block = start; block < end; block++)
-        {
+        for (int block = start; block < end; block++) {
             int usage = 0;
 
-            foreach (var a in appointments)
-            {
+            foreach (var a in appointments) {
                 if (a.Date != day)
                     continue;
 
@@ -330,8 +252,7 @@ public class Scheduler {
                     usage++;
             }
 
-            foreach (var p in placed)
-            {
+            foreach (var p in placed) {
                 if (p.Date != day)
                     continue;
 
@@ -406,8 +327,7 @@ public class Scheduler {
         List<Appointment> customerAppointments,
         List<Appointment> placed)
     {
-        foreach (var a in customerAppointments)
-        {
+        foreach (var a in customerAppointments) {
             if (a.Date != day)
                 continue;
 
@@ -415,8 +335,7 @@ public class Scheduler {
                 return false;
         }
 
-        foreach (var p in placed)
-        {
+        foreach (var p in placed) {
             if (p.Date != day)
                 continue;
 
@@ -510,10 +429,8 @@ public class Scheduler {
                     if (IsBlocked(day, start, end, blocksTaken))
                         continue;
 
-                    foreach (var room in availableRooms)
-                    {
-                        foreach (var employee in availablePersonnel)
-                        {
+                    foreach (var room in availableRooms) {
+                        foreach (var employee in availablePersonnel) {
                             possible.Add(new Appointment() {
                                 //Id = 0,
                                 Treatment = treatment,
@@ -557,11 +474,9 @@ public class Scheduler {
         List<Appointment> bestPlacements = null;
         double bestScore = double.PositiveInfinity;
 
-        void Search(int index)
-        {
+        void Search(int index) {
             // All treatments have been assigned.
-            if (index == orderedTreatments.Count)
-            {
+            if (index == orderedTreatments.Count) {
                 List<Appointment> candidate = new();
 
                 foreach (var p in placed) {
@@ -582,8 +497,7 @@ public class Scheduler {
 
             Treatment treatment = orderedTreatments[index];
 
-            foreach (var p in options[treatment.Id])
-            {
+            foreach (var p in options[treatment.Id]) {
                 if (!CustomerIsAvailable(
                     p.Date, p.BlockFrom, p.BlockTo,
                     customerAppointments, placed))
