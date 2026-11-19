@@ -36,7 +36,10 @@ public class TreatmentController: ControllerBase
             Name = createTreatmentDto.Name,
             Description = createTreatmentDto.Description,
             DurationMinutes = createTreatmentDto.DurationMinutes,
-            Type = createTreatmentDto.Type
+            Type = createTreatmentDto.Type,
+            Price = createTreatmentDto.Price,
+            RequiredRoleId = createTreatmentDto.RequiredRoleId,
+            Flag = createTreatmentDto.Flag
         };
         
         _dbContext.Treatments.Add(newTreatment);
@@ -47,7 +50,10 @@ public class TreatmentController: ControllerBase
             Id = newTreatment.Id,
             Name = newTreatment.Name,
             Description = newTreatment.Description,
-            Type = newTreatment.Type
+            Type = newTreatment.Type,
+            Price = newTreatment.Price,
+            RequiredRoleId = newTreatment.RequiredRoleId,
+            Flag = newTreatment.Flag
         };
         return CreatedAtAction(nameof(GetTreatmentById), new { id = newTreatment.Id }, response);
 
@@ -67,6 +73,9 @@ public class TreatmentController: ControllerBase
                 Description = t.Description,
                 Type = t.Type,
                 DurationMinutes = t.DurationMinutes,
+                Price = t.Price,
+                RequiredRoleId = t.RequiredRoleId,
+                Flag = t.Flag
             })
             .FirstOrDefaultAsync();
         if (treatment == null)
@@ -105,7 +114,10 @@ public class TreatmentController: ControllerBase
                 Description = t.Description,
                 DurationMinutes = t.DurationMinutes,
                 Type = t.Type,
-                Active = t.Active
+                Active = t.Active,
+                Price = t.Price,
+                RequiredRoleId = t.RequiredRoleId,
+                Flag = t.Flag
             })
             .ToListAsync();
 
@@ -141,7 +153,21 @@ public class TreatmentController: ControllerBase
         {
             treatment.Name = treatmentDto.Name;
         }
-        
+
+        if (treatmentDto.Price != null)
+        {
+            treatment.Price = treatmentDto.Price.Value;
+        }
+
+        if (treatmentDto.RequiredRoleId != null)
+        {
+            treatment.RequiredRoleId = treatmentDto.RequiredRoleId.Value;
+        }
+
+        if (treatmentDto.Flag != null)
+        {
+            treatment.Flag = treatmentDto.Flag;
+        }
         await  _dbContext.SaveChangesAsync();
         return NoContent();
     }

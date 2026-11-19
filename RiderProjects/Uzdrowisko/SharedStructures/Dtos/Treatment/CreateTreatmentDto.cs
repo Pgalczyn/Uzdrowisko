@@ -9,6 +9,8 @@ public class CreateTreatmentDto
 
     [MaxLength(500, ErrorMessage = "Opis zabiegu nie może przekraczać 500 znaków.")]
     public string? Description { get; set; }
+    
+    public int Price { get; set; }
 
     [Required(ErrorMessage = "Czas trwania jest wymagany.")]
     [Range(5, 240, ErrorMessage = "Czas trwania zabiegu musi wynosić od 5 do 240 minut.")]
@@ -16,6 +18,8 @@ public class CreateTreatmentDto
 
     [MaxLength(30, ErrorMessage = "Typ zabiegu nie może przekraczać 30 znaków.")]
     public string? Type { get; set; }
+    
+    public int RequiredRoleId { get; set; }
     
     public string? Flag { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;

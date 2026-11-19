@@ -14,6 +14,8 @@ public class UpdateRoomDto
     
     public int? Capacity { get; set; }
     
+    public int? TreatmentId { get; set; }
+    
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     public bool? Active { get; set; }

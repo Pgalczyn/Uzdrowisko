@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Uzdrowisko.DesktopUI.Models;
 using Uzdrowisko.DesktopUI.Services;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
@@ -14,15 +16,26 @@ public partial class CalendarViewModel : ViewModelBase
 {
     private readonly IAppointmentService _service;
     private CancellationTokenSource? _cts;
+    
+    private readonly Action<ViewModelBase> _navigateTo;
 
     [ObservableProperty] private DateTime? _selectedDate = DateTime.Today;
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private bool _isEmpty;
-    public ObservableCollection<AppointmentItem> DayTreatments { get; } = new();
+    
+    [ObservableProperty] private bool _isDialogVisible;
+    [ObservableProperty] private bool _isPostponeDialogVisible;
+    
+    [ObservableProperty] private AppointmentItem? _selectedAppointment;
+    [ObservableProperty] private AppointmentItem? _selectedTime; 
 
-    public CalendarViewModel(IAppointmentService service)
+    public ObservableCollection<AppointmentItem> DayTreatments { get; } = new();
+    public ObservableCollection<AppointmentItem> AvailableTimes { get; } = new();
+
+    public CalendarViewModel(IAppointmentService service, Action<ViewModelBase> navigateTo)
     {
         _service = service;
+        _navigateTo = navigateTo;
         _ = LoadAsync(SelectedDate);
     }
 
@@ -60,5 +73,29 @@ public partial class CalendarViewModel : ViewModelBase
         {
             if (!ct.IsCancellationRequested) IsLoading = false;
         }
+    }
+    [RelayCommand]
+    public void OpenAppointmentDialog(AppointmentItem appointmentItem)
+    {
+        SelectedAppointment = appointmentItem;
+        IsDialogVisible = true;
+    }
+    [RelayCommand]
+    public void CloseDialog()
+    {
+        IsDialogVisible = false;
+    }
+    
+    [RelayCommand]
+    public void OpenPostponeDialog(AppointmentItem appointmentItem)
+    {
+        _navigateTo(new ChangeAppointmentDateViewModel(_service, _navigateTo, appointmentItem)); 
+    }
+
+    [RelayCommand]
+    public void ClosePostponeDialog()
+    {
+        IsPostponeDialogVisible = false;
+        SelectedTime = null;
     }
 }

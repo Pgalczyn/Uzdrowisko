@@ -1,6 +1,8 @@
 using System;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 using Avalonia;
+using HotAvalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,41 +15,51 @@ namespace Uzdrowisko.DesktopUI;
 
 public partial class App : Application
 {
+    // Umożliwia dostęp do kontenera z poziomu całej aplikacji, np. przy nawigacji
+    public IServiceProvider Services { get; private set; } = null!;
+
     public override void Initialize()
     {
+        this.EnableHotReload(); 
         AvaloniaXamlLoader.Load(this);
     }
 
     public override void OnFrameworkInitializationCompleted()
     {
+        var serviceCollection = new ServiceCollection();
+        
+        ConfigureServices(serviceCollection);
+
+        Services = serviceCollection.BuildServiceProvider();
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            var httpClient = new HttpClient
-            {
-                BaseAddress = new Uri("http://localhost:5290/")
-            };
-
-            IAuthService authService = new AuthService(httpClient);
-            IAppointmentService appointmentService = new AppointmentService(httpClient);
-            ITreatmentService treatmentService = new TreatmentService(httpClient);
-            IPatientService patientService = new PatientService(httpClient);
-            IEmployeeService employeeService = new EmployeeService(httpClient);
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainViewModel(authService, appointmentService, treatmentService,patientService, employeeService),
-            };
+            desktop.MainWindow = Services.GetRequiredService<MainWindow>();
         }
 
         base.OnFrameworkInitializationCompleted();
     }
-    
+
     private void ConfigureServices(IServiceCollection services)
     {
-        var httpClient = new HttpClient
+        var configuration = new Microsoft.Extensions.Configuration.ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+        services.AddSingleton<Microsoft.Extensions.Configuration.IConfiguration>(configuration);
+
+        services.AddTransient(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("BackendApi"));
+        
+        services.AddHttpClient("BackendApi", client =>
         {
-            BaseAddress = new Uri("http://localhost:5290/")
-        };
-        services.AddSingleton(httpClient);
+            client.BaseAddress = new Uri("http://localhost:5290/");
+        });
+        
+        services.AddHttpClient("WeatherApi",client =>
+        {
+            client.BaseAddress = new Uri("https://api.weatherapi.com/v1/");
+        });
+
 
         services.AddTransient<ITreatmentService, TreatmentService>();
         services.AddTransient<IEmployeeService, EmployeeService>();
@@ -57,7 +69,18 @@ public partial class App : Application
         services.AddTransient<IAppointmentService, AppointmentService>();
         services.AddTransient<IStayService, StayService>();
         services.AddTransient<IScheduleService, ScheduleService>();
+        services.AddTransient<IWeatherService, WeatherService>();
+        services.AddTransient<IMenuService, MenuService>();
+        services.AddTransient<IGenSchedule, GenScheduleService>();
+        services.AddTransient<MainViewModel>();
+        services.AddTransient<HomeViewModel>();
+
+
+        services.AddSingleton<MainWindow>(sp => new MainWindow
+        {
+            DataContext = sp.GetRequiredService<MainViewModel>()
+        });
     }
-
-
+    
+    
 }

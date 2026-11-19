@@ -14,12 +14,16 @@ public class UzdrowiskoDbContext : DbContext
     public DbSet<Room> Rooms => Set<Room>();
     public DbSet<Appointment> Appointments => Set<Appointment>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
+    public DbSet<Roles> Roles => Set<Roles>();
+    
+    public DbSet<Transactions>  Transactions => Set<Transactions>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<Employee>()
+            .HasQueryFilter(e => e.Active)
             .HasIndex(e => e.Email)
             .IsUnique();
 
@@ -30,6 +34,8 @@ public class UzdrowiskoDbContext : DbContext
             .OnDelete(DeleteBehavior.SetNull);
         
         modelBuilder.Entity<Treatment>()
+            .HasQueryFilter(t => t.Active);
+        modelBuilder.Entity<Patient>()
             .HasQueryFilter(t => t.Active);
     }
 }

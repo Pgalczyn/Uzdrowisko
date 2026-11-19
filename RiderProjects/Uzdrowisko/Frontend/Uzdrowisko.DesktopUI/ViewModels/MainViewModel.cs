@@ -14,13 +14,19 @@ public partial class MainViewModel : ViewModelBase
     private readonly ITreatmentService _treatmentService;
     private readonly IPatientService _patientService;
     private readonly IEmployeeService _employeeService;
+    private readonly IWeatherService _weatherService;
+    private readonly IMenuService _menuService;
+    private readonly IGenSchedule _genScheduleService;
 
     public MainViewModel(
         IAuthService authService, 
         IAppointmentService appointmentService, 
         ITreatmentService treatmentService,
         IPatientService patientService,
-        IEmployeeService employeeService)
+        IEmployeeService employeeService,
+        IWeatherService weatherService,
+        IMenuService  menuService,
+        IGenSchedule genScheduleService)
     {
         _authService = authService;
         _appointmentService = appointmentService;
@@ -28,12 +34,15 @@ public partial class MainViewModel : ViewModelBase
         _patientService = patientService;
         _employeeService = employeeService;
         CurrentView = new LoginViewModel(_authService, NavigateToHome);
+        _weatherService =  weatherService;
+        _menuService = menuService;
+        _genScheduleService =  genScheduleService;
     }
 
     [RelayCommand]
     public void NavigateToHome()
     {
-        CurrentView = new HomeViewModel(NavigateToLogin, _appointmentService, _treatmentService, _patientService,_employeeService);
+        CurrentView = new HomeViewModel(NavigateToLogin,_weatherService,_menuService, _appointmentService, _treatmentService, _patientService,_employeeService,_genScheduleService);
     }
 
     [RelayCommand]

@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Uzdrowisko.DesktopUI.Models;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
 
@@ -9,16 +10,19 @@ namespace Uzdrowisko.DesktopUI.ViewModels;
 
 public partial class TreatmentsViewModel : ViewModelBase
 {
-    private readonly ITreatmentService? _treatmentService;
+    private readonly ITreatmentService _treatmentService;
     [ObservableProperty] private TreatmentItem _selectedTreatment;
-
+    private readonly IAppointmentService _appointmentService;
     public ObservableCollection<TreatmentItem> Treatments { get; } = new();
     [ObservableProperty] private bool _isLoading;
+    private readonly Action<ViewModelBase> _navigateTo;
     
 
-    public TreatmentsViewModel(ITreatmentService treatmentService)
+    public TreatmentsViewModel(ITreatmentService treatmentService ,IAppointmentService appointmentService, Action<ViewModelBase> navigateTo)
     {
         _treatmentService = treatmentService;
+        _appointmentService = appointmentService;
+        _navigateTo = navigateTo; 
         _ = LoadTreatmentsAsync();
     }
 
@@ -68,5 +72,11 @@ public partial class TreatmentsViewModel : ViewModelBase
             
             return $"{minutes} min";
         }
+    }
+    [RelayCommand]
+    public void OpenForm(TreatmentItem? treatment)
+    {
+        if (treatment is null) return;
+        _navigateTo(new ChooseAppointmentViewModel(_treatmentService, _appointmentService, _navigateTo, treatment));
     }
 }

@@ -6,7 +6,7 @@ public class RoomResponseDto
     public string Number { get; set; } = string.Empty;
     public string? Name { get; set; }
     public string? Location { get; set; }
-    
+    public int? TreatmentId { get; set; }
     public int? Capacity { get; set; }
     public bool Active { get; set; }
 

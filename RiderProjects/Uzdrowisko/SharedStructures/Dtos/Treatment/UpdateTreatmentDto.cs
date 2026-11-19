@@ -14,6 +14,10 @@ public class UpdateTreatmentDto
 
     [MaxLength(30, ErrorMessage = "Typ zabiegu nie może przekraczać 30 znaków.")]
     public string? Type { get; set; }
+    
+    public int? RequiredRoleId { get; set; }
+    
+    public int? Price { get; set; }
 
     public bool? Active { get; set; }
     
