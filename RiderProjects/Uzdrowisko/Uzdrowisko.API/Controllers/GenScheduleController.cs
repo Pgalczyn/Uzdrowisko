@@ -44,7 +44,6 @@ public class GenScheduleController: ControllerBase
             .ToListAsync();
 
         var scheduler = new Scheduler(15,20,480,960);
-        
         var employees = await _dbContext.Employees.AsNoTracking().ToListAsync();
         var rooms = await _dbContext.Rooms.AsNoTracking().ToListAsync();
         var randomTreatmentsDb = await _dbContext.Treatments

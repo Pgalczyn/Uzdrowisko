@@ -1,0 +1,212 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="clr-namespace:Uzdrowisko.DesktopUI.Models"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+             x:Class="Uzdrowisko.Views.EditTreatmentsView"
+             x:DataType="vm:EditTreatmentsViewModel"
+             x:Name="RootControl">
+
+    <Grid RowSpacing="20" RowDefinitions="Auto,*" ColumnDefinitions="*, 340" ColumnSpacing="24">
+
+        <TextBlock Text="Lista zabiegów"
+                   Classes="pageHeader"
+                   Grid.ColumnSpan="2" />
+
+        <Border Grid.Row="1" Grid.Column="0"
+                Classes="glassCard"
+                Padding="24">
+            <Grid RowDefinitions="Auto,*">
+                <StackPanel Grid.Row="0" Margin="0,0,0,20" Orientation="Horizontal" Spacing="12">
+                    <Button CornerRadius="12"
+                            Background="#34523F"
+                            Content="Wyjdź"
+                            Foreground="White"
+                            Command="{Binding GoBackCommand}"
+                            Cursor="Hand" />
+                    <Button CornerRadius="12"
+                            Background="#34523F"
+                            Content="Dodaj zabieg"
+                            Foreground="White"
+                            Command="{Binding OpenAddDialogCommand}"
+                            Cursor="Hand" />
+                </StackPanel>
+
+                <ScrollViewer Grid.Row="1">
+                    <StackPanel>
+                        <TextBlock Text="{Binding StatusMessage}"
+                                   Foreground="#FF8A80"
+                                   FontSize="13"
+                                   Margin="0,0,0,10"
+                                   IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+
+                        <TextBlock Text="Brak zabiegów w bazie danych"
+                                   IsVisible="{Binding IsEmpty}"
+                                   Foreground="{StaticResource SpaTextMuted}"
+                                   FontSize="14"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,40,0,0" />
+
+                        <ItemsControl ItemsSource="{Binding AllTreatments}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="models:TreatmentItem">
+                                    <Button Command="{Binding #RootControl.((vm:EditTreatmentsViewModel)DataContext).OpenTreatmentDialogCommand}"
+                                            CommandParameter="{Binding}"
+                                            Margin="0,0,0,12"
+                                            Padding="0"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Stretch"
+                                            Cursor="Hand">
+                                        <Button.Styles>
+                                            <Style Selector="Button:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent" />
+                                            </Style>
+                                        </Button.Styles>
+                                        <Border Classes="treatmentCard">
+                                            <Grid ColumnDefinitions="110, *, Auto" ColumnSpacing="16">
+                                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                    <Border Background="#25FFFFFF"
+                                                            CornerRadius="8"
+                                                            Padding="6,2"
+                                                            HorizontalAlignment="Center">
+                                                        <TextBlock Text="{Binding DurationMinutes, StringFormat='{}{0} min'}"
+                                                                   FontSize="11"
+                                                                   Foreground="#D0E3D7"
+                                                                   HorizontalAlignment="Center" />
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="4">
+                                                    <TextBlock Text="{Binding Name}"
+                                                               FontWeight="SemiBold"
+                                                               FontSize="15"
+                                                               Foreground="#FFFFFF" />
+                                                    <TextBlock Text="{Binding Description}"
+                                                               FontSize="11"
+                                                               Foreground="{StaticResource SpaTextMuted}" />
+                                                </StackPanel>
+
+                                                <TextBlock Grid.Column="2"
+                                                           Text="›"
+                                                           FontSize="24"
+                                                           Foreground="#50FFFFFF"
+                                                           VerticalAlignment="Center"
+                                                           Margin="0,0,10,0" />
+                                            </Grid>
+                                        </Border>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                Grid.Column="0" Grid.ColumnSpan="2"
+                IsVisible="{Binding IsDialogVisible}"
+                ZIndex="100">
+            <Border Background="#34523F"
+                    CornerRadius="15"
+                    Padding="25"
+                    Width="400"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <StackPanel Spacing="15" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Zarządzaj zabiegiem"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Foreground="White"
+                               HorizontalAlignment="Center" />
+
+                    <TextBlock Text="{Binding SelectedTreatment.Name, StringFormat='Zabieg: {0}'}"
+                               Foreground="#D0E3D7"
+                               HorizontalAlignment="Center" />
+
+                    <Button Content="Usuń zabieg"
+                            Command="{Binding DeleteTreatmentCommand}"
+                            CommandParameter="{Binding SelectedTreatment}"
+                            Height="40"
+                            CornerRadius="8"
+                            Background="#223B2A"
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Cursor="Hand" />
+
+                    <Button Content="Zamknij"
+                            Command="{Binding CloseDialogCommand}"
+                            Height="40"
+                            CornerRadius="8"
+                            Background="Transparent"
+                            Foreground="#D0E3D7"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Cursor="Hand" />
+                </StackPanel>
+            </Border>
+        </Border>
+
+        <Border Grid.Row="0" Grid.RowSpan="2"
+                Grid.Column="0" Grid.ColumnSpan="2"
+                IsVisible="{Binding IsAddDialogVisible}"
+                ZIndex="101">
+            <Border Background="#34523F"
+                    CornerRadius="15"
+                    Padding="25"
+                    Width="420"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <StackPanel Spacing="12" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Dodaj nowy zabieg"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Foreground="White"
+                               HorizontalAlignment="Center" />
+
+                    <TextBox Watermark="Nazwa zabiegu" Text="{Binding NewName}" />
+                    <TextBox Watermark="Opis" Text="{Binding NewDescription}" />
+                    <TextBox Watermark="Czas trwania (minuty)" Text="{Binding NewDurationMinutes}" />
+                    <TextBox Watermark="Typ (np. Balneoterapia, Masaże)" Text="{Binding NewType}" />
+                    <TextBox Watermark="Cena" Text="{Binding NewPrice}" />
+
+                    <Button Content="Zapisz"
+                            Command="{Binding AddTreatmentCommand}"
+                            Height="40"
+                            CornerRadius="8"
+                            Background="#223B2A"
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Margin="0,8,0,0"
+                            Cursor="Hand" />
+
+                    <Button Content="Anuluj"
+                            Command="{Binding CloseAddDialogCommand}"
+                            Height="40"
+                            CornerRadius="8"
+                            Background="Transparent"
+                            Foreground="#D0E3D7"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Center"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Cursor="Hand" />
+                </StackPanel>
+            </Border>
+        </Border>
+    </Grid>
+</UserControl>

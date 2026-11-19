@@ -2,8 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
-using Uzdrowisko.Views;
-
 namespace Uzdrowisko.DesktopUI.ViewModels;
 
 public partial class DoctorViewModel : ViewModelBase
@@ -11,53 +9,58 @@ public partial class DoctorViewModel : ViewModelBase
     private readonly IPatientService _patientService;
     private readonly IEmployeeService _employeeService;
     private readonly Action<ViewModelBase> _navigateTo;
+    private readonly IGenSchedule _genScheduleService;
+    private readonly ITreatmentService _treatmentService;
+    private readonly IAppointmentService _appointmentService;
 
     public DoctorViewModel(
         IPatientService patientService, 
         IEmployeeService employeeService, 
-        Action<ViewModelBase> navigateTo)
+        IGenSchedule genScheduleService,
+        ITreatmentService treatmentService,
+        Action<ViewModelBase> navigateTo,
+        IAppointmentService appointmentService)
     {
         _patientService = patientService;
         _employeeService = employeeService;
+        _genScheduleService = genScheduleService;
+        _treatmentService = treatmentService;
         _navigateTo = navigateTo;
+        _appointmentService = appointmentService;
     }
 
-
     [RelayCommand] 
-    private void OpenUserView() 
+    private void OpenPatientView()
     {
-        _navigateTo(new UserViewModel(
-            _patientService, 
-            () => _navigateTo(this), 
-        
+        _navigateTo(new PatientViewModel(
+            _patientService,
+
+            () => _navigateTo(this),
+
             () => _navigateTo(new RegisterViewModel(
-                _patientService, 
-                () => OpenUserView() 
+                _patientService,
+                () => OpenPatientView()
             )),
+
             (selectedPatient) => _navigateTo(new UpdateUserViewModel(
                 selectedPatient,
-                _patientService, 
-                () => OpenUserView()
-            ))
-        ));
-    }
-    [RelayCommand] 
-    private void OpenEmployeeView() 
-    {
-        _navigateTo(new EmployeeViewModel(
-            _employeeService, 
-            () => _navigateTo(this), 
-        
-            () => _navigateTo(new RegisterEmployeeViewModel(
-                _employeeService, 
-                () => OpenEmployeeView() 
+                _patientService,
+                () => OpenPatientView()
             )),
-            (selectedEmployee) => _navigateTo(new UpdateEmployeeViewModel(
-                selectedEmployee,
-                _employeeService, 
-                () => OpenEmployeeView()
+            (selectedPatient) => _navigateTo(new GenerateScheduleViewModel(
+                _treatmentService,
+                _genScheduleService,
+                selectedPatient,
+                () => OpenPatientView()
+            )),
+            (selectedPatient) => _navigateTo(new PatientTreatmentsViewModel(
+                _appointmentService,
+                _treatmentService,
+                _genScheduleService,
+                _navigateTo,
+                selectedPatient,
+                () => OpenPatientView()
             ))
         ));
     }
-    
 }

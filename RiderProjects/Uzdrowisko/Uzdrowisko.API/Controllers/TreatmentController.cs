@@ -38,7 +38,8 @@ public class TreatmentController: ControllerBase
             DurationMinutes = createTreatmentDto.DurationMinutes,
             Type = createTreatmentDto.Type,
             Price = createTreatmentDto.Price,
-            RequiredRoleId = createTreatmentDto.RequiredRoleId
+            RequiredRoleId = createTreatmentDto.RequiredRoleId,
+            Flag = createTreatmentDto.Flag
         };
         
         _dbContext.Treatments.Add(newTreatment);
@@ -51,7 +52,8 @@ public class TreatmentController: ControllerBase
             Description = newTreatment.Description,
             Type = newTreatment.Type,
             Price = newTreatment.Price,
-            RequiredRoleId = newTreatment.RequiredRoleId
+            RequiredRoleId = newTreatment.RequiredRoleId,
+            Flag = newTreatment.Flag
         };
         return CreatedAtAction(nameof(GetTreatmentById), new { id = newTreatment.Id }, response);
 
@@ -72,7 +74,8 @@ public class TreatmentController: ControllerBase
                 Type = t.Type,
                 DurationMinutes = t.DurationMinutes,
                 Price = t.Price,
-                RequiredRoleId = t.RequiredRoleId
+                RequiredRoleId = t.RequiredRoleId,
+                Flag = t.Flag
             })
             .FirstOrDefaultAsync();
         if (treatment == null)
@@ -113,7 +116,8 @@ public class TreatmentController: ControllerBase
                 Type = t.Type,
                 Active = t.Active,
                 Price = t.Price,
-                RequiredRoleId = t.RequiredRoleId
+                RequiredRoleId = t.RequiredRoleId,
+                Flag = t.Flag
             })
             .ToListAsync();
 
@@ -159,7 +163,11 @@ public class TreatmentController: ControllerBase
         {
             treatment.RequiredRoleId = treatmentDto.RequiredRoleId.Value;
         }
-        
+
+        if (treatmentDto.Flag != null)
+        {
+            treatment.Flag = treatmentDto.Flag;
+        }
         await  _dbContext.SaveChangesAsync();
         return NoContent();
     }

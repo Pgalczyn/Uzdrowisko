@@ -14,19 +14,20 @@
 
             <StackPanel Grid.Column="0" Grid.Row="1" Spacing="15" Margin="0,0,25,0" VerticalAlignment="Top" Orientation="Horizontal">
                 <Button Content="Zarządzaj Pacjentami"
+                        Command="{Binding OpenPatientViewCommand}"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
                         FontSize="22"
                         FontWeight="SemiBold"
                         Foreground="#FFFFFF"
                         Classes="adminCardButton"/>
-                <Button Content="Edytuj zabiegi"
-                        HorizontalContentAlignment="Center"
-                        VerticalContentAlignment="Center"
-                        FontSize="22"
-                        FontWeight="SemiBold"
-                        Foreground="#FFFFFF"
-                        Classes="adminCardButton"/>
+                <!-- <Button Content="Edytuj zabiegi" -->
+                <!--         HorizontalContentAlignment="Center" -->
+                <!--         VerticalContentAlignment="Center" -->
+                <!--         FontSize="22" -->
+                <!--         FontWeight="SemiBold" -->
+                <!--         Foreground="#FFFFFF" -->
+                <!--         Classes="adminCardButton"/> -->
             </StackPanel>
 
         </Grid>

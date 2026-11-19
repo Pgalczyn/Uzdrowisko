@@ -83,7 +83,7 @@
             </Border>
         </Grid>
 
-       <Border Background="#18261E"
+       <Border 
                 IsVisible="{Binding IsDialogVisible}"
                 HorizontalAlignment="Stretch"
                 CornerRadius="16"

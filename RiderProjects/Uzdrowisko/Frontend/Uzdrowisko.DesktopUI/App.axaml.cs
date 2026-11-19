@@ -71,7 +71,7 @@ public partial class App : Application
         services.AddTransient<IScheduleService, ScheduleService>();
         services.AddTransient<IWeatherService, WeatherService>();
         services.AddTransient<IMenuService, MenuService>();
-
+        services.AddTransient<IGenSchedule, GenScheduleService>();
         services.AddTransient<MainViewModel>();
         services.AddTransient<HomeViewModel>();
 

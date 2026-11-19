@@ -1,5 +1,6 @@
 using System.Globalization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Uzdrowisko.Infrastructure.DataBase.Context;
 using Uzdrowisko.Infrastructure.DataBase.Entities;
 using Uzdrowisko.Infrastructure.DataBase.Entities.Abstractions;
@@ -8,12 +9,12 @@ namespace Uzdrowisko.API.DataSeeders;
 
 public static class PatientsSeeder
 {
-    public static async Task SeedAsync(UzdrowiskoDbContext dbContext, ILogger logger,IPasswordService passwordHasher)
+    public static async Task SeedAsync(UzdrowiskoDbContext dbContext, ILogger logger, IPasswordService passwordHasher)
     {
         await SeedPatientsFromCsv(dbContext, logger, passwordHasher);
     }
 
-    private static async Task SeedPatientsFromCsv(UzdrowiskoDbContext dbContext, ILogger logger,IPasswordService passwordHasher)
+    private static async Task SeedPatientsFromCsv(UzdrowiskoDbContext dbContext, ILogger logger, IPasswordService passwordHasher)
     {
         var csvPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DataSeeders", "DataCSV", "Patients.csv");
         if (!File.Exists(csvPath))
@@ -33,7 +34,7 @@ public static class PatientsSeeder
             .Skip(1)
             .Where(line => !string.IsNullOrWhiteSpace(line))
             .Select(line => line.Split(';'))
-            .Where(columns => columns.Length >= 7) 
+            .Where(columns => columns.Length >= 7)
             .Select(columns => new
             {
                 Name = columns[0].Trim(),
@@ -48,17 +49,24 @@ public static class PatientsSeeder
             })
             .ToList();
 
-        var peselsInCsv = parsedRecords.Select(r => r.Pesel).ToList();
+        var peselsInCsv = parsedRecords
+            .Select(r => r.Pesel)
+            .Where(p => !string.IsNullOrWhiteSpace(p))
+            .Distinct()
+            .ToList();
+
         var existingPesels = await dbContext.Patients
+            .IgnoreQueryFilters()
             .Where(p => peselsInCsv.Contains(p.Pesel))
             .Select(p => p.Pesel)
             .ToListAsync();
 
+        var existingPeselSet = existingPesels.ToHashSet();
         var patientsToAdd = new List<Patient>();
 
         foreach (var record in parsedRecords)
         {
-            if (existingPesels.Contains(record.Pesel))
+            if (string.IsNullOrWhiteSpace(record.Pesel) || !existingPeselSet.Add(record.Pesel))
             {
                 continue;
             }
@@ -75,12 +83,12 @@ public static class PatientsSeeder
                 Active = true,
                 CreatedAt = DateTime.UtcNow
             };
-            
+
             patient.PasswordHash = passwordHasher.HashPassword(patient, record.Password);
 
             patientsToAdd.Add(patient);
         }
-        
+
         if (patientsToAdd.Count > 0)
         {
             await dbContext.Patients.AddRangeAsync(patientsToAdd);
