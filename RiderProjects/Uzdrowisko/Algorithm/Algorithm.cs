@@ -17,6 +17,7 @@ public class Scheduler {
     
     public String failureReason = "No failure"; // debugging only - remove it once everything works!
 
+    // TEMPORARY - change this after adding categories and custom groups to database
     public static readonly TreatmentGroups treatmentGroups = new();
 
     public int getBlock(TimeOnly time) {
@@ -112,8 +113,8 @@ public class Scheduler {
     // Treatment constraints
     // ------------------------------------------------------------
 
-    public static class TreatmentDependencyUtils
-    {
+    public static class TreatmentDependencyUtils {
+        // TEMPORARY - update this method after adding categories and custom groups to database
         public static bool TreatmentsConflict(
             Treatment a,
             Treatment b,
@@ -391,6 +392,24 @@ public class Scheduler {
 
         List<Treatment> allCustomerTreatments = treatments.Union(customerAppointments.Select(b => b.Treatment)).ToList();
         
+        // TEMPORARY - remove this after adding support for custom groups in database
+        var electrotherapyTreatmentsNames = new[]
+        {
+            "Jonoforeza",
+            "Prądy diadynamiczne",
+            "Prądy galwaniczne",
+            "Prądy interferencyjne",
+            "Prądy Kotza",
+            "Prądy TENS",
+            "Prądy Traberta"
+        };
+        foreach (var treatment in allCustomerTreatments)
+        {
+            if(electrotherapyTreatmentsNames.Contains(treatment.Name))
+                treatmentGroups.AddTreatmentToCustomGroup(treatment, -1);
+        }
+        // END OF TEMPORARY PART
+        
         DependencyGraph dependencyGraph = new DependencyGraph(allCustomerTreatments); // moved to here!
         
         // --------------------------------------------------------
@@ -539,10 +558,6 @@ public class Scheduler {
         // --------------------------------------------------------
         // 7. Create final appointments
         // --------------------------------------------------------
-
-        int nextId = appointments.Count == 0
-            ? 0
-            : appointments.Max(a => a.Id) + 1;
 
         List<Appointment> result = new();
 
