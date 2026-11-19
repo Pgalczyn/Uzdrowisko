@@ -130,14 +130,13 @@ public class Scheduler {
             if (dependencyGraph.Graph.ContainsKey(a)) {
                 foreach (TreatmentDependency dep in dependencyGraph.Graph[a]) {
                     if (dep.Type == DependencyType.CONFLICT ||
-                        dep.Type == DependencyType.ORDER_SUCCESSION) 
+                        dep.Type == DependencyType.ORDER_SUCCESSION)
                     {
                         if (dep.Target == "S") {
                             if (dep.Id == b.Id) {
                                 return true;
                             }
-                        }
-                        else {
+                        } else {
                             if (dep.Id == 0) {
                                 return true;
                             }
@@ -146,8 +145,7 @@ public class Scheduler {
                                 if (treatmentGroups.CategoryBasedGroups[dep.Id] == b.Type) {
                                     return true;
                                 }
-                            }
-                            else {
+                            } else {
                                 foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments) {
                                     if (treatment == b) {
                                         return true;
@@ -159,40 +157,28 @@ public class Scheduler {
                 }
             }
 
-            if (dependencyGraph.Graph.ContainsKey(b))
-            {
-                foreach (TreatmentDependency dep in dependencyGraph.Graph[b])
-                {
+            if (dependencyGraph.Graph.ContainsKey(b)) {
+                foreach (TreatmentDependency dep in dependencyGraph.Graph[b]) {
                     if (dep.Type == DependencyType.CONFLICT ||
                         dep.Type == DependencyType.ORDER_PRECEDENCE)
                     {
-                        if (dep.Target == "S")
-                        {
-                            if (dep.Id == a.Id)
-                            {
+                        if (dep.Target == "S") {
+                            if (dep.Id == a.Id) {
                                 return true;
                             }
-                        }
-                        else
-                        {
-                            if (dep.Id == 0)
-                            {
+                        } else {
+                            if (dep.Id == 0) {
                                 return true;
                             }
 
-                            if (dep.Id > 0)
-                            {
-                                if (treatmentGroups.CategoryBasedGroups[dep.Id] == a.Type)
-                                {
+                            if (dep.Id > 0) {
+                                if (treatmentGroups.CategoryBasedGroups[dep.Id] == a.Type) {
                                     return true;
                                 }
                             }
-                            else
-                            {
-                                foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments)
-                                {
-                                    if (treatment == a)
-                                    {
+                            else {
+                                foreach (Treatment treatment in treatmentGroups.CustomGroups[dep.Id].Treatments) {
+                                    if (treatment == a) {
                                         return true;
                                     }
                                 }
@@ -214,8 +200,7 @@ public class Scheduler {
         List<Appointment> placed,
         DependencyGraph dependencyGraph)
     {
-        foreach (var other in placed)
-        {
+        foreach (var other in placed) {
             if (day != other.Date)
                 continue;
 
@@ -254,12 +239,10 @@ public class Scheduler {
         List<Appointment> appointments,
         List<Appointment> placed)
     {
-        for (int block = start; block < end; block++)
-        {
+        for (int block = start; block < end; block++) {
             int usage = 0;
 
-            foreach (var a in appointments)
-            {
+            foreach (var a in appointments) {
                 if (a.Date != day)
                     continue;
 
@@ -270,8 +253,7 @@ public class Scheduler {
                     usage++;
             }
 
-            foreach (var p in placed)
-            {
+            foreach (var p in placed) {
                 if (p.Date != day)
                     continue;
 
@@ -346,8 +328,7 @@ public class Scheduler {
         List<Appointment> customerAppointments,
         List<Appointment> placed)
     {
-        foreach (var a in customerAppointments)
-        {
+        foreach (var a in customerAppointments) {
             if (a.Date != day)
                 continue;
 
@@ -355,8 +336,7 @@ public class Scheduler {
                 return false;
         }
 
-        foreach (var p in placed)
-        {
+        foreach (var p in placed) {
             if (p.Date != day)
                 continue;
 
@@ -468,10 +448,8 @@ public class Scheduler {
                     if (IsBlocked(day, start, end, blocksTaken))
                         continue;
 
-                    foreach (var room in availableRooms)
-                    {
-                        foreach (var employee in availablePersonnel)
-                        {
+                    foreach (var room in availableRooms) {
+                        foreach (var employee in availablePersonnel) {
                             possible.Add(new Appointment() {
                                 //Id = 0,
                                 Treatment = treatment,
@@ -515,11 +493,9 @@ public class Scheduler {
         List<Appointment> bestPlacements = null;
         double bestScore = double.PositiveInfinity;
 
-        void Search(int index)
-        {
+        void Search(int index) {
             // All treatments have been assigned.
-            if (index == orderedTreatments.Count)
-            {
+            if (index == orderedTreatments.Count) {
                 List<Appointment> candidate = new();
 
                 foreach (var p in placed) {
@@ -540,8 +516,7 @@ public class Scheduler {
 
             Treatment treatment = orderedTreatments[index];
 
-            foreach (var p in options[treatment.Id])
-            {
+            foreach (var p in options[treatment.Id]) {
                 if (!CustomerIsAvailable(
                     p.Date, p.BlockFrom, p.BlockTo,
                     customerAppointments, placed))
