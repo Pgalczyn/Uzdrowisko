@@ -15,10 +15,11 @@ public partial class HomeViewModel : ViewModelBase
     private readonly IEmployeeService _employeeService;
     private readonly IWeatherService _weatherService;
     private readonly IMenuService  _menuService;
+    private readonly IGenSchedule _genScheduleService;
     [ObservableProperty]
     private ViewModelBase _currentSubPage;
 
-    public HomeViewModel(Action logout,IWeatherService weatherService,IMenuService menuService, IAppointmentService appointmentService, ITreatmentService treatmentService, IPatientService patientService, IEmployeeService employeeService)
+    public HomeViewModel(Action logout,IWeatherService weatherService,IMenuService menuService, IAppointmentService appointmentService, ITreatmentService treatmentService, IPatientService patientService, IEmployeeService employeeService, IGenSchedule genScheduleService)
     {
         _logout = logout;
         _appointmentService = appointmentService;
@@ -27,6 +28,7 @@ public partial class HomeViewModel : ViewModelBase
         _employeeService = employeeService;
         _weatherService  = weatherService;
         _menuService = menuService;
+        _genScheduleService = genScheduleService;
         CurrentSubPage = new DashboardViewModel(_appointmentService,_weatherService,_menuService,targetViewModel => CurrentSubPage = targetViewModel);
     }
 
@@ -67,7 +69,10 @@ public partial class HomeViewModel : ViewModelBase
         CurrentSubPage = new DoctorViewModel(
             _patientService, 
             _employeeService, 
-            targetViewModel => CurrentSubPage = targetViewModel
+            _genScheduleService,
+            _treatmentService,
+            targetViewModel => CurrentSubPage = targetViewModel ,
+            _appointmentService
         );
     }
     [RelayCommand]

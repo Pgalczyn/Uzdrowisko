@@ -1,0 +1,140 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Uzdrowisko.DesktopUI.ViewModels"
+             xmlns:models="clr-namespace:Uzdrowisko.DesktopUI.Models"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Uzdrowisko.Views.GenerateScheduleView"
+             x:DataType="vm:GenerateScheduleViewModel"
+             x:Name="RootControl">
+
+    <Grid>
+        <Grid RowDefinitions="Auto, Auto,*" HorizontalAlignment="Left" Margin="30">
+            
+            <TextBlock Text="Lista dostępnych zabiegów" 
+                       Classes="pageHeader"/>
+            <Button Grid.Row = "1"
+                CornerRadius="12" 
+                Background="#34523F" 
+                Content="Wyjdź"
+                Foreground="White"
+                Command="{Binding GoBackCommand}"></Button>
+            <Border Classes="glassCard"
+                    Padding="24"
+                    Grid.Row="2"
+                    Width="900">
+                <StackPanel Spacing="15">
+                    <Expander Header="Wybierz zabiegi dla Pacjenta" 
+                              HorizontalAlignment="Stretch"
+                              Background="#1f2c24" 
+                              Foreground="White">
+
+                        <StackPanel Spacing="10">
+                            <TextBox Watermark="Szukaj zabiegu..." 
+                                     Text="{Binding SearchText, Mode=TwoWay}"
+                                     Background="#FFFFFF"
+                                     Foreground="#152019"
+                                     CornerRadius="6"
+                                     Padding="10,8"/>
+
+                            <ScrollViewer MaxHeight="200">
+                                <ListBox ItemsSource="{Binding AvailableTreatments}"
+                                         SelectedItem="{Binding PickedTreatment, Mode=TwoWay}"
+                                         Background="Transparent">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Spacing="2" Margin="4">
+                                                <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="14" Foreground="White"/>
+                                                <TextBlock Text="{Binding DurationMinutes, StringFormat='Czas: {0} min'}" 
+                                                           FontSize="11" 
+                                                           Foreground="#A0A0A0"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </StackPanel>
+                    </Expander>
+                    <TextBlock Text="Wybrane zabiegi:" FontWeight="Bold" Foreground="White" FontSize="14" Margin="0,5,0,0"/>
+                    
+                    <ScrollViewer MaxHeight="120">
+                        <ItemsControl ItemsSource="{Binding SelectedTreatments}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="models:TreatmentItem">
+                                    <Border Background="#25382D" CornerRadius="6" Padding="8,6" Margin="0,2">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <TextBlock Text="{Binding Name}" Foreground="White" VerticalAlignment="Center"/>
+                                            
+                                            <Button Grid.Column="1" 
+                                                    Content="✕" 
+                                                    Background="Transparent" 
+                                                    Foreground="#E57373"
+                                                    Command="{Binding #RootControl.((vm:GenerateScheduleViewModel)DataContext).RemoveSelectedTreatmentCommand}"
+                                                    CommandParameter="{Binding}"
+                                                    Cursor="Hand"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Button Content="Wygeneruj plan" 
+                            Command="{Binding GenerateScheduleCommand}" 
+                            Height="46" 
+                            CornerRadius="12" 
+                            Background="#34523F" 
+                            Foreground="#FFFFFF"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            FontSize="15" 
+                            Cursor="Hand"/>
+
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="#FF8A80"
+                               FontSize="13"
+                               TextWrapping="Wrap"
+                               HorizontalAlignment="Center"
+                               IsVisible="{Binding StatusMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"/>
+                </StackPanel>
+            </Border>
+        </Grid>
+    <Border 
+                IsVisible="{Binding IsDialogVisible}"
+                HorizontalAlignment="Stretch"
+                CornerRadius="16"
+                VerticalAlignment="Stretch">
+            <Border Background="#34523F" 
+                    CornerRadius="15"
+                    Padding="25"
+                    Width="400"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+                <StackPanel Spacing="15" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Zabiegi zostały dodane"
+                               FontWeight="Bold"
+                               FontSize="16"
+                               Foreground="White"
+                               HorizontalAlignment="Center"/>
+                    
+
+                    
+                    <Button Content="Wyjdź"
+                            Command="{Binding CLoseDialogCommand}"
+                            Height="40" 
+                            CornerRadius="8" 
+                            Background="Transparent"
+                            Foreground="#D0E3D7"
+                            HorizontalAlignment="Stretch" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center"
+                            FontSize="14" 
+                            Cursor="Hand"/>
+                </StackPanel>
+            </Border>
+        </Border>
+       
+    </Grid>
+</UserControl>

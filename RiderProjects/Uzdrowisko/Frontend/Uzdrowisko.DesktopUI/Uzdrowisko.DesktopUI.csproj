@@ -71,6 +71,18 @@
         <DependentUpon>AdminView.axaml</DependentUpon>
         <SubType>Code</SubType>
       </Compile>
+      <Compile Update="Views\Doctor\UserView.axaml.cs">
+        <DependentUpon>UserView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\GenerateScheduleView.axaml.cs">
+        <DependentUpon>GenerateScheduleView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
+      <Compile Update="Views\Doctor\PatientTreatmentsView.axaml.cs">
+        <DependentUpon>CalendarView.axaml</DependentUpon>
+        <SubType>Code</SubType>
+      </Compile>
     </ItemGroup>
 
     <ItemGroup>

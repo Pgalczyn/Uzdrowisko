@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Uzdrowisko.DesktopUI.Services.Abstractions;
@@ -16,14 +18,20 @@ public class GenScheduleService : IGenSchedule
         _httpClient = httpClient;
     }
 
-    
-    public async Task<(bool IsSuccess, string? ErrorMessage)> GenScheduleResultAsync(int patientId, CancellationToken ct = default)
+    public async Task<(bool IsSuccess, string? ErrorMessage)> GenScheduleResultAsync(int patientId, List<int> treatmentIds, CancellationToken ct = default)
     {
         _httpClient.EnsureAuthHeader();
 
         try
         {
-            var response = await _httpClient.GetAsync($"api/GenSchedule/{patientId}", ct);
+            // Tworzymy prosty obiekt (payload), który wyślemy w ciele żądania do API
+            var requestData = new
+            {
+                PatientId = patientId,
+                TreatmentIds = treatmentIds
+            };
+
+            var response = await _httpClient.PostAsJsonAsync("api/GenSchedule", requestData, ct);
 
             if (response.IsSuccessStatusCode)
             {
@@ -39,7 +47,6 @@ public class GenScheduleService : IGenSchedule
             }
 
             return (false, $"Błąd serwera (kod HTTP: {(int)response.StatusCode}).");
-
         }
         catch (HttpRequestException)
         {
